@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma local database
+prisma/*.db
+prisma/*.db-journal
+
+# temporary PDF extraction artifacts
+backgrounds_raw.txt
+bg_pages_35_42.txt
+classes_raw.txt
+extract_pdf.js
+pdf_full_text.txt
+spells_82_90.txt
