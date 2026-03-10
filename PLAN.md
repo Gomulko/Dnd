@@ -295,13 +295,13 @@ model Character {
 - Walidacja: imię wymagane przed przejściem dalej
 - **Test:** wypełnij wszystko, sprawdź podgląd, kliknij Dalej
 
-### Zadanie 6.2 — Krok 2: Rasa — grid kart
+### Zadanie 6.2 ✅ — Krok 2: Rasa — grid kart
 - Grid 3×3 z kartami ras (ikona, nazwa, opis, bonusy statystyk jako badges)
 - Pole wyszukiwania (filtruje karty)
 - Wybrana rasa: złoty border + ✓ badge
 - **Test:** kliknij rasę — podświetla się
 
-### Zadanie 6.3 — Krok 2: Rasa — panel szczegółów
+### Zadanie 6.3 ✅ — Krok 2: Rasa — panel szczegółów
 - Prawy panel: nazwa rasy, przyciski podras, bonusy statystyk, lista cech rasowych
 - Aktualizuje się po wyborze rasy i podrasy
 - **Test:** wybierz Elf → wybierz Wysoki Elf → panel pokazuje +2 ZRR, +1 INT
