@@ -9,6 +9,35 @@
 - **NextAuth.js v5 (beta)** — JWT sessions, Credentials provider
 - **Zod** — walidacja wszystkich danych wejściowych
 - **bcryptjs** — hashowanie haseł
+- **Playwright** — testy E2E, uruchamiane po każdym ukończonym zadaniu
+
+---
+
+## Testy E2E (Playwright)
+
+- Testy w `tests/` (foldery wg domeny: `auth/`, `dashboard/`, `kreator/`)
+- Każdy plik: `[feature].spec.ts`
+- Konto testowe: `test@kroniki.pl` / `Test1234!` (seed bazy)
+- Base URL: `http://localhost:3000`
+- **Po każdym ukończonym zadaniu** — napisz test i uruchom: `npx playwright test`
+- Testy muszą przechodzić przed przejściem do następnego zadania
+
+### Konwencje testów
+```ts
+// ✅ Dobrze — opisowe, po polsku
+test("logowanie z poprawnymi danymi przekierowuje na dashboard", async ({ page }) => { ... });
+
+// ✅ Reużywaj helper loginAs() zamiast powtarzać logowanie
+await loginAs(page, "test@kroniki.pl", "Test1234!");
+```
+
+### Dostępne skrypty
+```bash
+npx playwright test              # wszystkie testy headless
+npx playwright test tests/auth/  # tylko auth
+npx playwright test --headed     # z oknem przeglądarki
+npx playwright show-report       # raport HTML
+```
 
 ---
 

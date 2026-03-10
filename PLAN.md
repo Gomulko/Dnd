@@ -504,6 +504,35 @@ model Character {
 
 ---
 
+## FAZA 0 — TESTY E2E (Playwright)
+
+> Testy pisane przyrostowo — po każdym ukończonym zadaniu.
+> Uruchomienie: `npx playwright test` (wymaga działającego `npm run dev`)
+> Konto testowe: `test@kroniki.pl` / `Test1234!`
+
+### Etap T1 — Setup + Auth + Dashboard ✅ (do zrobienia po instalacji)
+- ✅ T1.0 Instalacja Playwright + konfiguracja + helper `loginAs()`
+- ✅ T1.1 `tests/auth/login.spec.ts` — logowanie: poprawne / błędne hasło / pusty formularz
+- ✅ T1.2 `tests/auth/register.spec.ts` — rejestracja: nowy user / email zajęty
+- ✅ T1.3 `tests/dashboard/dashboard.spec.ts` — dashboard: widoczne karty postaci, sidebar, szybkie akcje
+- ✅ T1.4 `tests/dashboard/auth-guard.spec.ts` — redirect na `/logowanie` bez sesji
+
+### Etap T2 — Kreator kroki 1–2
+- ✅ T2.1 `tests/kreator/koncept.spec.ts` — formularz konceptu: walidacja imienia, alignment, dalej
+- ✅ T2.2 `tests/kreator/rasa.spec.ts` — wybór rasy, panel szczegółów, podrasa, dalej
+
+### Etap T3 — Kreator kroki 3–4 (po implementacji)
+- [ ] T3.1 `tests/kreator/klasa.spec.ts`
+- [ ] T3.2 `tests/kreator/cechy.spec.ts`
+
+### Etap T4 — Kreator kroki 5–8 + zapis (po implementacji)
+- [ ] T4.1–T4.4 tło / ekwipunek / magia / gotowe + zapis do bazy
+
+### Etap T5 — Karta postaci (po implementacji)
+- [ ] T5.1 render karty, zmiana HP, notatki
+
+---
+
 ## PYTANIA DO USTALENIA
 
 1. ✅ **Czary** — zaimplementowane dla pełnych 8 klas magicznych (Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard)
