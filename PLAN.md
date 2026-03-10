@@ -16,7 +16,7 @@
 ### Widoki (12 ekranów)
 1. **Logowanie** ✅ — split screen, gotowe
 2. **Rejestracja** ✅ — split screen, gotowe
-3. **Dashboard** — sidebar + karty postaci + szybkie akcje
+3. **Dashboard** ✅ — sidebar + karty postaci + szybkie akcje
 4. **Kreator krok 1** — Koncept (imię, płeć, wiek, wzrost, opis, alignment)
 5. **Kreator krok 2** — Rasa (grid 9 ras + panel szczegółów + podrasę)
 6. **Kreator krok 3** — Klasa (12 klas + filtry + panel z domeną/subklasą)
@@ -259,25 +259,24 @@ model Character {
 
 ## FAZA 5 — KREATOR POSTACI — SHELL
 
-### Zadanie 5.1 — Stepper komponent
+### Zadanie 5.1 ✅ — Stepper komponent
 - `src/shared/ui/Stepper.tsx`
 - 8 kroków: Koncept / Rasa / Klasa / Cechy / Tło / Ekwipunek / Magia / Gotowe
 - Stany: ukończony (✓ zielony), aktywny (złoty z numerem), przyszły (szary)
-- **Test:** render na każdym kroku, sprawdź stany
 
-### Zadanie 5.2 — Wizard layout + routing
-- `src/app/kreator/layout.tsx` — Navbar + Stepper + children
+### Zadanie 5.2 ✅ — Wizard layout + routing
+- `src/app/kreator/layout.tsx` — Navbar + StepperWrapper + children, auth guard
 - `src/app/kreator/page.tsx` → redirect do `/kreator/koncept`
-- Foldery: `/kreator/koncept`, `/rasa`, `/klasa`, `/cechy`, `/tlo`, `/ekwipunek`, `/magia`, `/gotowe`
-- **Test:** nawigacja między krokami działa
+- `src/shared/ui/StepperWrapper.tsx` — Client Component, czyta pathname → currentStep
+- Foldery: `/kreator/koncept`, `/rasa`, `/klasa`, `/cechy`, `/tlo`, `/ekwipunek`, `/magia`, `/gotowe` (placeholdery)
 
-### Zadanie 5.3 — Store stanu kreatora (Zustand lub sessionStorage)
+### Zadanie 5.3 ✅ — Store stanu kreatora (Zustand lub sessionStorage)
 - `src/domains/character/store/wizardStore.ts`
 - Trzyma dane wszystkich kroków w pamięci
 - Persystencja do sessionStorage (nie ginie przy refresh)
 - **Test:** wpisz imię na kroku 1, przejdź dalej i wróć — dane są zachowane
 
-### Zadanie 5.4 — Panel podglądu postaci (prawy sidebar w kreatorze)
+### Zadanie 5.4 ✅ — Panel podglądu postaci (prawy sidebar w kreatorze)
 - `src/domains/character/components/CharacterPreview.tsx`
 - Inicjały/avatar, imię, Rasa / Klasa / Poziom / Alignment
 - Aktualizuje się na żywo podczas wypełniania
@@ -287,7 +286,7 @@ model Character {
 
 ## FAZA 6 — KREATOR KROK PO KROKU
 
-### Zadanie 6.1 — Krok 1: Koncept
+### Zadanie 6.1 ✅ — Krok 1: Koncept
 - Pole: Imię postaci (wymagane, Cinzel placeholder)
 - Przyciski płci: Kobieta ♀ / Mężczyzna ♂ / Inne ◆ (toggle)
 - Pola opcjonalne: Wiek, Wzrost

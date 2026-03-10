@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import type { CharacterSummary } from "@/domains/character/actions/getCharacters";
 

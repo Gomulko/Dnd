@@ -2,6 +2,8 @@ import { auth } from "@/shared/lib/auth";
 import { getCharacters } from "@/domains/character/actions/getCharacters";
 import CharacterCard from "@/domains/character/components/CharacterCard";
 import Link from "next/link";
+import { AddCharacterTile } from "@/shared/ui/AddCharacterTile";
+import { QuickActionLink } from "@/shared/ui/QuickActionLink";
 
 export default async function DashboardPage() {
   const [session, characters] = await Promise.all([auth(), getCharacters()]);
@@ -89,34 +91,7 @@ export default async function DashboardPage() {
             ))}
 
             {/* Kafelek "Dodaj postać" */}
-            <Link
-              href="/kreator"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 12,
-                minHeight: 200,
-                background: "transparent",
-                border: "2px dashed #2e2b3d",
-                borderRadius: 12,
-                color: "#4a4759",
-                textDecoration: "none",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#c9a84c44";
-                (e.currentTarget as HTMLAnchorElement).style.color = "#c9a84c";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2e2b3d";
-                (e.currentTarget as HTMLAnchorElement).style.color = "#4a4759";
-              }}
-            >
-              <span style={{ fontSize: 32 }}>+</span>
-              <span style={{ fontSize: 13 }}>Nowa Postać</span>
-            </Link>
+            <AddCharacterTile />
           </div>
         </section>
       )}
@@ -244,49 +219,7 @@ export default async function DashboardPage() {
               color: "#7c5cbf",
             },
           ].map(({ icon, title, desc, href, color }) => (
-            <Link
-              key={title}
-              href={href}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 14,
-                padding: "16px 18px",
-                background: "#1a1825",
-                border: "1px solid #2e2b3d",
-                borderRadius: 10,
-                textDecoration: "none",
-                transition: "all 0.15s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = color + "44";
-                (e.currentTarget as HTMLAnchorElement).style.background = "#232136";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2e2b3d";
-                (e.currentTarget as HTMLAnchorElement).style.background = "#1a1825";
-              }}
-            >
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 8,
-                  background: `${color}15`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 20,
-                  flexShrink: 0,
-                }}
-              >
-                {icon}
-              </div>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#f0ece4" }}>{title}</div>
-                <div style={{ fontSize: 11, color: "#8b8699", marginTop: 2 }}>{desc}</div>
-              </div>
-            </Link>
+            <QuickActionLink key={title} icon={icon} title={title} desc={desc} href={href} color={color} />
           ))}
         </div>
       </section>
