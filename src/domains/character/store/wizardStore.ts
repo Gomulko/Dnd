@@ -98,15 +98,15 @@ const DEFAULT_STEP3: WizardStep3 = {
   skills: [],
 };
 
-// Standard Array defaults
+// Standard Array defaults — stats=0 means "not selected yet"
 const DEFAULT_STEP4: WizardStep4 = {
   method: "standard",
-  strength: 10,
-  dexterity: 10,
-  constitution: 10,
-  intelligence: 10,
-  wisdom: 10,
-  charisma: 10,
+  strength: 0,
+  dexterity: 0,
+  constitution: 0,
+  intelligence: 0,
+  wisdom: 0,
+  charisma: 0,
 };
 
 const DEFAULT_STEP5: WizardStep5 = {
