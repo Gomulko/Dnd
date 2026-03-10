@@ -1,8 +1,13 @@
-export default function Krok_EkwipunekPage() {
+import EkwipunekForm from "@/domains/character/components/EkwipunekForm";
+import CharacterPreview from "@/domains/character/components/CharacterPreview";
+
+export default function EkwipunekPage() {
   return (
-    <div style={{ color: "#8b8699", textAlign: "center", paddingTop: 80 }}>
-      <div style={{ fontSize: 40, marginBottom: 16 }}>🚧</div>
-      <p>Krok: <strong style={{ color: "#c9a84c" }}>Ekwipunek</strong> — w budowie</p>
+    <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <EkwipunekForm />
+      </div>
+      <CharacterPreview />
     </div>
   );
 }
