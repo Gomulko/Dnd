@@ -529,7 +529,7 @@ model Character {
 - ✅ T4.1 `tests/kreator/tlo.spec.ts`
 - ✅ T4.2 `tests/kreator/ekwipunek.spec.ts`
 - ✅ T4.3 `tests/kreator/magia.spec.ts`
-- [ ] T4.4 gotowe + zapis do bazy
+- ✅ T4.4 `tests/kreator/gotowe.spec.ts` — zapis do bazy + redirect
 
 ### Etap T5 — Karta postaci (po implementacji)
 - [ ] T5.1 render karty, zmiana HP, notatki
