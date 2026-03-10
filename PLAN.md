@@ -306,13 +306,13 @@ model Character {
 - Aktualizuje się po wyborze rasy i podrasy
 - **Test:** wybierz Elf → wybierz Wysoki Elf → panel pokazuje +2 ZRR, +1 INT
 
-### Zadanie 6.4 — Krok 3: Klasa — grid + filtry
+### Zadanie 6.4 ✅ — Krok 3: Klasa — grid + filtry
 - Filtry: Wszystkie / Damage / Tank / Support / Kontrola / Hybrid
 - Grid 4×3 z kartami klas (ikona, nazwa, rola badge, trudność w kropkach, Hit Die)
 - Wybrana klasa: złoty border + ✓
 - **Test:** filtruj "Support" — tylko Kleryk, Bard widoczni
 
-### Zadanie 6.5 — Krok 3: Klasa — panel szczegółów
+### Zadanie 6.5 ✅ — Krok 3: Klasa — panel szczegółów
 - Hit Die, typ zbroi, saving throws
 - Lista podklas do wyboru (np. Domeny Kleryk: Wiedza/Życie/Światło/Natura/Burza/Oszustwo/Wojna)
 - Wybór 2 biegłości w umiejętnościach (z listy dla klasy)
@@ -522,7 +522,7 @@ model Character {
 - ✅ T2.2 `tests/kreator/rasa.spec.ts` — wybór rasy, panel szczegółów, podrasa, dalej
 
 ### Etap T3 — Kreator kroki 3–4 (po implementacji)
-- [ ] T3.1 `tests/kreator/klasa.spec.ts`
+- ✅ T3.1 `tests/kreator/klasa.spec.ts`
 - [ ] T3.2 `tests/kreator/cechy.spec.ts`
 
 ### Etap T4 — Kreator kroki 5–8 + zapis (po implementacji)

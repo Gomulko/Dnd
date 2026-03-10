@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 // Unikalny email per uruchomienie (unikamy kolizji między testami)
 const uniqueEmail = () => `test_${Date.now()}@playwright.pl`;
 
 async function fillForm(
-  page: Parameters<typeof test>[1] extends (args: { page: infer P }) => unknown ? P : never,
+  page: Page,
   opts: { name?: string; email?: string; password?: string; confirm?: string }
 ) {
   if (opts.name !== undefined)

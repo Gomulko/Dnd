@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { loginAs } from "../helpers";
 
 test.beforeEach(async ({ page }) => {
@@ -9,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 // Pomocnik: kliknij rasę po nazwie (button zawiera emoji + nazwę + hint)
-function raceBtn(page: Parameters<typeof test>[1] extends (args: { page: infer P }) => unknown ? P : never, name: string) {
+function raceBtn(page: Page, name: string) {
   return page.locator("button").filter({ hasText: name }).first();
 }
 
