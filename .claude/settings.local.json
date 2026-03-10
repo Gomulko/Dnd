@@ -4,7 +4,8 @@
       "Bash(npx tsc:*)",
       "Bash(npm install:*)",
       "Bash(npm init:*)",
-      "Bash(npx playwright:*)"
+      "Bash(npx playwright:*)",
+      "Bash(npx prisma:*)"
     ]
   }
 }
