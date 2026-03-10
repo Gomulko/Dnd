@@ -528,7 +528,8 @@ model Character {
 ### Etap T4 — Kreator kroki 5–8 + zapis (po implementacji)
 - ✅ T4.1 `tests/kreator/tlo.spec.ts`
 - ✅ T4.2 `tests/kreator/ekwipunek.spec.ts`
-- [ ] T4.3–T4.4 magia / gotowe + zapis do bazy
+- ✅ T4.3 `tests/kreator/magia.spec.ts`
+- [ ] T4.4 gotowe + zapis do bazy
 
 ### Etap T5 — Karta postaci (po implementacji)
 - [ ] T5.1 render karty, zmiana HP, notatki
