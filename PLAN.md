@@ -146,7 +146,7 @@
   - 3 kolumny: Biegłości i Języki | Wyposażenie | Korzyści i Zdolności
   - Lined textarea (linie co 22px jak w HTML)
 
-  Krok 5.4 — Strona 2 Historia (nowa zakładka/sekcja)
+  Krok 5.4 — Strona 2 Historia (nowa zakładka/sekcja) ✅
   - Pola fizyczne: Wiek / Wzrost / Waga / Oczy / Skóra / Włosy
   - Wygląd Postaci (lined textarea)
   - Sojusznicy i Organizacje
@@ -154,26 +154,26 @@
   - Historia Postaci
   - Pozostałe Korzyści | Dodatkowe Notatki
 
-  Krok 5.5 — Strona 3 Zaklęcia (nowa zakładka)
+  Krok 5.5 — Strona 3 Zaklęcia (nowa zakładka) ✅
   - Stats: Klasa Użytkownika / Cecha Bazowa / ST vs Czarom / Premia Ataku
   - Spell grid 3-kolumnowy: poziomy 0-2 | 3-5 | 6-9
   - Każdy poziom: numer (DM Serif Display 26px) + Kom./Użyte inputs + lista czarów
 
   ---
-  FAZA 6 — PDF Redesign (CharacterPdfDocument)
+  FAZA 6 — PDF Redesign (CharacterPdfDocument) ✅
 
-  Krok 6.1 — Strona 1 PDF
+  Krok 6.1 — Strona 1 PDF ✅
   - Odwzoruj dokładnie układ z HTML
   - Header: "Karta Postaci" duży + pola
   - 3-kolumnowy main body (proporcje jak HTML)
   - Czcionki w PDF: Helvetica (brak DM Serif w @react-pdf) — ale styl przez rozmiary/wagi
   - Czarno-białe (tło białe, obramowania #0a0a0a)
 
-  Krok 6.2 — Strona 2 PDF (Historia)
+  Krok 6.2 — Strona 2 PDF (Historia) ✅
   - Pola fizyczne
   - Sekcje z lined background (repeating-gradient)
 
-  Krok 6.3 — Strona 3 PDF (Zaklęcia)
+  Krok 6.3 — Strona 3 PDF (Zaklęcia) ✅
   - Spell grid pełny (poziomy 0–9)
   - Słoty Kom./Użyte
 

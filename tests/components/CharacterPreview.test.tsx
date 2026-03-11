@@ -18,7 +18,7 @@ type StoreOverride = {
 };
 
 function mockStore(overrides: StoreOverride = {}) {
-  (useWizardStore as ReturnType<typeof vi.fn>).mockReturnValue({
+  vi.mocked(useWizardStore).mockReturnValue({
     step1: {
       name: "",
       alignment: "",

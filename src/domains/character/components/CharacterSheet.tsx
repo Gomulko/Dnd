@@ -7,6 +7,7 @@ import { CharacterFull } from "@/domains/character/actions/getCharacter";
 import { updateCharacterHp } from "@/domains/character/actions/updateCharacterHp";
 import { updateSessionNotes } from "@/domains/character/actions/updateSessionNotes";
 import { updateInspiration } from "@/domains/character/actions/updateInspiration";
+import { updateSpellSlots } from "@/domains/character/actions/updateSpellSlots";
 import { CLASSES, SKILL_NAMES_PL } from "@/data/dnd/classes";
 import { RACES } from "@/data/dnd/races";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
@@ -79,16 +80,18 @@ const ALIGNMENT_PL: Record<string, string> = {
   LE: "Praworządny Zły", NE: "Neutralny Zły", CE: "Chaotyczny Zły",
 };
 
-// D&D 5e level 1–3 spell slots by class
-const SPELL_SLOTS: Record<string, number[]> = {
-  bard:     [2, 3, 4],
-  cleric:   [2, 3, 4],
-  druid:    [2, 3, 4],
-  paladin:  [0, 2, 3],
-  ranger:   [0, 2, 3],
-  sorcerer: [2, 3, 4],
-  warlock:  [1, 2, 0],
-  wizard:   [2, 3, 4],
+// D&D 5e SRD — spell slots per class at level 1 for each spell level (1–9)
+// Index = spell level - 1.  Level 1 characters only.
+const SPELL_SLOTS_LVL1: Record<string, number[]> = {
+  //              1  2  3  4  5  6  7  8  9
+  bard:     [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  cleric:   [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  druid:    [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  paladin:  [     0, 0, 0, 0, 0, 0, 0, 0, 0 ], // Paladin starts slots at level 2
+  ranger:   [     0, 0, 0, 0, 0, 0, 0, 0, 0 ], // Ranger starts slots at level 2
+  sorcerer: [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  warlock:  [     1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  wizard:   [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
 };
 
 // Shared style constants
@@ -158,6 +161,23 @@ export default function CharacterSheet({ character }: Props) {
     const next = !inspirationState;
     setInspirationState(next);
     await updateInspiration(character.id, next);
+  }
+
+  // Spell slots used (from DB, default empty)
+  const initialSlotsUsed: Record<string, number> = (() => {
+    try { return JSON.parse((charExt.spellSlotsUsed as string) ?? "{}") as Record<string, number>; }
+    catch { return {}; }
+  })();
+  const [slotsUsed, setSlotsUsed] = useState<Record<string, number>>(initialSlotsUsed);
+
+  async function handleSlotToggle(level: number, idx: number, totalSlots: number) {
+    const key = String(level);
+    const used = slotsUsed[key] ?? 0;
+    // Clicking used slot → restore; clicking free slot → use
+    const next = idx < used ? used - 1 : Math.min(used + 1, totalSlots);
+    const updated = { ...slotsUsed, [key]: next };
+    setSlotsUsed(updated);
+    await updateSpellSlots(character.id, updated);
   }
 
   function handleEdit() {
@@ -271,7 +291,30 @@ export default function CharacterSheet({ character }: Props) {
     : 0;
   const spellDC = 8 + prof + spellAbilityMod;
   const spellAttack = prof + spellAbilityMod;
-  const slotsLevel1 = isSpellcaster ? (SPELL_SLOTS[character.class]?.[character.level - 1] ?? 0) : 0;
+  // SRD 5e: at level 1, only 1st-level slots (and cantrips = ∞)
+  const classSlotsLvl1 = SPELL_SLOTS_LVL1[character.class] ?? [0,0,0,0,0,0,0,0,0];
+  // slotsForLevel[i] = total slots for spell level (i+1) at character's level
+  // For level-1 character, we use the level-1 table
+  const slotsForSpellLevel = classSlotsLvl1;
+
+  // Faza 4 extended fields
+  const experience = Number(charExt.experience ?? 0);
+  const weight = charExt.weight ? String(charExt.weight) : null;
+  const eyeColor = charExt.eyeColor as string | null ?? null;
+  const skinColor = charExt.skinColor as string | null ?? null;
+  const hairColor = charExt.hairColor as string | null ?? null;
+  const allies = charExt.allies as string | null ?? null;
+  const treasure = charExt.treasure as string | null ?? null;
+  const hitDiceUsed = Number(charExt.hitDiceUsed ?? 0);
+  const attacksList: { name: string; atkBonus: string; damage: string }[] = (() => {
+    try { return JSON.parse((charExt.attacks as string) ?? "[]") as { name: string; atkBonus: string; damage: string }[]; }
+    catch { return []; }
+  })();
+
+  // Spellcasting ability label
+  const spellAbilityLabel = cls?.spellcastingAbility === "wis" ? "Mądrość"
+    : cls?.spellcastingAbility === "int" ? "Intelekt"
+    : "Charyzma";
 
   // Death saves
   const deathSaves = (() => {
@@ -334,9 +377,6 @@ export default function CharacterSheet({ character }: Props) {
       return [];
     } catch { return []; }
   })();
-
-  // Experience
-  const experience = typeof charExt.experience === "number" ? charExt.experience : 0;
 
   // Button base styles
   const btnOutline: React.CSSProperties = {
@@ -900,7 +940,7 @@ export default function CharacterSheet({ character }: Props) {
               </div>
               <div>
                 <span style={labelStyle}>Sloty Poz. 1</span>
-                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px" }}>{slotsLevel1}</div>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px" }}>{slotsForSpellLevel[0] ?? 0}</div>
               </div>
               <div>
                 <span style={labelStyle}>Atrybut Czarowania</span>
@@ -931,7 +971,7 @@ export default function CharacterSheet({ character }: Props) {
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>1</span>
                   <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
-                  <span style={{ marginLeft: "auto", fontFamily: FONT_UI, fontSize: 8, color: MID }}>{slotsLevel1} slotów</span>
+                  <span style={{ marginLeft: "auto", fontFamily: FONT_UI, fontSize: 8, color: MID }}>{slotsForSpellLevel[0] ?? 0} slotów</span>
                 </div>
                 {spellData.map((spell) => spell && (
                   <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px 0", borderBottom: "1px solid #eeeeee" }}>
@@ -989,6 +1029,167 @@ export default function CharacterSheet({ character }: Props) {
             {notes.length}/5000
           </div>
         </div>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            PAGE DIVIDER — Strona 2
+        ════════════════════════════════════════════════════════════════════ */}
+        <div className="page-divider" style={{ margin: "0 24px" }}>
+          <span>Strona 2 — Historia</span>
+        </div>
+
+        {/* ── STRONA 2: HISTORIA ── */}
+        {/* Physical appearance */}
+        <div style={{ padding: "16px 24px", borderBottom: LIGHT_BORDER }}>
+          <SectionTitle>Wygląd Fizyczny</SectionTitle>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0 }}>
+            {[
+              { label: "Wiek", value: character.age ? `${character.age} lat` : "—" },
+              { label: "Wzrost", value: character.height ? `${character.height} cm` : "—" },
+              { label: "Waga", value: weight ? `${weight} kg` : "—" },
+              { label: "Kolor Oczu", value: eyeColor ?? "—" },
+              { label: "Kolor Skóry", value: skinColor ?? "—" },
+              { label: "Kolor Włosów", value: hairColor ?? "—" },
+            ].map(({ label, value }, i) => (
+              <div key={label} style={{ padding: "10px 12px", borderRight: i % 3 < 2 ? LIGHT_BORDER : "none", borderBottom: i < 3 ? LIGHT_BORDER : "none" }}>
+                <span className="label">{label}</span>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 14, color: BLACK }}>{value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Backstory + appearance description */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", padding: "16px 24px", gap: 24, borderBottom: LIGHT_BORDER }}>
+          <div>
+            <SectionTitle>Historia Postaci</SectionTitle>
+            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
+              {character.backstory || character.description || "—"}
+            </p>
+          </div>
+          <div>
+            <SectionTitle>Sojusznicy i Organizacje</SectionTitle>
+            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
+              {allies || "—"}
+            </p>
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", padding: "16px 24px", gap: 24 }}>
+          <div>
+            <SectionTitle>Majątek</SectionTitle>
+            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
+              {treasure || "—"}
+            </p>
+          </div>
+          <div>
+            <SectionTitle>Punkty Doświadczenia</SectionTitle>
+            <div style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: BLACK }}>{experience}</div>
+            <span style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, letterSpacing: "2px", textTransform: "uppercase" }}>PD</span>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            PAGE DIVIDER — Strona 3 (tylko dla czarujących)
+        ════════════════════════════════════════════════════════════════════ */}
+        {isSpellcaster && (
+          <>
+            <div className="page-divider" style={{ margin: "0 24px" }}>
+              <span>Strona 3 — Zaklęcia</span>
+            </div>
+
+            {/* Spell header row */}
+            <div style={{ padding: "16px 24px", borderBottom: LIGHT_BORDER }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0 }}>
+                {[
+                  { label: "Klasa Zaklęć", value: cls?.name ?? character.class },
+                  { label: "Cecha Bazowa", value: spellAbilityLabel },
+                  { label: "ST Czarów", value: String(spellDC) },
+                  { label: "Premia Ataku", value: spellAttack >= 0 ? `+${spellAttack}` : `${spellAttack}` },
+                ].map(({ label, value }, i) => (
+                  <div key={label} style={{ padding: "10px 12px", borderRight: i < 3 ? LIGHT_BORDER : "none", textAlign: "center" }}>
+                    <span className="label">{label}</span>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: BLACK }}>{value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Cantrips (level 0) */}
+            <div style={{ padding: "16px 24px", borderBottom: LIGHT_BORDER }}>
+              <SectionTitle>Sztuczki (Poziom 0)</SectionTitle>
+              {cantripData.length === 0 ? (
+                <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>Brak sztuczek</p>
+              ) : (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "4px 24px" }}>
+                  {cantripData.map((spell) => spell && (
+                    <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", borderBottom: LIGHT_BORDER, padding: "3px 0" }}>
+                      <span style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK }}>{spell.namePl}</span>
+                      <span style={{ fontFamily: FONT_UI, fontSize: 9, color: MID }}>{spell.castingTime}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Spell levels 1–9 */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", padding: "16px 24px", gap: 0 }}>
+              {[0, 1, 2].map((colIdx) => (
+                <div key={colIdx} style={{ borderRight: colIdx < 2 ? LIGHT_BORDER : "none", paddingRight: colIdx < 2 ? 16 : 0, paddingLeft: colIdx > 0 ? 16 : 0 }}>
+                  {/* Spell levels in this column: col0=1-3, col1=4-6, col2=7-9 */}
+                  {[1, 2, 3].map((offset) => {
+                    const spellLevel = colIdx * 3 + offset; // 1,2,3 / 4,5,6 / 7,8,9
+                    const totalSlots = slotsForSpellLevel[spellLevel - 1] ?? 0;
+                    const usedSlots = slotsUsed[String(spellLevel)] ?? 0;
+                    const levelSpells = spellData.filter((s) => s && s.level === spellLevel);
+                    return (
+                      <div key={spellLevel} style={{ marginBottom: 16 }}>
+                        {/* Level header */}
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 4 }}>
+                          <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, color: BLACK, lineHeight: 1 }}>{spellLevel}</span>
+                          <span style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, letterSpacing: "2px", textTransform: "uppercase" }}>
+                            poziom · Sloty: {totalSlots}
+                          </span>
+                        </div>
+                        {/* Slot dots */}
+                        {totalSlots > 0 && (
+                          <div style={{ display: "flex", gap: 4, marginBottom: 6 }}>
+                            {Array.from({ length: totalSlots }).map((_, i) => (
+                              <button
+                                key={i}
+                                title={i < usedSlots ? "Przywróć slot" : "Użyj slotu"}
+                                onClick={() => handleSlotToggle(spellLevel, i, totalSlots)}
+                                style={{
+                                  width: 12, height: 12,
+                                  border: "1.5px solid #0a0a0a",
+                                  background: i < usedSlots ? "#0a0a0a" : "transparent",
+                                  cursor: "pointer",
+                                  padding: 0,
+                                  transition: "background 0.1s",
+                                }}
+                                aria-label={`Slot ${spellLevel} poz. ${i + 1}`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                        {/* Spells */}
+                        {levelSpells.length === 0 ? (
+                          <div style={{ borderBottom: LIGHT_BORDER, padding: "2px 0", minHeight: 20 }} />
+                        ) : (
+                          levelSpells.map((spell) => spell && (
+                            <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", borderBottom: LIGHT_BORDER, padding: "2px 0" }}>
+                              <span style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK }}>{spell.namePl}</span>
+                              <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID }}>{spell.castingTime}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

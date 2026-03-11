@@ -21,6 +21,10 @@ vi.mock("@/domains/character/actions/updateInspiration", () => ({
   updateInspiration: vi.fn().mockResolvedValue({}),
 }));
 
+vi.mock("@/domains/character/actions/updateSpellSlots", () => ({
+  updateSpellSlots: vi.fn().mockResolvedValue({}),
+}));
+
 vi.mock("@/domains/character/store/wizardStore", () => ({
   useWizardStore: () => ({
     loadCharacter: vi.fn(),
@@ -44,7 +48,7 @@ function makeCharacter(overrides: Partial<CharacterFull> = {}): CharacterFull {
     description: "Historia testowa",
     age: null,
     height: null,
-    gender: null,
+    gender: "inne",
     strength: 10,
     dexterity: 14,
     constitution: 12,
@@ -54,6 +58,7 @@ function makeCharacter(overrides: Partial<CharacterFull> = {}): CharacterFull {
     currentHp: null,
     gold: 50,
     skills: "[]",
+    languages: "[]",
     equipment: "[]",
     cantrips: "[]",
     spells: "[]",
@@ -66,6 +71,21 @@ function makeCharacter(overrides: Partial<CharacterFull> = {}): CharacterFull {
     userId: "user-1",
     createdAt: new Date(),
     updatedAt: new Date(),
+    inspiration: false,
+    experience: 0,
+    weight: null,
+    eyeColor: null,
+    skinColor: null,
+    hairColor: null,
+    allies: null,
+    treasure: null,
+    hitDiceUsed: 0,
+    attacks: "[]",
+    spellSlotsUsed: "{}",
+    tempHp: 0,
+    deathSaves: "{\"successes\":0,\"failures\":0}",
+    backstory: null,
+    imageUrl: null,
     ...overrides,
   };
 }
