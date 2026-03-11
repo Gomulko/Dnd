@@ -198,18 +198,16 @@ export default function CharacterSheet({ character }: Props) {
     try { return JSON.parse(character.skills) as string[]; } catch { return []; }
   })();
   const savingThrowProficiencies: string[] = cls?.savingThrows ?? [];
-  const personalityTraits: string[] = (() => {
-    try { return JSON.parse(character.personalityTraits) as string[]; } catch { return []; }
-  })();
-  const ideals: string[] = (() => {
-    try { return JSON.parse(character.ideals) as string[]; } catch { return []; }
-  })();
-  const bonds: string[] = (() => {
-    try { return JSON.parse(character.bonds) as string[]; } catch { return []; }
-  })();
-  const flaws: string[] = (() => {
-    try { return JSON.parse(character.flaws) as string[]; } catch { return []; }
-  })();
+  const resolveTraitIds = (raw: string, field: "personalityTraits" | "ideals" | "bonds" | "flaws"): string[] => {
+    try {
+      const ids = JSON.parse(raw) as string[];
+      return ids.map((id) => bg?.[field].find((o) => o.id === id)?.text ?? id);
+    } catch { return []; }
+  };
+  const personalityTraits = resolveTraitIds(character.personalityTraits, "personalityTraits");
+  const ideals = resolveTraitIds(character.ideals, "ideals");
+  const bonds = resolveTraitIds(character.bonds, "bonds");
+  const flaws = resolveTraitIds(character.flaws, "flaws");
   const equipmentList: { name: string; qty: number; weight: number }[] = (() => {
     try { return JSON.parse(character.equipment) as { name: string; qty: number; weight: number }[]; } catch { return []; }
   })();

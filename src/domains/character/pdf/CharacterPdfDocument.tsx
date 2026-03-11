@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import type { CharacterFull } from "@/domains/character/actions/getCharacter";
+import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -262,10 +263,15 @@ export function CharacterPdfDocument({ character: c }: Props) {
   const equipment = safeJson<{ name: string; qty: number }[]>(c.equipment, []);
   const cantrips = safeJson<string[]>(c.cantrips, []);
   const spells = safeJson<string[]>(c.spells, []);
-  const personalityTraits = safeJson<string[]>(c.personalityTraits, []);
-  const ideals = safeJson<string[]>(c.ideals, []);
-  const bonds = safeJson<string[]>(c.bonds, []);
-  const flaws = safeJson<string[]>(c.flaws, []);
+  const bg = BACKGROUNDS.find((b) => b.id === c.background);
+  const resolveIds = (raw: string, field: "personalityTraits" | "ideals" | "bonds" | "flaws"): string[] => {
+    const ids = safeJson<string[]>(raw, []);
+    return ids.map((id) => bg?.[field].find((o) => o.id === id)?.text ?? id);
+  };
+  const personalityTraits = resolveIds(c.personalityTraits, "personalityTraits");
+  const ideals = resolveIds(c.ideals, "ideals");
+  const bonds = resolveIds(c.bonds, "bonds");
+  const flaws = resolveIds(c.flaws, "flaws");
 
   const clsLabel = CLASS_LABELS[c.class] ?? c.class;
   const raceLabel = RACE_LABELS[c.race] ?? c.race;
