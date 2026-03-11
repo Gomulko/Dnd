@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type { CharacterSummary } from "@/domains/character/actions/getCharacters";
+import { deleteCharacter } from "@/domains/character/actions/deleteCharacter";
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -78,6 +81,33 @@ interface Props {
 }
 
 export default function CharacterCard({ character: c }: Props) {
+  const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
+  async function handleDelete() {
+    setDeleting(true);
+    const result = await deleteCharacter({ id: c.id });
+    if ("error" in result) {
+      setDeleting(false);
+      setConfirmDelete(false);
+      return;
+    }
+    router.refresh();
+  }
+
   const clsLabel = CLASS_LABELS[c.class] ?? c.class;
   const raceLabel = RACE_LABELS[c.race] ?? c.race;
   const subclassLabel = c.subclass ? SUBCLASS_LABELS[c.subclass] ?? c.subclass : null;
@@ -90,6 +120,7 @@ export default function CharacterCard({ character: c }: Props) {
 
   return (
     <div
+      data-testid="character-card"
       style={{
         background: "#1a1825",
         border: "1px solid #2e2b3d",
@@ -291,6 +322,7 @@ export default function CharacterCard({ character: c }: Props) {
           padding: "12px 20px",
           display: "flex",
           gap: 8,
+          position: "relative",
         }}
       >
         <Link
@@ -310,22 +342,146 @@ export default function CharacterCard({ character: c }: Props) {
         >
           {c.isComplete ? "Graj →" : "Dokończ →"}
         </Link>
-        <button
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 6,
-            background: "#232136",
-            border: "1px solid #2e2b3d",
-            color: "#8b8699",
-            cursor: "pointer",
-            fontSize: 16,
-          }}
-          title="Opcje"
-        >
-          ···
-        </button>
+
+        {/* Menu "···" */}
+        <div ref={menuRef} style={{ position: "relative" }}>
+          <button
+            data-testid="menu-btn"
+            onClick={() => setMenuOpen((o) => !o)}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 6,
+              background: "#232136",
+              border: "1px solid #2e2b3d",
+              color: "#8b8699",
+              cursor: "pointer",
+              fontSize: 16,
+            }}
+            title="Opcje"
+          >
+            ···
+          </button>
+
+          {menuOpen && (
+            <div
+              data-testid="menu-dropdown"
+              style={{
+                position: "absolute",
+                bottom: "calc(100% + 4px)",
+                right: 0,
+                background: "#232136",
+                border: "1px solid #2e2b3d",
+                borderRadius: 8,
+                padding: "4px",
+                minWidth: 160,
+                boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
+                zIndex: 10,
+              }}
+            >
+              <button
+                data-testid="delete-btn"
+                onClick={() => { setMenuOpen(false); setConfirmDelete(true); }}
+                style={{
+                  width: "100%",
+                  padding: "8px 12px",
+                  background: "transparent",
+                  border: "none",
+                  borderRadius: 6,
+                  color: "#e05252",
+                  fontSize: 13,
+                  textAlign: "left",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                🗑 Usuń postać
+              </button>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Dialog potwierdzenia usunięcia */}
+      {confirmDelete && (
+        <div
+          data-testid="confirm-dialog"
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 100,
+          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setConfirmDelete(false); }}
+        >
+          <div
+            style={{
+              background: "#232136",
+              border: "1px solid #2e2b3d",
+              borderRadius: 12,
+              padding: 32,
+              maxWidth: 400,
+              width: "90%",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.6)",
+            }}
+          >
+            <h3
+              style={{
+                fontFamily: "Cinzel, serif",
+                fontSize: 18,
+                color: "#f0ece4",
+                margin: "0 0 8px",
+              }}
+            >
+              Usuń postać
+            </h3>
+            <p style={{ color: "#8b8699", fontSize: 14, margin: "0 0 24px" }}>
+              Czy na pewno chcesz usunąć <strong style={{ color: "#f0ece4" }}>{c.name}</strong>?
+              Tej operacji nie można cofnąć.
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
+              <button
+                data-testid="cancel-delete"
+                onClick={() => setConfirmDelete(false)}
+                disabled={deleting}
+                style={{
+                  padding: "8px 20px",
+                  borderRadius: 6,
+                  background: "transparent",
+                  border: "1px solid #2e2b3d",
+                  color: "#8b8699",
+                  cursor: "pointer",
+                  fontSize: 13,
+                }}
+              >
+                Anuluj
+              </button>
+              <button
+                data-testid="confirm-delete"
+                onClick={handleDelete}
+                disabled={deleting}
+                style={{
+                  padding: "8px 20px",
+                  borderRadius: 6,
+                  background: deleting ? "#4a4759" : "#e05252",
+                  border: "none",
+                  color: "#fff",
+                  cursor: deleting ? "not-allowed" : "pointer",
+                  fontSize: 13,
+                  fontWeight: 700,
+                }}
+              >
+                {deleting ? "Usuwanie..." : "Usuń"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

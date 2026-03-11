@@ -5,7 +5,8 @@
       "Bash(npm install:*)",
       "Bash(npm init:*)",
       "Bash(npx playwright:*)",
-      "Bash(npx prisma:*)"
+      "Bash(npx prisma:*)",
+      "Bash(mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/src/domains/dice/components && mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/src/app/rzutnik && mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/tests/rzutnik)"
     ]
   }
 }
