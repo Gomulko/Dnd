@@ -12,26 +12,44 @@ export default async function DashboardPage() {
   const drafts = characters.filter((c) => !c.isComplete);
 
   return (
-    <div style={{ padding: "32px 40px", maxWidth: 1200 }}>
+    <div style={{ padding: "36px 40px", maxWidth: 1200 }}>
 
       {/* ── Nagłówek ──────────────────────────────────────────────────── */}
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 32 }}>
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 20 }}>
         <div>
-          <div style={{ fontSize: 12, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 6 }}>
+          <div
+            style={{
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 8,
+              fontWeight: 300,
+              letterSpacing: "4px",
+              textTransform: "uppercase",
+              color: "#555555",
+              marginBottom: 6,
+            }}
+          >
             Witaj z powrotem
           </div>
           <h1
             style={{
-              fontFamily: "var(--font-cinzel), serif",
-              fontSize: 28,
-              fontWeight: 700,
-              color: "#f0ece4",
+              fontFamily: "var(--font-display), Georgia, serif",
+              fontSize: 36,
+              fontWeight: 400,
+              color: "#0a0a0a",
               margin: 0,
+              lineHeight: 1,
             }}
           >
             {name}
           </h1>
-          <p style={{ color: "#8b8699", fontSize: 14, marginTop: 4 }}>
+          <p
+            style={{
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 11,
+              color: "#555555",
+              marginTop: 6,
+            }}
+          >
             {complete.length === 0
               ? "Nie masz jeszcze żadnych postaci. Stwórz pierwszą!"
               : `${complete.length} ${complete.length === 1 ? "postać" : complete.length < 5 ? "postacie" : "postaci"} gotowych do gry`}
@@ -41,15 +59,16 @@ export default async function DashboardPage() {
         <Link
           href="/kreator"
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "12px 24px",
-            background: "linear-gradient(135deg, #c9a84c, #e8c97a)",
-            borderRadius: 8,
-            color: "#0f0e17",
+            display: "inline-block",
+            padding: "10px 24px",
+            background: "#0a0a0a",
+            border: "1.5px solid #0a0a0a",
+            color: "#ffffff",
+            fontFamily: "var(--font-ui), Helvetica, sans-serif",
+            fontSize: 8,
             fontWeight: 700,
-            fontSize: 14,
+            letterSpacing: "2px",
+            textTransform: "uppercase",
             textDecoration: "none",
           }}
         >
@@ -60,37 +79,34 @@ export default async function DashboardPage() {
       {/* ── Ukończone postacie ────────────────────────────────────────── */}
       {complete.length > 0 && (
         <section style={{ marginBottom: 40 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-            <h2 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 16, color: "#f0ece4", margin: 0 }}>
-              Moje Postacie
-            </h2>
-            <span
+          <div style={{ marginBottom: 20 }}>
+            <h2
               style={{
-                background: "rgba(201,168,76,0.15)",
-                border: "1px solid rgba(201,168,76,0.3)",
-                borderRadius: 10,
-                padding: "1px 8px",
-                fontSize: 11,
-                color: "#c9a84c",
-                fontWeight: 600,
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 8,
+                fontWeight: 900,
+                letterSpacing: "3px",
+                textTransform: "uppercase",
+                color: "#0a0a0a",
+                margin: 0,
+                paddingBottom: 5,
+                borderBottom: "1.5px solid #0a0a0a",
               }}
             >
-              {complete.length}
-            </span>
+              Moje Postacie
+            </h2>
           </div>
 
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-              gap: 20,
+              gap: 16,
             }}
           >
             {complete.map((c) => (
               <CharacterCard key={c.id} character={c} />
             ))}
-
-            {/* Kafelek "Dodaj postać" */}
             <AddCharacterTile />
           </div>
         </section>
@@ -99,30 +115,29 @@ export default async function DashboardPage() {
       {/* ── Szkice (niedokończone) ────────────────────────────────────── */}
       {drafts.length > 0 && (
         <section style={{ marginBottom: 40 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-            <h2 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 16, color: "#f0ece4", margin: 0 }}>
-              Niedokończone
-            </h2>
-            <span
+          <div style={{ marginBottom: 20 }}>
+            <h2
               style={{
-                background: "rgba(224,82,82,0.1)",
-                border: "1px solid rgba(224,82,82,0.2)",
-                borderRadius: 10,
-                padding: "1px 8px",
-                fontSize: 11,
-                color: "#e05252",
-                fontWeight: 600,
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 8,
+                fontWeight: 900,
+                letterSpacing: "3px",
+                textTransform: "uppercase",
+                color: "#0a0a0a",
+                margin: 0,
+                paddingBottom: 5,
+                borderBottom: "1.5px solid #0a0a0a",
               }}
             >
-              {drafts.length}
-            </span>
+              Niedokończone
+            </h2>
           </div>
 
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-              gap: 20,
+              gap: 16,
             }}
           >
             {drafts.map((c) => (
@@ -138,24 +153,30 @@ export default async function DashboardPage() {
           style={{
             textAlign: "center",
             padding: "80px 40px",
-            background: "#1a1825",
-            border: "1px solid #2e2b3d",
-            borderRadius: 16,
+            background: "#ffffff",
+            border: "1.5px solid #0a0a0a",
             marginBottom: 40,
           }}
         >
-          <div style={{ fontSize: 48, marginBottom: 16 }}>⚔</div>
           <h3
             style={{
-              fontFamily: "var(--font-cinzel), serif",
-              fontSize: 20,
-              color: "#f0ece4",
+              fontFamily: "var(--font-display), Georgia, serif",
+              fontSize: 24,
+              fontWeight: 400,
+              color: "#0a0a0a",
               marginBottom: 8,
             }}
           >
             Twoja Drużyna Jest Pusta
           </h3>
-          <p style={{ color: "#8b8699", marginBottom: 24 }}>
+          <p
+            style={{
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 11,
+              color: "#555555",
+              marginBottom: 24,
+            }}
+          >
             Stwórz swoją pierwszą postać i wyrusz na przygodę.
           </p>
           <Link
@@ -163,63 +184,66 @@ export default async function DashboardPage() {
             style={{
               display: "inline-block",
               padding: "12px 32px",
-              background: "linear-gradient(135deg, #c9a84c, #e8c97a)",
-              borderRadius: 8,
-              color: "#0f0e17",
+              background: "#0a0a0a",
+              border: "1.5px solid #0a0a0a",
+              color: "#ffffff",
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 8,
               fontWeight: 700,
+              letterSpacing: "2px",
+              textTransform: "uppercase",
               textDecoration: "none",
             }}
           >
-            Stwórz Pierwszą Postać →
+            Stwórz Pierwszą Postać
           </Link>
         </div>
       )}
 
       {/* ── Szybkie Akcje ─────────────────────────────────────────────── */}
       <section>
-        <h2
-          style={{
-            fontFamily: "var(--font-cinzel), serif",
-            fontSize: 16,
-            color: "#f0ece4",
-            marginBottom: 16,
-          }}
-        >
-          Szybkie Akcje
-        </h2>
+        <div style={{ marginBottom: 20 }}>
+          <h2
+            style={{
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 8,
+              fontWeight: 900,
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              color: "#0a0a0a",
+              margin: 0,
+              paddingBottom: 5,
+              borderBottom: "1.5px solid #0a0a0a",
+            }}
+          >
+            Szybkie Akcje
+          </h2>
+        </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
           {[
             {
-              icon: "⚔",
               title: "Kontynuuj Sesję",
               desc: complete.length > 0 ? `Ostatnia: ${complete[0]?.name}` : "Brak aktywnych postaci",
               href: complete.length > 0 ? `/karta/${complete[0]?.id}` : "/kreator",
-              color: "#c9a84c",
             },
             {
-              icon: "+",
               title: "Nowa Postać",
               desc: "Kreator krok po kroku",
               href: "/kreator",
-              color: "#52c97a",
             },
             {
-              icon: "📖",
               title: "Podręcznik Zasad",
-              desc: "SRD 5.2.1 po polsku",
+              desc: "SRD 5.2.1",
               href: "/zasady",
-              color: "#5c9be8",
             },
             {
-              icon: "🎲",
               title: "Rzutnik Kości",
               desc: "k4, k6, k8, k10, k12, k20",
               href: "/rzutnik",
-              color: "#7c5cbf",
             },
-          ].map(({ icon, title, desc, href, color }) => (
-            <QuickActionLink key={title} icon={icon} title={title} desc={desc} href={href} color={color} />
+          ].map(({ title, desc, href }) => (
+            <QuickActionLink key={title} title={title} desc={desc} href={href} />
           ))}
         </div>
       </section>

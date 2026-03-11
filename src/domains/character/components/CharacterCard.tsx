@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { CharacterSummary } from "@/domains/character/actions/getCharacters";
 import { deleteCharacter } from "@/domains/character/actions/deleteCharacter";
-import { mod, modNum, maxHp as calcMaxHp } from "@/shared/lib/dnd-mechanics";
+import { modNum, maxHp as calcMaxHp } from "@/shared/lib/dnd-mechanics";
 import { CLASSES } from "@/data/dnd/classes";
 
 // ── helpers ─────────────────────────────────────────────────────────────────
@@ -25,44 +25,15 @@ const RACE_LABELS: Record<string, string> = {
   "high-elf": "Elf", "wood-elf": "Elf", "dark-elf": "Elf",
 };
 
-const SUBCLASS_LABELS: Record<string, string> = {
-  life: "Domena Życia", light: "Domena Światła", war: "Domena Wojny",
-  knowledge: "Domena Wiedzy", nature: "Domena Natury",
-  trickery: "Domena Oszustwa", tempest: "Domena Burzy",
-  berserker: "Berserkier", lore: "Kolegium Wiedzy",
-  land: "Krąg Ziemi", champion: "Mistrz", "open-hand": "Otwarta Dłoń",
-  devotion: "Przysięga Pobożności", hunter: "Łowca",
-  thief: "Złodziej", draconic: "Rodowód Smoczy",
-  fiend: "Pakt Fienda", evocation: "Szkoła Ewokacji",
-};
-
 const ALIGNMENT_LABELS: Record<string, string> = {
   LG: "Praworządny Dobry", NG: "Neutralny Dobry", CG: "Chaotyczny Dobry",
   LN: "Praworządny Neutralny", TN: "Prawdziwa Neutralność", CN: "Chaotyczny Neutralny",
   LE: "Praworządny Zły", NE: "Neutralny Zły", CE: "Chaotyczny Zły",
 };
 
-const CLASS_COLORS: Record<string, string> = {
-  barbarian: "#e05252", bard: "#7c5cbf", cleric: "#e8c97a",
-  druid: "#52c97a", fighter: "#e05252", monk: "#52c97a",
-  paladin: "#e8c97a", ranger: "#52c97a", rogue: "#8b8699",
-  sorcerer: "#7c5cbf", warlock: "#7c5cbf", wizard: "#5c9be8",
-};
-
-function modifier(score: number) {
-  return mod(score);
-}
-
 function maxHp(cls: string, level: number, conScore: number) {
   const die = CLASSES.find((c) => c.id === cls)?.hitDie ?? 8;
   return calcMaxHp(die, level, modNum(conScore));
-}
-
-function hpColor(current: number, max: number) {
-  const pct = current / max;
-  if (pct > 0.6) return "#52c97a";
-  if (pct > 0.3) return "#e8c97a";
-  return "#e05252";
 }
 
 function initials(name: string) {
@@ -105,216 +76,192 @@ export default function CharacterCard({ character: c }: Props) {
 
   const clsLabel = CLASS_LABELS[c.class] ?? c.class;
   const raceLabel = RACE_LABELS[c.race] ?? c.race;
-  const subclassLabel = c.subclass ? SUBCLASS_LABELS[c.subclass] ?? c.subclass : null;
-  const accentColor = CLASS_COLORS[c.class] ?? "#c9a84c";
   const hp = c.currentHp ?? maxHp(c.class, c.level, c.constitution);
   const maxHpVal = maxHp(c.class, c.level, c.constitution);
-  const hpPct = Math.min(100, Math.round((hp / maxHpVal) * 100));
-  const ac = 10 + Math.floor((c.dexterity - 10) / 2);
-  const initiative = Math.floor((c.dexterity - 10) / 2);
+  const hpPct = Math.max(0, Math.min(100, Math.round((hp / maxHpVal) * 100)));
+  const ac = 10 + modNum(c.dexterity);
+  const initiativeNum = modNum(c.dexterity);
+  const initiative = initiativeNum >= 0 ? `+${initiativeNum}` : `${initiativeNum}`;
 
   return (
     <div
       data-testid="character-card"
       style={{
-        background: "#1a1825",
-        border: "1px solid #2e2b3d",
-        borderRadius: 12,
-        overflow: "hidden",
+        background: "#ffffff",
+        border: "1.5px solid #0a0a0a",
         display: "flex",
         flexDirection: "column",
-        transition: "border-color 0.2s, transform 0.2s",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = accentColor + "66";
-        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = "#2e2b3d";
-        (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
       }}
     >
-      {/* Accent bar */}
-      <div style={{ height: 3, background: `linear-gradient(90deg, ${accentColor}, transparent)` }} />
-
-      <div style={{ padding: "20px 20px 16px" }}>
-        {/* Header row */}
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 16 }}>
+      {/* Header */}
+      <div style={{ padding: "20px 20px 16px", borderBottom: "1px solid #cccccc" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 12 }}>
           {/* Avatar */}
           <div
             style={{
-              width: 52,
-              height: 52,
-              borderRadius: "50%",
-              background: `linear-gradient(135deg, ${accentColor}33, ${accentColor}11)`,
-              border: `2px solid ${accentColor}44`,
+              width: 44,
+              height: 44,
+              border: "1.5px solid #0a0a0a",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontFamily: "var(--font-cinzel), serif",
-              fontSize: 16,
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 13,
               fontWeight: 700,
-              color: accentColor,
+              color: "#0a0a0a",
               flexShrink: 0,
             }}
           >
             {initials(c.name)}
           </div>
 
-          {/* Name + class */}
+          {/* Name + meta */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
               style={{
-                fontFamily: "var(--font-cinzel), serif",
-                fontSize: 15,
-                fontWeight: 700,
-                color: "#f0ece4",
+                fontFamily: "var(--font-display), Georgia, serif",
+                fontStyle: "italic",
+                fontSize: 22,
+                fontWeight: 400,
+                color: "#0a0a0a",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                lineHeight: 1.1,
               }}
             >
               {c.name}
             </div>
-            <div style={{ fontSize: 12, color: "#8b8699", marginTop: 2 }}>
-              {raceLabel} · {clsLabel}
-              {subclassLabel && <span style={{ color: accentColor }}> · {subclassLabel}</span>}
+            <div
+              style={{
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 8,
+                fontWeight: 400,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                color: "#555555",
+                marginTop: 4,
+              }}
+            >
+              {raceLabel} · {clsLabel} · Poz. {c.level}
+              {c.alignment && ` · ${ALIGNMENT_LABELS[c.alignment] ?? c.alignment}`}
             </div>
           </div>
 
-          {/* Level badge */}
-          <div
-            style={{
-              background: `${accentColor}22`,
-              border: `1px solid ${accentColor}44`,
-              borderRadius: 6,
-              padding: "2px 8px",
-              fontSize: 11,
-              fontWeight: 700,
-              color: accentColor,
-              flexShrink: 0,
-            }}
-          >
-            POZ. {c.level}
-          </div>
+          {/* Draft badge */}
+          {!c.isComplete && (
+            <span
+              style={{
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 7,
+                fontWeight: 700,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                color: "#0a0a0a",
+                border: "1px solid #0a0a0a",
+                padding: "2px 6px",
+                flexShrink: 0,
+              }}
+            >
+              Szkic
+            </span>
+          )}
         </div>
 
         {/* HP bar */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-            <span style={{ fontSize: 11, color: "#8b8699", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+            <span
+              style={{
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 7,
+                fontWeight: 700,
+                letterSpacing: "2.5px",
+                textTransform: "uppercase",
+                color: "#555555",
+              }}
+            >
               Punkty Życia
             </span>
-            <span style={{ fontSize: 11, color: hpColor(hp, maxHpVal), fontWeight: 600 }}>
+            <span
+              style={{
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 9,
+                fontWeight: 600,
+                color: "#0a0a0a",
+              }}
+            >
               {hp} / {maxHpVal}
             </span>
           </div>
-          <div style={{ height: 5, background: "#0f0e17", borderRadius: 3, overflow: "hidden" }}>
+          {/* HP track: thin line with black fill */}
+          <div style={{ height: 4, background: "#d8d8d8", border: "1px solid #0a0a0a", overflow: "hidden" }}>
             <div
               style={{
                 height: "100%",
                 width: `${hpPct}%`,
-                background: hpColor(hp, maxHpVal),
-                borderRadius: 3,
-                transition: "width 0.4s",
+                background: "#0a0a0a",
+                transition: "width 0.3s",
               }}
             />
           </div>
         </div>
+      </div>
 
-        {/* Stats row */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 8,
-            marginBottom: 16,
-          }}
-        >
-          {[
-            { label: "KP", value: ac },
-            { label: "Init.", value: initiative >= 0 ? `+${initiative}` : initiative },
-            { label: "Prędkość", value: "9m" },
-          ].map(({ label, value }) => (
+      {/* Stats row */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          borderBottom: "1px solid #cccccc",
+        }}
+      >
+        {[
+          { label: "KP", value: `${ac}`, ariaLabel: "Klasa Pancerza" },
+          { label: "Init.", value: initiative, ariaLabel: "Inicjatywa" },
+          { label: "Prędkość", value: "9m", ariaLabel: "Prędkość" },
+        ].map(({ label, value, ariaLabel }, i) => (
+          <div
+            key={label}
+            aria-label={ariaLabel}
+            style={{
+              textAlign: "center",
+              padding: "10px 8px",
+              borderRight: i < 2 ? "1px solid #cccccc" : "none",
+            }}
+          >
             <div
-              key={label}
               style={{
-                background: "#0f0e17",
-                borderRadius: 6,
-                padding: "6px 8px",
-                textAlign: "center",
+                fontFamily: "var(--font-display), Georgia, serif",
+                fontSize: 20,
+                fontWeight: 400,
+                color: "#0a0a0a",
+                lineHeight: 1,
               }}
             >
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#f0ece4" }}>{value}</div>
-              <div style={{ fontSize: 10, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                {label}
-              </div>
+              {value}
             </div>
-          ))}
-        </div>
-
-        {/* Badges */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
-          <span
-            style={{
-              fontSize: 10,
-              padding: "2px 8px",
-              borderRadius: 4,
-              background: `${accentColor}15`,
-              color: accentColor,
-              border: `1px solid ${accentColor}30`,
-            }}
-          >
-            {clsLabel.toUpperCase()}
-          </span>
-          <span
-            style={{
-              fontSize: 10,
-              padding: "2px 8px",
-              borderRadius: 4,
-              background: "#232136",
-              color: "#8b8699",
-              border: "1px solid #2e2b3d",
-            }}
-          >
-            {raceLabel.toUpperCase()}
-          </span>
-          {c.alignment && (
-            <span
+            <div
               style={{
-                fontSize: 10,
-                padding: "2px 8px",
-                borderRadius: 4,
-                background: "#232136",
-                color: "#8b8699",
-                border: "1px solid #2e2b3d",
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 7,
+                fontWeight: 700,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                color: "#555555",
+                marginTop: 3,
               }}
             >
-              {ALIGNMENT_LABELS[c.alignment] ?? c.alignment}
-            </span>
-          )}
-          {!c.isComplete && (
-            <span
-              style={{
-                fontSize: 10,
-                padding: "2px 8px",
-                borderRadius: 4,
-                background: "rgba(224,82,82,0.1)",
-                color: "#e05252",
-                border: "1px solid rgba(224,82,82,0.2)",
-              }}
-            >
-              SZKIC
-            </span>
-          )}
-        </div>
+              {label}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Footer actions */}
       <div
         style={{
-          borderTop: "1px solid #2e2b3d",
-          padding: "12px 20px",
+          padding: "12px 16px",
           display: "flex",
           gap: 8,
           position: "relative",
@@ -326,16 +273,19 @@ export default function CharacterCard({ character: c }: Props) {
             flex: 1,
             display: "block",
             textAlign: "center",
-            padding: "8px",
-            borderRadius: 6,
-            background: accentColor,
-            color: "#0f0e17",
-            fontSize: 13,
+            padding: "9px",
+            background: "#0a0a0a",
+            color: "#ffffff",
+            fontFamily: "var(--font-ui), Helvetica, sans-serif",
+            fontSize: 7,
             fontWeight: 700,
+            letterSpacing: "2px",
+            textTransform: "uppercase",
             textDecoration: "none",
+            transition: "background 0.15s, color 0.15s",
           }}
         >
-          {c.isComplete ? "Graj →" : "Dokończ →"}
+          {c.isComplete ? "Otwórz kartę" : "Dokończ"}
         </Link>
 
         {/* Menu "···" */}
@@ -344,14 +294,14 @@ export default function CharacterCard({ character: c }: Props) {
             data-testid="menu-btn"
             onClick={() => setMenuOpen((o) => !o)}
             style={{
-              width: 36,
-              height: 36,
-              borderRadius: 6,
-              background: "#232136",
-              border: "1px solid #2e2b3d",
-              color: "#8b8699",
+              width: 34,
+              height: 34,
+              background: "transparent",
+              border: "1.5px solid #0a0a0a",
+              color: "#0a0a0a",
               cursor: "pointer",
-              fontSize: 16,
+              fontSize: 14,
+              letterSpacing: "2px",
             }}
             title="Opcje"
           >
@@ -365,12 +315,10 @@ export default function CharacterCard({ character: c }: Props) {
                 position: "absolute",
                 bottom: "calc(100% + 4px)",
                 right: 0,
-                background: "#232136",
-                border: "1px solid #2e2b3d",
-                borderRadius: 8,
+                background: "#ffffff",
+                border: "1.5px solid #0a0a0a",
                 padding: "4px",
                 minWidth: 160,
-                boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
                 zIndex: 10,
               }}
             >
@@ -382,17 +330,17 @@ export default function CharacterCard({ character: c }: Props) {
                   padding: "8px 12px",
                   background: "transparent",
                   border: "none",
-                  borderRadius: 6,
-                  color: "#e05252",
-                  fontSize: 13,
+                  color: "#0a0a0a",
+                  fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
                   textAlign: "left",
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
                 }}
               >
-                🗑 Usuń postać
+                Usuń postać
               </button>
             </div>
           )}
@@ -406,7 +354,7 @@ export default function CharacterCard({ character: c }: Props) {
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(0,0,0,0.7)",
+            background: "rgba(10,10,10,0.5)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -416,27 +364,33 @@ export default function CharacterCard({ character: c }: Props) {
         >
           <div
             style={{
-              background: "#232136",
-              border: "1px solid #2e2b3d",
-              borderRadius: 12,
+              background: "#ffffff",
+              border: "1.5px solid #0a0a0a",
               padding: 32,
               maxWidth: 400,
               width: "90%",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.6)",
             }}
           >
             <h3
               style={{
-                fontFamily: "Cinzel, serif",
-                fontSize: 18,
-                color: "#f0ece4",
+                fontFamily: "var(--font-display), Georgia, serif",
+                fontSize: 20,
+                fontWeight: 400,
+                color: "#0a0a0a",
                 margin: "0 0 8px",
               }}
             >
               Usuń postać
             </h3>
-            <p style={{ color: "#8b8699", fontSize: 14, margin: "0 0 24px" }}>
-              Czy na pewno chcesz usunąć <strong style={{ color: "#f0ece4" }}>{c.name}</strong>?
+            <p
+              style={{
+                fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                fontSize: 12,
+                color: "#555555",
+                margin: "0 0 24px",
+              }}
+            >
+              Czy na pewno chcesz usunąć <strong style={{ color: "#0a0a0a" }}>{c.name}</strong>?
               Tej operacji nie można cofnąć.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
@@ -446,12 +400,15 @@ export default function CharacterCard({ character: c }: Props) {
                 disabled={deleting}
                 style={{
                   padding: "8px 20px",
-                  borderRadius: 6,
                   background: "transparent",
-                  border: "1px solid #2e2b3d",
-                  color: "#8b8699",
+                  border: "1.5px solid #555555",
+                  color: "#555555",
+                  fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                  fontSize: 8,
+                  fontWeight: 700,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
                   cursor: "pointer",
-                  fontSize: 13,
                 }}
               >
                 Anuluj
@@ -462,13 +419,15 @@ export default function CharacterCard({ character: c }: Props) {
                 disabled={deleting}
                 style={{
                   padding: "8px 20px",
-                  borderRadius: 6,
-                  background: deleting ? "#4a4759" : "#e05252",
-                  border: "none",
-                  color: "#fff",
-                  cursor: deleting ? "not-allowed" : "pointer",
-                  fontSize: 13,
+                  background: deleting ? "#999999" : "#0a0a0a",
+                  border: "1.5px solid #0a0a0a",
+                  color: "#ffffff",
+                  fontFamily: "var(--font-ui), Helvetica, sans-serif",
+                  fontSize: 8,
                   fontWeight: 700,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  cursor: deleting ? "not-allowed" : "pointer",
                 }}
               >
                 {deleting ? "Usuwanie..." : "Usuń"}

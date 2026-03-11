@@ -3,55 +3,62 @@
 import Link from "next/link";
 
 type Props = {
-  icon: string;
   title: string;
   desc: string;
   href: string;
-  color: string;
 };
 
-export function QuickActionLink({ icon, title, desc, href, color }: Props) {
+export function QuickActionLink({ title, desc, href }: Props) {
   return (
     <Link
       href={href}
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 14,
+        display: "block",
         padding: "16px 18px",
-        background: "#1a1825",
-        border: "1px solid #2e2b3d",
-        borderRadius: 10,
+        background: "#ffffff",
+        border: "1.5px solid #0a0a0a",
         textDecoration: "none",
-        transition: "all 0.15s",
+        transition: "background 0.1s",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = color + "44";
-        e.currentTarget.style.background = "#232136";
+        e.currentTarget.style.background = "#0a0a0a";
+        const titleEl = e.currentTarget.querySelector(".qa-title") as HTMLElement | null;
+        const descEl = e.currentTarget.querySelector(".qa-desc") as HTMLElement | null;
+        if (titleEl) titleEl.style.color = "#ffffff";
+        if (descEl) descEl.style.color = "#cccccc";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "#2e2b3d";
-        e.currentTarget.style.background = "#1a1825";
+        e.currentTarget.style.background = "#ffffff";
+        const titleEl = e.currentTarget.querySelector(".qa-title") as HTMLElement | null;
+        const descEl = e.currentTarget.querySelector(".qa-desc") as HTMLElement | null;
+        if (titleEl) titleEl.style.color = "#0a0a0a";
+        if (descEl) descEl.style.color = "#555555";
       }}
     >
       <div
+        className="qa-title"
         style={{
-          width: 40,
-          height: 40,
-          borderRadius: 8,
-          background: `${color}15`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 20,
-          flexShrink: 0,
+          fontFamily: "var(--font-ui), Helvetica, sans-serif",
+          fontSize: 9,
+          fontWeight: 700,
+          letterSpacing: "2px",
+          textTransform: "uppercase",
+          color: "#0a0a0a",
+          marginBottom: 4,
         }}
       >
-        {icon}
+        {title}
       </div>
-      <div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "#f0ece4" }}>{title}</div>
-        <div style={{ fontSize: 11, color: "#8b8699", marginTop: 2 }}>{desc}</div>
+      <div
+        className="qa-desc"
+        style={{
+          fontFamily: "var(--font-ui), Helvetica, sans-serif",
+          fontSize: 10,
+          fontWeight: 300,
+          color: "#555555",
+        }}
+      >
+        {desc}
       </div>
     </Link>
   );

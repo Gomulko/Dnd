@@ -11,26 +11,35 @@ export function AddCharacterTile() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 12,
-        minHeight: 200,
+        gap: 10,
+        minHeight: 180,
         background: "transparent",
-        border: "2px dashed #2e2b3d",
-        borderRadius: 12,
-        color: "#4a4759",
+        border: "1.5px dashed #999999",
+        color: "#999999",
         textDecoration: "none",
-        transition: "all 0.2s",
+        transition: "border-color 0.15s, color 0.15s",
+        fontFamily: "var(--font-ui), Helvetica, sans-serif",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "#c9a84c44";
-        e.currentTarget.style.color = "#c9a84c";
+        e.currentTarget.style.borderColor = "#0a0a0a";
+        e.currentTarget.style.color = "#0a0a0a";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "#2e2b3d";
-        e.currentTarget.style.color = "#4a4759";
+        e.currentTarget.style.borderColor = "#999999";
+        e.currentTarget.style.color = "#999999";
       }}
     >
-      <span style={{ fontSize: 32 }}>+</span>
-      <span style={{ fontSize: 13 }}>Nowa Postać</span>
+      <span style={{ fontSize: 28, lineHeight: 1 }}>+</span>
+      <span
+        style={{
+          fontSize: 7,
+          fontWeight: 700,
+          letterSpacing: "2.5px",
+          textTransform: "uppercase",
+        }}
+      >
+        Nowa Postać
+      </span>
     </Link>
   );
 }

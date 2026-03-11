@@ -13,9 +13,9 @@ export default async function Navbar() {
   return (
     <header
       style={{
-        height: 64,
-        background: "#1a1825",
-        borderBottom: "1px solid #2e2b3d",
+        height: 56,
+        background: "#ffffff",
+        borderBottom: "1.5px solid #0a0a0a",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -26,38 +26,75 @@ export default async function Navbar() {
       }}
     >
       {/* Logo */}
-      <span
-        style={{
-          fontFamily: "var(--font-cinzel), serif",
-          fontSize: 18,
-          letterSpacing: "0.05em",
-        }}
-      >
-        <span style={{ color: "#c9a84c" }}>⚔</span>{" "}
-        <span style={{ color: "#f0ece4" }}>Kroniki Przygód</span>
-      </span>
+      <div>
+        <span
+          style={{
+            fontFamily: "var(--font-display), Georgia, serif",
+            fontSize: 20,
+            fontWeight: 400,
+            color: "#0a0a0a",
+            letterSpacing: "0.01em",
+          }}
+        >
+          Kroniki Przygód
+        </span>
+        <span
+          style={{
+            display: "block",
+            fontFamily: "var(--font-ui), Helvetica, sans-serif",
+            fontWeight: 300,
+            fontSize: 8,
+            letterSpacing: "4px",
+            textTransform: "uppercase",
+            color: "#555555",
+          }}
+        >
+          Dungeons &amp; Dragons · 5e
+        </span>
+      </div>
 
       {/* User area */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 13, color: "#f0ece4", fontWeight: 500 }}>{name}</div>
-          <div style={{ fontSize: 11, color: "#8b8699" }}>PRO ACCOUNT</div>
+          <div
+            style={{
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 11,
+              fontWeight: 600,
+              color: "#0a0a0a",
+              letterSpacing: "0.5px",
+            }}
+          >
+            {name}
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 7,
+              fontWeight: 300,
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              color: "#999999",
+            }}
+          >
+            Gracz
+          </div>
         </div>
 
         {/* Avatar */}
         <div
           style={{
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #c9a84c, #7c5cbf)",
+            width: 32,
+            height: 32,
+            border: "1.5px solid #0a0a0a",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontFamily: "var(--font-cinzel), serif",
-            fontSize: 13,
+            fontFamily: "var(--font-ui), Helvetica, sans-serif",
+            fontSize: 11,
             fontWeight: 700,
-            color: "#0f0e17",
+            color: "#0a0a0a",
+            background: "#ffffff",
           }}
         >
           {initials}
@@ -74,12 +111,16 @@ export default async function Navbar() {
             type="submit"
             style={{
               background: "transparent",
-              border: "1px solid #2e2b3d",
-              borderRadius: 6,
-              color: "#8b8699",
-              fontSize: 13,
+              border: "1.5px solid #0a0a0a",
+              color: "#0a0a0a",
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontSize: 7,
+              fontWeight: 700,
+              letterSpacing: "2px",
+              textTransform: "uppercase",
               padding: "6px 14px",
               cursor: "pointer",
+              transition: "background 0.15s, color 0.15s",
             }}
           >
             Wyloguj

@@ -62,31 +62,31 @@
   - Klasy pomocnicze: .label, .section-title, .sheet, .sheet-section
 
   ---
-  FAZA 2 — Layout (Navbar + Sidebar)
+  FAZA 2 — Layout (Navbar + Sidebar) ✅
 
-  Krok 2.1 — Navbar redesign
+  Krok 2.1 — Navbar redesign ✅
   - Biały pasek, 1.5px solid #0a0a0a border-bottom
   - Logo: "Kroniki Przygód" w DM Serif Display 20px
   - Tag systemu: "Dungeons & Dragons · 5e" — Barlow 8px, letter-spacing 4px, uppercase
   - Usuń gradient złota → monochrome
 
-  Krok 2.2 — Sidebar redesign
+  Krok 2.2 — Sidebar redesign ✅
   - Biały sidebar, 1.5px solid #0a0a0a border-right
   - Linki: Barlow 11px, uppercase, letter-spacing 2px
   - Aktywny link: solid #0a0a0a left border 3px, font-weight 900
   - Brak tła pod aktywnym — tylko kreska
 
   ---
-  FAZA 3 — Dashboard
+  FAZA 3 — Dashboard ✅
 
-  Krok 3.1 — CharacterCard redesign
+  Krok 3.1 — CharacterCard redesign ✅
   - Biała karta z 1.5px solid #0a0a0a border, brak border-radius
   - Imię: DM Serif Display 22px italic
   - Rasa/Klasa/Poziom: Barlow 8px uppercase, letter-spacing 2px, kolor --mid
   - HP bar → prosta kreska 1px solid #0a0a0a, wypełnienie czarne (proporcjonalne)
   - Stats (AC/Init): małe komórki z border: 1.5px solid #0a0a0a, DM Serif Display dla liczby
 
-  Krok 3.2 — Strona dashboard
+  Krok 3.2 — Strona dashboard ✅
   - Tło #d8d8d8, karty w siatce na białym
   - Nagłówek: DM Serif Display duży, podtytuł Barlow uppercase
 

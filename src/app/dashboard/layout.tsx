@@ -8,7 +8,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!session) redirect("/logowanie");
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0f0e17" }}>
+    <div style={{ minHeight: "100vh", background: "#d8d8d8" }}>
       <Navbar />
       <div style={{ display: "flex" }}>
         <Sidebar />

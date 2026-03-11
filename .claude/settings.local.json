@@ -44,7 +44,9 @@
       "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test 2>&1 | tail -12)",
       "Bash(wc -l \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app/src/data/dnd\"/*.ts)",
       "Bash(find \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app/src\" -type f \\\\\\( -name \"*.ts\" -o -name \"*.tsx\" \\\\\\) -exec wc -l {} + | tail -1)",
-      "Bash(npx vitest:*)"
+      "Bash(npx vitest:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)"
     ]
   }
 }
