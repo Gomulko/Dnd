@@ -300,18 +300,33 @@ export default function CharacterSheet({ character }: Props) {
         >
           ← Moje Postacie
         </Link>
-        <button
-          data-testid="edit-character-btn"
-          onClick={handleEdit}
-          style={{
-            display: "flex", alignItems: "center", gap: 6,
-            padding: "6px 16px", borderRadius: 6,
-            border: "1px solid #c9a84c44", background: "transparent",
-            color: "#c9a84c", fontSize: 13, cursor: "pointer",
-          }}
-        >
-          Edytuj Postać
-        </button>
+        <div style={{ display: "flex", gap: 8 }}>
+          <a
+            href={`/api/export-pdf/${character.id}`}
+            download
+            data-testid="export-pdf-btn"
+            style={{
+              display: "flex", alignItems: "center", gap: 6,
+              padding: "6px 16px", borderRadius: 6,
+              border: "1px solid #2e2b3d", background: "#1a1825",
+              color: "#8b8699", fontSize: 13, textDecoration: "none",
+            }}
+          >
+            Eksportuj PDF
+          </a>
+          <button
+            data-testid="edit-character-btn"
+            onClick={handleEdit}
+            style={{
+              display: "flex", alignItems: "center", gap: 6,
+              padding: "6px 16px", borderRadius: 6,
+              border: "1px solid #c9a84c44", background: "transparent",
+              color: "#c9a84c", fontSize: 13, cursor: "pointer",
+            }}
+          >
+            Edytuj Postać
+          </button>
+        </div>
       </div>
 
       {/* ── Header ── */}

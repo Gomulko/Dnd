@@ -6,7 +6,9 @@
       "Bash(npm init:*)",
       "Bash(npx playwright:*)",
       "Bash(npx prisma:*)",
-      "Bash(mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/src/domains/dice/components && mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/src/app/rzutnik && mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/tests/rzutnik)"
+      "Bash(mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/src/domains/dice/components && mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/src/app/rzutnik && mkdir -p C:/Users/rafag/Desktop/projects/dnd-app/tests/rzutnik)",
+      "Bash(cd C:/Users/rafag/Desktop/projects/dnd-app && npm ls @react-pdf/renderer 2>&1 | head -5)",
+      "Bash(ls C:/Users/rafag/Desktop/projects/dnd-app/next.config* 2>/dev/null && cat C:/Users/rafag/Desktop/projects/dnd-app/next.config.ts 2>/dev/null || cat C:/Users/rafag/Desktop/projects/dnd-app/next.config.js 2>/dev/null || echo \"brak pliku\")"
     ]
   }
 }
