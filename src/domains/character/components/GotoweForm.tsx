@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 import { createCharacter } from "@/domains/character/actions/createCharacter";
+import { updateCharacter } from "@/domains/character/actions/updateCharacter";
 import { RACES } from "@/data/dnd/races";
 import { CLASSES, SKILL_NAMES_PL } from "@/data/dnd/classes";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
@@ -35,7 +36,7 @@ function mod(score: number): string {
 export default function GotoweForm() {
   const router = useRouter();
   const store = useWizardStore();
-  const { step1, step2, step3, step4, step5, step6, step7, reset } = store;
+  const { step1, step2, step3, step4, step5, step6, step7, editingId, reset } = store;
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -69,40 +70,48 @@ export default function GotoweForm() {
 
   const initials = step1.name.trim().slice(0, 2).toUpperCase() || "??";
 
+  const characterPayload = {
+    name: step1.name,
+    gender: step1.gender,
+    age: step1.age,
+    height: step1.height,
+    description: step1.description,
+    alignment: step1.alignment,
+    race: step2.race,
+    subrace: step2.subrace,
+    class: step3.class,
+    subclass: step3.subclass,
+    skills: step3.skills,
+    strength: step4.strength || 10,
+    dexterity: step4.dexterity || 10,
+    constitution: step4.constitution || 10,
+    intelligence: step4.intelligence || 10,
+    wisdom: step4.wisdom || 10,
+    charisma: step4.charisma || 10,
+    background: step5.background,
+    personalityTraits: step5.personalityTraits,
+    ideals: step5.ideals,
+    bonds: step5.bonds,
+    flaws: step5.flaws,
+    languages: step5.languages,
+    backstory: step5.backstory,
+    equipment: step6.equipment,
+    gold: step6.gold,
+    cantrips: step7.cantrips,
+    spells: step7.spells,
+  };
+
   async function handleSave() {
     setSaving(true);
     setError(null);
     try {
-      const result = await createCharacter({
-        name: step1.name,
-        gender: step1.gender,
-        age: step1.age,
-        height: step1.height,
-        description: step1.description,
-        alignment: step1.alignment,
-        race: step2.race,
-        subrace: step2.subrace,
-        class: step3.class,
-        subclass: step3.subclass,
-        skills: step3.skills,
-        strength: step4.strength || 10,
-        dexterity: step4.dexterity || 10,
-        constitution: step4.constitution || 10,
-        intelligence: step4.intelligence || 10,
-        wisdom: step4.wisdom || 10,
-        charisma: step4.charisma || 10,
-        background: step5.background,
-        personalityTraits: step5.personalityTraits,
-        ideals: step5.ideals,
-        bonds: step5.bonds,
-        flaws: step5.flaws,
-        languages: step5.languages,
-        backstory: step5.backstory,
-        equipment: step6.equipment,
-        gold: step6.gold,
-        cantrips: step7.cantrips,
-        spells: step7.spells,
-      });
+      let result: { error?: string; characterId?: string };
+
+      if (editingId) {
+        result = await updateCharacter({ id: editingId, ...characterPayload });
+      } else {
+        result = await createCharacter(characterPayload);
+      }
 
       if (result.error) {
         setError(result.error);
@@ -111,7 +120,11 @@ export default function GotoweForm() {
       }
 
       reset();
-      router.push("/dashboard");
+      if (editingId) {
+        router.push(`/karta/${editingId}`);
+      } else {
+        router.push("/dashboard");
+      }
     } catch {
       setError("Wystąpił błąd podczas zapisu. Spróbuj ponownie.");
       setSaving(false);
@@ -265,7 +278,7 @@ export default function GotoweForm() {
             fontSize: 15, fontWeight: 700, cursor: saving ? "not-allowed" : "pointer",
           }}
         >
-          {saving ? "Zapisywanie..." : "✨ Zapisz Postać i Graj →"}
+          {saving ? "Zapisywanie..." : editingId ? "✨ Zapisz Zmiany →" : "✨ Zapisz Postać i Graj →"}
         </button>
       </div>
     </div>

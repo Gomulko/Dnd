@@ -66,6 +66,7 @@ export type WizardData = {
 };
 
 type WizardStore = WizardData & {
+  editingId: string | null;
   setStep1: (data: Partial<WizardStep1>) => void;
   setStep2: (data: Partial<WizardStep2>) => void;
   setStep3: (data: Partial<WizardStep3>) => void;
@@ -73,6 +74,8 @@ type WizardStore = WizardData & {
   setStep5: (data: Partial<WizardStep5>) => void;
   setStep6: (data: Partial<WizardStep6>) => void;
   setStep7: (data: Partial<WizardStep7>) => void;
+  setEditingId: (id: string | null) => void;
+  loadCharacter: (data: WizardData, id: string) => void;
   reset: () => void;
 };
 
@@ -145,6 +148,7 @@ export const useWizardStore = create<WizardStore>()(
   persist(
     (set) => ({
       ...DEFAULTS,
+      editingId: null,
 
       setStep1: (data) =>
         set((s) => ({ step1: { ...s.step1, ...data } })),
@@ -161,7 +165,12 @@ export const useWizardStore = create<WizardStore>()(
       setStep7: (data) =>
         set((s) => ({ step7: { ...s.step7, ...data } })),
 
-      reset: () => set(DEFAULTS),
+      setEditingId: (id) => set({ editingId: id }),
+
+      loadCharacter: (data, id) =>
+        set({ ...data, editingId: id }),
+
+      reset: () => set({ ...DEFAULTS, editingId: null }),
     }),
     {
       name: "wizard-character",

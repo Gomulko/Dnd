@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CharacterFull } from "@/domains/character/actions/getCharacter";
 import { updateCharacterHp } from "@/domains/character/actions/updateCharacterHp";
 import { updateSessionNotes } from "@/domains/character/actions/updateSessionNotes";
@@ -8,6 +10,8 @@ import { CLASSES, SKILL_NAMES_PL } from "@/data/dnd/classes";
 import { RACES } from "@/data/dnd/races";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { allSpells } from "@/data/dnd/spells";
+import { useWizardStore } from "@/domains/character/store/wizardStore";
+import type { WizardData } from "@/domains/character/store/wizardStore";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -121,6 +125,56 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 type Props = { character: CharacterFull };
 
 export default function CharacterSheet({ character }: Props) {
+  const router = useRouter();
+  const { loadCharacter } = useWizardStore();
+
+  function handleEdit() {
+    const wizardData: WizardData = {
+      step1: {
+        name: character.name,
+        gender: character.gender as WizardData["step1"]["gender"],
+        age: character.age,
+        height: character.height,
+        description: character.description ?? "",
+        alignment: character.alignment as WizardData["step1"]["alignment"],
+      },
+      step2: { race: character.race, subrace: character.subrace },
+      step3: {
+        class: character.class,
+        subclass: character.subclass,
+        skills: (() => { try { return JSON.parse(character.skills) as string[]; } catch { return []; } })(),
+      },
+      step4: {
+        method: "standard",
+        strength: character.strength,
+        dexterity: character.dexterity,
+        constitution: character.constitution,
+        intelligence: character.intelligence,
+        wisdom: character.wisdom,
+        charisma: character.charisma,
+      },
+      step5: {
+        background: character.background ?? "",
+        personalityTraits: (() => { try { return JSON.parse(character.personalityTraits) as string[]; } catch { return []; } })(),
+        ideals: (() => { try { return JSON.parse(character.ideals) as string[]; } catch { return []; } })(),
+        bonds: (() => { try { return JSON.parse(character.bonds) as string[]; } catch { return []; } })(),
+        flaws: (() => { try { return JSON.parse(character.flaws) as string[]; } catch { return []; } })(),
+        languages: (() => { try { return JSON.parse(character.languages) as string[]; } catch { return []; } })(),
+        backstory: character.backstory ?? "",
+      },
+      step6: {
+        equipment: (() => { try { return JSON.parse(character.equipment) as { name: string; qty: number; weight: number }[]; } catch { return []; } })(),
+        gold: character.gold,
+      },
+      step7: {
+        cantrips: (() => { try { return JSON.parse(character.cantrips) as string[]; } catch { return []; } })(),
+        spells: (() => { try { return JSON.parse(character.spells) as string[]; } catch { return []; } })(),
+      },
+    };
+    loadCharacter(wizardData, character.id);
+    router.push("/kreator/koncept");
+  }
+
   const cls = CLASSES.find((c) => c.id === character.class);
   const race = RACES.find((r) => r.id === character.race);
   const bg = BACKGROUNDS.find((b) => b.id === character.background);
@@ -232,6 +286,34 @@ export default function CharacterSheet({ character }: Props) {
 
   return (
     <div>
+      {/* ── Topbar ── */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, gap: 12 }}>
+        <Link
+          href="/dashboard"
+          data-testid="back-to-dashboard"
+          style={{
+            display: "flex", alignItems: "center", gap: 6,
+            color: "#8b8699", fontSize: 13, textDecoration: "none",
+            padding: "6px 12px", borderRadius: 6,
+            border: "1px solid #2e2b3d", background: "#1a1825",
+          }}
+        >
+          ← Moje Postacie
+        </Link>
+        <button
+          data-testid="edit-character-btn"
+          onClick={handleEdit}
+          style={{
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "6px 16px", borderRadius: 6,
+            border: "1px solid #c9a84c44", background: "transparent",
+            color: "#c9a84c", fontSize: 13, cursor: "pointer",
+          }}
+        >
+          Edytuj Postać
+        </button>
+      </div>
+
       {/* ── Header ── */}
       <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 24 }}>
         {/* Avatar */}
