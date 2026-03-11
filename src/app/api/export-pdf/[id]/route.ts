@@ -30,13 +30,19 @@ export async function GET(
   const buffer = await renderToBuffer(element);
   const bytes = new Uint8Array(buffer);
 
-  const filename = `${character.name.replace(/\s+/g, "_")}_karta.pdf`;
+  const safeName = (character.name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\x00-\x7F]/g, "")
+    .replace(/\s+/g, "_") || "karta");
+  const asciiFilename = `${safeName}_karta.pdf`;
+  const utf8Filename = encodeURIComponent(`${character.name.replace(/\s+/g, "_")}_karta.pdf`);
 
   return new NextResponse(bytes, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${filename}"`,
+      "Content-Disposition": `attachment; filename="${asciiFilename}"; filename*=UTF-8''${utf8Filename}`,
       "Content-Length": bytes.byteLength.toString(),
     },
   });
