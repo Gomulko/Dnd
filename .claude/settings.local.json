@@ -41,7 +41,10 @@
       "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterSheet.test.tsx 2>&1 | grep \"×\\\\|Unable\\\\|Found multiple\" | head -10)",
       "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterSheet.test.tsx 2>&1 | tail -8)",
       "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/ 2>&1 | tail -10)",
-      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test 2>&1 | tail -12)"
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test 2>&1 | tail -12)",
+      "Bash(wc -l \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app/src/data/dnd\"/*.ts)",
+      "Bash(find \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app/src\" -type f \\\\\\( -name \"*.ts\" -o -name \"*.tsx\" \\\\\\) -exec wc -l {} + | tail -1)",
+      "Bash(npx vitest:*)"
     ]
   }
 }
