@@ -234,7 +234,7 @@ export const RACES: Race[] = [
     nameEn: "Halfling",
     description: "Weseli i szczęśliwi mieszkańcy wsi",
     size: "Small",
-    speed: 30,
+    speed: 25,
     statBonuses: { dex: 2 },
     subraces: [
       {
@@ -371,7 +371,7 @@ export const RACES: Race[] = [
     nameEn: "Gnome",
     description: "Genialni wynalazcy i miłośnicy magii",
     size: "Small",
-    speed: 30,
+    speed: 25,
     statBonuses: { int: 2 },
     subraces: [
       {
@@ -468,7 +468,7 @@ export const RACES: Race[] = [
     nameEn: "Goliath",
     description: "Potomkowie gigantów, urodzeni na szczytach gór",
     size: "Medium",
-    speed: 35,
+    speed: 30,
     statBonuses: { str: 2, con: 1 },
     subraces: [],
     traits: [

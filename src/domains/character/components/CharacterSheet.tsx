@@ -12,27 +12,7 @@ import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { allSpells } from "@/data/dnd/spells";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 import type { WizardData } from "@/domains/character/store/wizardStore";
-
-// ── Helpers ────────────────────────────────────────────────────────────────
-
-function mod(score: number): string {
-  const m = Math.floor((score - 10) / 2);
-  return m >= 0 ? `+${m}` : `${m}`;
-}
-
-function modNum(score: number): number {
-  return Math.floor((score - 10) / 2);
-}
-
-function profBonus(level: number): number {
-  return Math.ceil(level / 4) + 1;
-}
-
-function maxHp(hitDie: number, level: number, conMod: number): number {
-  const first = hitDie + conMod;
-  const subsequent = (level - 1) * (Math.floor(hitDie / 2) + 1 + conMod);
-  return Math.max(1, first + subsequent);
-}
+import { mod, modNum, profBonus, maxHp } from "@/shared/lib/dnd-mechanics";
 
 // Normalize skill key from hyphenated or camelCase to SKILL_NAMES_PL key
 function normalizeSkillKey(raw: string): string {

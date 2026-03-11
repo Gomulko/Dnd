@@ -5,6 +5,8 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { CharacterSummary } from "@/domains/character/actions/getCharacters";
 import { deleteCharacter } from "@/domains/character/actions/deleteCharacter";
+import { mod, modNum, maxHp as calcMaxHp } from "@/shared/lib/dnd-mechanics";
+import { CLASSES } from "@/data/dnd/classes";
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -48,19 +50,12 @@ const CLASS_COLORS: Record<string, string> = {
 };
 
 function modifier(score: number) {
-  const mod = Math.floor((score - 10) / 2);
-  return mod >= 0 ? `+${mod}` : `${mod}`;
+  return mod(score);
 }
 
 function maxHp(cls: string, level: number, conScore: number) {
-  const hitDice: Record<string, number> = {
-    barbarian: 12, fighter: 10, paladin: 10, ranger: 10,
-    bard: 8, cleric: 8, druid: 8, monk: 8, rogue: 8, warlock: 8,
-    sorcerer: 6, wizard: 6,
-  };
-  const die = hitDice[cls] ?? 8;
-  const conMod = Math.floor((conScore - 10) / 2);
-  return die + conMod + (level - 1) * (Math.floor(die / 2) + 1 + conMod);
+  const die = CLASSES.find((c) => c.id === cls)?.hitDie ?? 8;
+  return calcMaxHp(die, level, modNum(conScore));
 }
 
 function hpColor(current: number, max: number) {

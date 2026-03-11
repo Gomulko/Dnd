@@ -8,17 +8,7 @@ import {
 } from "@react-pdf/renderer";
 import type { CharacterFull } from "@/domains/character/actions/getCharacter";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
-
-// ── Helpers ────────────────────────────────────────────────────────────────
-
-function mod(score: number): string {
-  const m = Math.floor((score - 10) / 2);
-  return m >= 0 ? `+${m}` : `${m}`;
-}
-
-function maxHp(hitDie: number, level: number, conMod: number): number {
-  return Math.max(1, hitDie + conMod + (level - 1) * (Math.floor(hitDie / 2) + 1 + conMod));
-}
+import { mod, modNum, maxHp } from "@/shared/lib/dnd-mechanics";
 
 function safeJson<T>(raw: string, fallback: T): T {
   try { return JSON.parse(raw) as T; } catch { return fallback; }
@@ -252,10 +242,10 @@ type Props = { character: CharacterFull };
 
 export function CharacterPdfDocument({ character: c }: Props) {
   const hitDie = CLASS_HIT_DIE[c.class] ?? 8;
-  const conMod = Math.floor((c.constitution - 10) / 2);
-  const dexMod = Math.floor((c.dexterity - 10) / 2);
-  const hp = c.currentHp ?? maxHp(hitDie, c.level, conMod);
+  const conMod = modNum(c.constitution);
+  const dexMod = modNum(c.dexterity);
   const hpMax = maxHp(hitDie, c.level, conMod);
+  const hp = c.currentHp ?? hpMax;
   const ac = 10 + dexMod;
   const initiative = dexMod;
   const prof = Math.ceil(c.level / 4) + 1;
