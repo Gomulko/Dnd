@@ -1,96 +1,277 @@
 @import "tailwindcss";
 
+/* ── Krok 1.2 — Nowa paleta kolorów (editorial black/white) ─────────────── */
+/* Źródło: karta-postaci.html design system                                   */
+
 @theme {
-  --color-bg-primary: #0f0e17;
-  --color-bg-secondary: #1a1825;
-  --color-bg-elevated: #232136;
-  --color-border: #2e2b3d;
-  --color-accent-gold: #c9a84c;
-  --color-accent-gold-light: #e8c97a;
-  --color-accent-red: #e05252;
-  --color-accent-green: #52c97a;
-  --color-accent-purple: #7c5cbf;
-  --color-text-primary: #f0ece4;
-  --color-text-secondary: #8b8699;
-  --color-text-muted: #4a4759;
+  /* Kolory — monochrome editorial */
+  --color-black:   #0a0a0a;
+  --color-dark:    #1c1c1c;
+  --color-mid:     #555555;
+  --color-rule:    #999999;
+  --color-light:   #cccccc;
+  --color-white:   #ffffff;
+  --color-page:    #d8d8d8;
+
+  /* Aliasy semantyczne (kompatybilność wsteczna dla komponentów auth) */
+  --color-bg-primary:        #ffffff;
+  --color-bg-secondary:      #f5f5f5;
+  --color-bg-elevated:       #ffffff;
+  --color-border:            #0a0a0a;
+  --color-accent-gold:       #0a0a0a;
+  --color-accent-gold-light: #1c1c1c;
+  --color-accent-red:        #0a0a0a;
+  --color-accent-green:      #0a0a0a;
+  --color-accent-purple:     #555555;
+  --color-text-primary:      #0a0a0a;
+  --color-text-secondary:    #555555;
+  --color-text-muted:        #999999;
 }
 
+/* ── Krok 1.3 — Globalne style bazowe ───────────────────────────────────── */
+
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: 12px;
   }
 
   body {
-    background-color: #0f0e17;
-    color: #f0ece4;
-    font-family: "Inter", sans-serif;
+    background-color: #d8d8d8;
+    color: #0a0a0a;
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Typografia bazowa */
+  h1, h2, h3 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
   }
 }
 
+/* ── Utility klasy — editorial design system ────────────────────────────── */
+
 @layer components {
-  .card {
-    background-color: #1a1825;
-    border: 1px solid #2e2b3d;
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  /* Sheet — białe tło z czarną ramką (jak .sheet w HTML) */
+  .sheet {
+    background: #ffffff;
+    border: 1.5px solid #0a0a0a;
   }
 
+  .sheet-section {
+    padding: 20px 24px;
+    border-bottom: 1.5px solid #0a0a0a;
+  }
+
+  .sheet-section:last-child {
+    border-bottom: none;
+  }
+
+  /* Label — Barlow 7px uppercase wide tracking (jak .label w HTML) */
+  .label {
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 7px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #555555;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* Section title — Barlow 8px uppercase bold z kreską (jak .section-title w HTML) */
+  .section-title {
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    padding-bottom: 5px;
+    border-bottom: 1.5px solid #0a0a0a;
+    margin-bottom: 10px;
+  }
+
+  /* System tag — Barlow 8px light (jak .system-tag w HTML) */
+  .system-tag {
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #555555;
+  }
+
+  /* Input — przezroczyste tło, tylko border-bottom (jak w HTML) */
   .input {
-    width: 100%;
-    background-color: #1a1825;
-    border: 1px solid #2e2b3d;
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: #f0ece4;
-    font-size: 14px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #0a0a0a;
     outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .input:focus {
-    border-color: #c9a84c;
+    font-family: var(--font-text), Georgia, serif;
+    font-size: 13px;
+    color: #0a0a0a;
+    width: 100%;
+    display: block;
+    padding: 2px 0;
   }
 
   .input::placeholder {
-    color: #4a4759;
+    color: #999999;
   }
 
+  .input:focus {
+    border-bottom-color: #0a0a0a;
+  }
+
+  /* Lined textarea — z poziomymi liniami jak papier (jak .lined w HTML) */
+  .lined {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: var(--font-text), Georgia, serif;
+    font-size: 12px;
+    color: #0a0a0a;
+    outline: none;
+    resize: none;
+    line-height: 22px;
+    padding: 2px 0;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 21px,
+      #cccccc 21px,
+      #cccccc 22px
+    );
+    background-attachment: local;
+  }
+
+  /* Przycisk primary — czarny solid */
   .btn-primary {
     width: 100%;
-    background-color: #c9a84c;
-    color: #0f0e17;
-    font-weight: 600;
-    border-radius: 6px;
+    background: #0a0a0a;
+    color: #ffffff;
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1.5px solid #0a0a0a;
     padding: 12px 24px;
-    border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
-    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
   }
 
   .btn-primary:hover:not(:disabled) {
-    background-color: #e8c97a;
+    background: #ffffff;
+    color: #0a0a0a;
   }
 
   .btn-primary:disabled {
-    opacity: 0.6;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 
+  /* Przycisk ghost — transparent z obramowaniem */
   .btn-ghost {
     background: transparent;
-    color: #8b8699;
-    border: none;
-    cursor: pointer;
+    color: #555555;
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1.5px solid #555555;
     padding: 8px 16px;
-    border-radius: 6px;
-    transition: background-color 0.2s, color 0.2s;
-    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
   }
 
   .btn-ghost:hover {
-    background-color: #232136;
-    color: #f0ece4;
+    background: #0a0a0a;
+    color: #ffffff;
+    border-color: #0a0a0a;
+  }
+
+  /* Card — alias dla sheet (kompatybilność z istniejącymi komponentami) */
+  .card {
+    background: #ffffff;
+    border: 1.5px solid #0a0a0a;
+    padding: 20px 24px;
+  }
+
+  /* Dot (proficiency) — kółko biegłości */
+  .dot {
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid #0a0a0a;
+    border-radius: 50%;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .dot.on {
+    background: #0a0a0a;
+  }
+
+  /* Page divider — separator stron */
+  .page-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0 14px;
+  }
+
+  .page-divider::before,
+  .page-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #0a0a0a;
+  }
+
+  .page-divider span {
+    font-family: var(--font-ui), Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 7px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    white-space: nowrap;
+  }
+}
+
+/* ── Print styles ────────────────────────────────────────────────────────── */
+
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .sheet {
+    border: 1px solid #000;
+    margin: 0 auto 20px;
+    box-shadow: none;
+  }
+
+  .lined {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 21px,
+      #bbb 21px,
+      #bbb 22px
+    ) !important;
   }
 }

@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import { Cinzel, Inter } from "next/font/google";
+import { DM_Serif_Display, DM_Serif_Text, Barlow } from "next/font/google";
 import "./globals.css";
 
-const cinzel = Cinzel({
+// Krok 1.1 — Nowe czcionki zgodne z karta-postaci.html
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ["latin"],
-  variable: "--font-cinzel",
-  weight: ["400", "600", "700", "900"],
+  variable: "--font-display",
+  weight: ["400"],
+  style: ["normal", "italic"],
 });
 
-const inter = Inter({
+const dmSerifText = DM_Serif_Text({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-text",
+  weight: ["400"],
+  style: ["normal", "italic"],
+});
+
+const barlow = Barlow({
+  subsets: ["latin"],
+  variable: "--font-ui",
+  weight: ["300", "400", "600", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -24,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={`${cinzel.variable} ${inter.variable}`}>
+    <html lang="pl" className={`${dmSerifDisplay.variable} ${dmSerifText.variable} ${barlow.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );
