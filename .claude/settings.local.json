@@ -23,7 +23,25 @@
       "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/unit/dnd-data.test.ts 2>&1 | grep \"za mało\\\\|AssertionError\")",
       "Bash(node -e \"\nconst { BACKGROUNDS } = require\\('./src/data/dnd/backgrounds.ts'\\);\n\" 2>&1 || node --input-type=module << 'EOF'\n// Quick count check via grep\nEOF\ngrep -c '\"b[0-9]\"' /c/Users/rafag/Desktop/projects/dnd-app/src/data/dnd/backgrounds.ts 2>/dev/null || true)",
       "Bash(grep -c '\"f[0-9]\"' /c/Users/rafag/Desktop/projects/dnd-app/src/data/dnd/backgrounds.ts && grep -c '\"b[0-9]\"' /c/Users/rafag/Desktop/projects/dnd-app/src/data/dnd/backgrounds.ts)",
-      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/unit/ 2>&1 | tail -10)"
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/unit/ 2>&1 | tail -10)",
+      "Bash(grep -n \"CharacterSummary\\\\|isComplete\\\\|currentHp\" \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\\\\src\\\\domains\\\\character\\\\actions\\\\getCharacters.ts\" 2>/dev/null || grep -rn \"CharacterSummary\" \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\\\\src\\\\domains\\\\character\" --include=\"*.ts\" | head -5)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterCard.test.tsx 2>&1 | tail -25)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterCard.test.tsx 2>&1 | grep \"FAIL\\\\|×\")",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterCard.test.tsx 2>&1 | grep \"Received\\\\|Expected\\\\|Unable\\\\|Cannot\\\\|received\\\\|found\" | head -15)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterCard.test.tsx 2>&1 | tail -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/DiceRoller.test.tsx 2>&1 | tail -15)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/DiceRoller.test.tsx 2>&1 | grep \"Error\\\\|error\\\\|import\\\\|Cannot\\\\|Module\" | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/DiceRoller.test.tsx 2>&1 | grep \"×\\\\|FAIL\" | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/DiceRoller.test.tsx 2>&1 | grep \"Unable\\\\|TestingLibrary\\\\|Received\\\\|Expected\" | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/DiceRoller.test.tsx 2>&1 | tail -8)",
+      "Bash(grep -rn \"Stepper\\\\|export\" \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\\\\src\\\\domains\\\\character\\\\components\\\\\" --include=\"*.tsx\" | grep -i \"stepper\" | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/Stepper.test.tsx 2>&1 | tail -8)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/Stepper.test.tsx 2>&1 | grep \"Unable\\\\|expected\\\\|×\" | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterSheet.test.tsx 2>&1 | tail -15)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterSheet.test.tsx 2>&1 | grep \"×\\\\|Unable\\\\|Found multiple\" | head -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/CharacterSheet.test.tsx 2>&1 | tail -8)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test -- tests/components/ 2>&1 | tail -10)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npm test 2>&1 | tail -12)"
     ]
   }
 }
