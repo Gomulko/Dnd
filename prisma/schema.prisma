@@ -101,6 +101,19 @@ model Character {
   deathSaves   String  @default("{\"successes\":0,\"failures\":0}") // JSON
   sessionNotes String?
 
+  // Faza 4 — rozszerzenie karta postaci
+  inspiration    Boolean @default(false)
+  experience     Int     @default(0)
+  weight         Int?                      // kg
+  eyeColor       String?
+  skinColor      String?
+  hairColor      String?
+  allies         String?                   // textarea
+  treasure       String?                   // majątek poza złotem
+  hitDiceUsed    Int     @default(0)
+  attacks        String  @default("[]")    // JSON: {name, atkBonus, damage}[]
+  spellSlotsUsed String  @default("{}")    // JSON: {1:0, 2:0, ...9:0}
+
   // Meta
   isComplete Boolean  @default(false)
   imageUrl   String?

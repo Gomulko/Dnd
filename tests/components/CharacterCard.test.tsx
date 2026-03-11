@@ -68,9 +68,9 @@ describe("CharacterCard", () => {
     expect(screen.getByText("AL")).toBeInTheDocument();
   });
 
-  it("przycisk 'Graj →' dla ukończonej postaci", () => {
+  it("link do karty postaci dla ukończonej postaci", () => {
     render(<CharacterCard character={makeCharacter({ isComplete: true })} />);
-    expect(screen.getByRole("link", { name: /Graj/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Otwórz kartę/i })).toBeInTheDocument();
   });
 
   it("przycisk 'Dokończ →' dla szkicu", () => {
@@ -83,11 +83,10 @@ describe("CharacterCard", () => {
     expect(screen.getByText(/SZKIC/i)).toBeInTheDocument();
   });
 
-  it("badge klasy jest widoczny (KLERYK uppercase)", () => {
+  it("nazwa klasy widoczna w podtytule postaci", () => {
     render(<CharacterCard character={makeCharacter()} />);
-    // getAllByText bo "Kleryk" pojawia się też w podtytule
-    const matches = screen.getAllByText(/kleryk/i);
-    expect(matches.some((el) => el.textContent === "KLERYK")).toBe(true);
+    // Klasa wyświetlana w meta-linii (Barlow uppercase): "Elf · Kleryk · Poz. 1"
+    expect(screen.getByText(/kleryk/i)).toBeInTheDocument();
   });
 
   it("kliknięcie '···' otwiera dropdown z 'Usuń postać'", () => {

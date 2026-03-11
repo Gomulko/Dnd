@@ -91,9 +91,9 @@
   - Nagłówek: DM Serif Display duży, podtytuł Barlow uppercase
 
   ---
-  FAZA 4 — Rozszerzenie bazy danych
+  FAZA 4 — Rozszerzenie bazy danych ✅
 
-  Krok 4.1 — Nowe pola w schemacie Prisma
+  Krok 4.1 — Nowe pola w schemacie Prisma ✅
   inspiration    Boolean  @default(false)
   experience     Int      @default(0)
   weight         Int?     // kg
@@ -107,7 +107,7 @@
   spellSlotsUsed Json     @default("{}")  // {1:0, 2:0, ...9:0}
   - npx prisma db push
 
-  Krok 4.2 — Zaktualizuj Server Actions
+  Krok 4.2 — Zaktualizuj Server Actions ✅
   - createCharacter / updateCharacter — obsłuż nowe pola
   - updateCharacterHp — dodaj akcję updateInspiration
   - Nowa akcja: updateSpellSlots, updateAttacks, updateHitDiceUsed

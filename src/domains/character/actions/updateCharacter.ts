@@ -40,6 +40,14 @@ const updateCharacterSchema = z.object({
   gold: z.number().int().min(0),
   cantrips: z.array(z.string()),
   spells: z.array(z.string()),
+  // Opcjonalne pola Fazy 4
+  weight: z.number().int().positive().nullable().optional(),
+  eyeColor: z.string().max(30).optional(),
+  skinColor: z.string().max(30).optional(),
+  hairColor: z.string().max(30).optional(),
+  allies: z.string().max(2000).optional(),
+  treasure: z.string().max(2000).optional(),
+  experience: z.number().int().min(0).optional(),
 });
 
 export type UpdateCharacterInput = z.infer<typeof updateCharacterSchema>;
@@ -96,6 +104,9 @@ export async function updateCharacter(
       gold: data.gold,
       cantrips: JSON.stringify(data.cantrips),
       spells: JSON.stringify(data.spells),
+      // Faza 4 — opcjonalne pola (aktualizuj tylko jeśli podane)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...({ weight: data.weight ?? null, eyeColor: data.eyeColor ?? null, skinColor: data.skinColor ?? null, hairColor: data.hairColor ?? null, allies: data.allies ?? null, treasure: data.treasure ?? null, ...(data.experience !== undefined ? { experience: data.experience } : {}) } as any),
       isComplete: true,
     },
   });
