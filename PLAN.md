@@ -113,15 +113,15 @@
   - Nowa akcja: updateSpellSlots, updateAttacks, updateHitDiceUsed
 
   ---
-  FAZA 5 — Karta Postaci (CharacterSheet)
+  FAZA 5 — Karta Postaci (CharacterSheet) ✅ (5.1–5.3)
 
-  Krok 5.1 — Strona 1 Header
+  Krok 5.1 — Strona 1 Header ✅
   - Layout: grid-template-columns: auto 1fr (title-block + fields)
   - Tytuł "Karta Postaci" — DM Serif Display 44px
   - Pola: Klasa/Poziom, Pochodzenie, Rasa, Charakter, PD — w siatce 3-kolumnowej
   - Inspiracja: checkbox z etykietą Barlow uppercase
 
-  Krok 5.2 — Strona 1 Główna (3 kolumny)
+  Krok 5.2 — Strona 1 Główna (3 kolumny) ✅
 
   Kolumna A — Cechy:
   - 6 bloków z border: 1.5px solid #0a0a0a
@@ -142,7 +142,7 @@
   - Tabela ataków: 3 kolumny (Nazwa / Premia ATK / Obrażenia/Typ)
   - Osobowość: 4 pola (Cechy / Ideały / Więzi / Słabości)
 
-  Krok 5.3 — Strona 1 Dolna sekcja
+  Krok 5.3 — Strona 1 Dolna sekcja ✅
   - 3 kolumny: Biegłości i Języki | Wyposażenie | Korzyści i Zdolności
   - Lined textarea (linie co 22px jak w HTML)
 

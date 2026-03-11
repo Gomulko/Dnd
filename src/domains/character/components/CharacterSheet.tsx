@@ -6,17 +6,18 @@ import { useRouter } from "next/navigation";
 import { CharacterFull } from "@/domains/character/actions/getCharacter";
 import { updateCharacterHp } from "@/domains/character/actions/updateCharacterHp";
 import { updateSessionNotes } from "@/domains/character/actions/updateSessionNotes";
+import { updateInspiration } from "@/domains/character/actions/updateInspiration";
 import { CLASSES, SKILL_NAMES_PL } from "@/data/dnd/classes";
 import { RACES } from "@/data/dnd/races";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { allSpells } from "@/data/dnd/spells";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 import type { WizardData } from "@/domains/character/store/wizardStore";
-import { mod, modNum, profBonus, maxHp } from "@/shared/lib/dnd-mechanics";
+import { modNum, profBonus, maxHp } from "@/shared/lib/dnd-mechanics";
 
 // Normalize skill key from hyphenated or camelCase to SKILL_NAMES_PL key
 function normalizeSkillKey(raw: string): string {
-  return raw.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  return raw.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 }
 
 // Skill → ability mapping
@@ -41,13 +42,35 @@ const SKILL_ABILITY: Record<string, "strength" | "dexterity" | "constitution" | 
   animalHandling: "wisdom",
 };
 
+// Skill → short ability label
+const SKILL_ABILITY_SHORT: Record<string, string> = {
+  acrobatics: "ZRR",
+  arcana: "INT",
+  athletics: "SIŁ",
+  deception: "CHA",
+  history: "INT",
+  insight: "MĄD",
+  intimidation: "CHA",
+  investigation: "INT",
+  medicine: "MĄD",
+  nature: "INT",
+  perception: "MĄD",
+  performance: "CHA",
+  persuasion: "CHA",
+  religion: "INT",
+  sleightOfHand: "ZRR",
+  stealth: "ZRR",
+  survival: "MĄD",
+  animalHandling: "MĄD",
+};
+
 const STAT_LABELS: { key: "strength" | "dexterity" | "constitution" | "intelligence" | "wisdom" | "charisma"; short: string; label: string; saveKey: string }[] = [
-  { key: "strength", short: "SIŁ", label: "Siła", saveKey: "str" },
-  { key: "dexterity", short: "ZRR", label: "Zręczność", saveKey: "dex" },
-  { key: "constitution", short: "KON", label: "Kondycja", saveKey: "con" },
-  { key: "intelligence", short: "INT", label: "Intelekt", saveKey: "int" },
-  { key: "wisdom", short: "MĄD", label: "Mądrość", saveKey: "wis" },
-  { key: "charisma", short: "CHA", label: "Charyzma", saveKey: "cha" },
+  { key: "strength", short: "SIŁA", label: "Siła", saveKey: "str" },
+  { key: "dexterity", short: "ZRĘCZNOŚĆ", label: "Zręczność", saveKey: "dex" },
+  { key: "constitution", short: "KONDYCJA", label: "Kondycja", saveKey: "con" },
+  { key: "intelligence", short: "INTELEKT", label: "Intelekt", saveKey: "int" },
+  { key: "wisdom", short: "MĄDROŚĆ", label: "Mądrość", saveKey: "wis" },
+  { key: "charisma", short: "CHARYZMA", label: "Charyzma", saveKey: "cha" },
 ];
 
 const ALIGNMENT_PL: Record<string, string> = {
@@ -68,35 +91,53 @@ const SPELL_SLOTS: Record<string, number[]> = {
   wizard:   [2, 3, 4],
 };
 
-// ── Sub-components ─────────────────────────────────────────────────────────
+// Shared style constants
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', Helvetica, sans-serif";
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT_BORDER = "1px solid #cccccc";
+const STRONG_BORDER = "1.5px solid #0a0a0a";
 
-type DivProps = React.HTMLAttributes<HTMLDivElement>;
+const labelStyle: React.CSSProperties = {
+  fontFamily: FONT_UI,
+  fontWeight: 700,
+  fontSize: 7,
+  letterSpacing: "2.5px",
+  textTransform: "uppercase",
+  color: MID,
+  display: "block",
+  marginBottom: 3,
+};
 
-function Card({ children, style, ...props }: DivProps) {
+function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      style={{
-        background: "#1a1825",
-        borderRadius: 12,
-        border: "1px solid #2e2b3d",
-        padding: "20px 24px",
-        ...style,
-      }}
-      {...props}
-    >
+    <div style={{
+      fontFamily: FONT_UI,
+      fontWeight: 900,
+      fontSize: 8,
+      letterSpacing: "3px",
+      textTransform: "uppercase",
+      color: BLACK,
+      paddingBottom: 5,
+      borderBottom: STRONG_BORDER,
+      marginBottom: 10,
+    }}>
       {children}
     </div>
   );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
+function ProfDot({ filled }: { filled: boolean }) {
   return (
-    <div style={{ marginBottom: 12 }}>
-      <span style={{ fontFamily: "Cinzel, serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#c9a84c", textTransform: "uppercase" }}>
-        {children}
-      </span>
-      <div style={{ height: 1, marginTop: 6, background: "linear-gradient(90deg, #c9a84c 0%, rgba(201,168,76,0.15) 100%)" }} />
-    </div>
+    <div style={{
+      width: 9,
+      height: 9,
+      border: STRONG_BORDER,
+      borderRadius: 0,
+      background: filled ? BLACK : "transparent",
+      flexShrink: 0,
+    }} />
   );
 }
 
@@ -107,6 +148,17 @@ type Props = { character: CharacterFull };
 export default function CharacterSheet({ character }: Props) {
   const router = useRouter();
   const { loadCharacter } = useWizardStore();
+
+  // Cast to access new fields not yet in Prisma types
+  const charExt = character as Record<string, unknown>;
+  const inspiration = Boolean(charExt.inspiration ?? false);
+  const [inspirationState, setInspirationState] = useState(inspiration);
+
+  async function handleInspirationToggle() {
+    const next = !inspirationState;
+    setInspirationState(next);
+    await updateInspiration(character.id, next);
+  }
 
   function handleEdit() {
     const wizardData: WizardData = {
@@ -166,7 +218,6 @@ export default function CharacterSheet({ character }: Props) {
   const wisMod = modNum(character.wisdom);
   const intMod = modNum(character.intelligence);
   const chaMod = modNum(character.charisma);
-  const strMod = modNum(character.strength);
 
   const hp = maxHp(cls?.hitDie ?? 8, character.level, conMod);
   const ac = 10 + dexMod;
@@ -177,7 +228,12 @@ export default function CharacterSheet({ character }: Props) {
   const proficientSkills: string[] = (() => {
     try { return JSON.parse(character.skills) as string[]; } catch { return []; }
   })();
+  const normalizedProfSkills = proficientSkills.map(normalizeSkillKey);
+
+  const passivePerc = 10 + wisMod + (normalizedProfSkills.includes("perception") ? prof : 0);
+
   const savingThrowProficiencies: string[] = cls?.savingThrows ?? [];
+
   const resolveTraitIds = (raw: string, field: "personalityTraits" | "ideals" | "bonds" | "flaws"): string[] => {
     try {
       const ids = JSON.parse(raw) as string[];
@@ -188,14 +244,20 @@ export default function CharacterSheet({ character }: Props) {
   const ideals = resolveTraitIds(character.ideals, "ideals");
   const bonds = resolveTraitIds(character.bonds, "bonds");
   const flaws = resolveTraitIds(character.flaws, "flaws");
+
   const equipmentList: { name: string; qty: number; weight: number }[] = (() => {
     try { return JSON.parse(character.equipment) as { name: string; qty: number; weight: number }[]; } catch { return []; }
   })();
+
   const cantripIds: string[] = (() => {
     try { return JSON.parse(character.cantrips) as string[]; } catch { return []; }
   })();
   const spellIds: string[] = (() => {
     try { return JSON.parse(character.spells) as string[]; } catch { return []; }
+  })();
+
+  const languageList: string[] = (() => {
+    try { return JSON.parse(character.languages ?? "[]") as string[]; } catch { return []; }
   })();
 
   const cantripData = cantripIds.map((id) => allSpells.find((s) => s.id === id)).filter(Boolean);
@@ -209,6 +271,13 @@ export default function CharacterSheet({ character }: Props) {
     : 0;
   const spellDC = 8 + prof + spellAbilityMod;
   const spellAttack = prof + spellAbilityMod;
+  const slotsLevel1 = isSpellcaster ? (SPELL_SLOTS[character.class]?.[character.level - 1] ?? 0) : 0;
+
+  // Death saves
+  const deathSaves = (() => {
+    try { return JSON.parse(character.deathSaves) as { successes: number; failures: number }; }
+    catch { return { successes: 0, failures: 0 }; }
+  })();
 
   // HP state (optimistic)
   const [currentHp, setCurrentHp] = useState(character.currentHp ?? hp);
@@ -224,7 +293,7 @@ export default function CharacterSheet({ character }: Props) {
     const result = await updateCharacterHp(character.id, next);
     setHpSaving(false);
     if (result.error) {
-      setCurrentHp(currentHp); // revert
+      setCurrentHp(currentHp);
       setHpError(result.error);
     }
   }
@@ -256,554 +325,669 @@ export default function CharacterSheet({ character }: Props) {
   }, []);
 
   const initials = character.name.trim().slice(0, 2).toUpperCase() || "??";
-  const hpPercent = Math.max(0, Math.min(100, (currentHp / hp) * 100));
-  const hpColor = hpPercent > 50 ? "#52c97a" : hpPercent > 25 ? "#c9a84c" : "#e05252";
 
-  // Spell slots
-  const slotsLevel1 = isSpellcaster ? (SPELL_SLOTS[character.class]?.[character.level - 1] ?? 0) : 0;
+  // Attacks
+  const attacksRaw = charExt.attacks;
+  const attacks: { name: string; bonus: string; damage: string }[] = (() => {
+    try {
+      if (typeof attacksRaw === "string") return JSON.parse(attacksRaw) as { name: string; bonus: string; damage: string }[];
+      return [];
+    } catch { return []; }
+  })();
+
+  // Experience
+  const experience = typeof charExt.experience === "number" ? charExt.experience : 0;
+
+  // Button base styles
+  const btnOutline: React.CSSProperties = {
+    background: "transparent",
+    border: STRONG_BORDER,
+    fontFamily: FONT_UI,
+    fontSize: 7,
+    fontWeight: 700,
+    letterSpacing: "2px",
+    textTransform: "uppercase",
+    color: BLACK,
+    padding: "7px 14px",
+    cursor: "pointer",
+    textDecoration: "none",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+  };
+
+  const btnFilled: React.CSSProperties = {
+    background: BLACK,
+    border: STRONG_BORDER,
+    fontFamily: FONT_UI,
+    fontSize: 7,
+    fontWeight: 700,
+    letterSpacing: "2px",
+    textTransform: "uppercase",
+    color: "#ffffff",
+    padding: "7px 14px",
+    cursor: "pointer",
+    textDecoration: "none",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+  };
 
   return (
-    <div>
+    <div style={{ background: "#d8d8d8", minHeight: "100vh", padding: "24px", fontFamily: FONT_UI, color: BLACK }}>
+
       {/* ── Topbar ── */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, gap: 12 }}>
+      <div style={{ maxWidth: 920, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <Link
           href="/dashboard"
           data-testid="back-to-dashboard"
-          style={{
-            display: "flex", alignItems: "center", gap: 6,
-            color: "#8b8699", fontSize: 13, textDecoration: "none",
-            padding: "6px 12px", borderRadius: 6,
-            border: "1px solid #2e2b3d", background: "#1a1825",
-          }}
+          style={btnOutline}
         >
           ← Moje Postacie
         </Link>
         <div style={{ display: "flex", gap: 8 }}>
+          <button
+            data-testid="edit-character-btn"
+            onClick={handleEdit}
+            style={btnOutline}
+          >
+            Edytuj Postać
+          </button>
           <a
             href={`/api/export-pdf/${character.id}`}
             download
             data-testid="export-pdf-btn"
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "6px 16px", borderRadius: 6,
-              border: "1px solid #2e2b3d", background: "#1a1825",
-              color: "#8b8699", fontSize: 13, textDecoration: "none",
-            }}
+            style={btnFilled}
           >
             Eksportuj PDF
           </a>
-          <button
-            data-testid="edit-character-btn"
-            onClick={handleEdit}
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "6px 16px", borderRadius: 6,
-              border: "1px solid #c9a84c44", background: "transparent",
-              color: "#c9a84c", fontSize: 13, cursor: "pointer",
-            }}
-          >
-            Edytuj Postać
-          </button>
         </div>
       </div>
 
-      {/* ── Header ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 24 }}>
-        {/* Avatar */}
-        <div
-          style={{
-            width: 72, height: 72, borderRadius: "50%",
-            background: "linear-gradient(135deg, #c9a84c 0%, #b8943c 100%)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "Cinzel, serif", fontSize: 26, fontWeight: 700, color: "#1a1408",
-            flexShrink: 0, boxShadow: "0 4px 16px rgba(201,168,76,0.3)",
-          }}
-          aria-label="Avatar postaci"
-        >
-          {initials}
-        </div>
+      {/* ── Sheet ── */}
+      <div style={{ background: "#ffffff", maxWidth: 920, margin: "0 auto 40px", border: STRONG_BORDER }}>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <h1 style={{ fontFamily: "Cinzel, serif", fontSize: 28, fontWeight: 700, color: "#f0ece4", margin: 0 }}>
-            {character.name}
-          </h1>
-          <p style={{ color: "#8b8699", fontSize: 15, margin: "4px 0 0", fontFamily: "Inter, sans-serif" }}>
-            {race?.name ?? character.race} · {cls?.name ?? character.class}
-            {subclass ? ` — ${subclass.name}` : ""}
-            {" "}· Poziom {character.level}
-          </p>
-          <p style={{ color: "#4a4759", fontSize: 13, margin: "2px 0 0", fontFamily: "Inter, sans-serif" }}>
-            {ALIGNMENT_PL[character.alignment] ?? character.alignment}
-            {bg ? ` · Tło: ${bg.name}` : ""}
-          </p>
-        </div>
+        {/* ── HEADER SECTION ── */}
+        <div style={{ padding: "20px 24px", borderBottom: STRONG_BORDER }}>
+          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 32, alignItems: "end" }}>
 
-        {/* Quick stats */}
-        <div style={{ display: "flex", gap: 12, flexShrink: 0 }}>
-          {[
-            { label: "KP", value: ac, ariaLabel: "Klasa Pancerza" },
-            { label: "Init", value: initiative >= 0 ? `+${initiative}` : `${initiative}`, ariaLabel: "Inicjatywa" },
-            { label: "Prędkość", value: `${Math.round(speed * 0.3)} m`, ariaLabel: "Prędkość ruchu" },
-            { label: "PB", value: `+${prof}`, ariaLabel: "Bonus biegłości" },
-          ].map(({ label, value, ariaLabel }) => (
-            <div
-              key={label}
-              aria-label={ariaLabel}
-              style={{
-                textAlign: "center", background: "#1a1825",
-                border: "1px solid #2e2b3d", borderRadius: 10,
-                padding: "8px 14px",
-              }}
-            >
-              <div style={{ fontFamily: "Cinzel, serif", fontSize: 18, fontWeight: 700, color: "#c9a84c" }}>
-                {value}
+            {/* Title block */}
+            <div style={{ borderRight: STRONG_BORDER, paddingRight: 32, paddingBottom: 4 }}>
+              <div style={{
+                fontFamily: FONT_UI, fontWeight: 300, fontSize: 8,
+                letterSpacing: "4px", textTransform: "uppercase", color: MID, marginBottom: 6,
+              }}>
+                Dungeons &amp; Dragons · 5e
               </div>
-              <div style={{ fontSize: 10, color: "#4a4759", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>
-                {label}
+              <div style={{
+                fontFamily: FONT_DISPLAY, fontSize: 44, fontWeight: 400,
+                letterSpacing: "-1.5px", lineHeight: 1, color: BLACK,
+              }}>
+                Karta Postaci
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* ── 3-column layout ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "280px 1fr 320px", gap: 20, alignItems: "start" }}>
+            {/* Fields grid */}
+            <div>
+              {/* Name line */}
+              <div style={{ borderBottom: "2px solid " + BLACK, paddingBottom: 4, marginBottom: 14 }}>
+                <span style={labelStyle}>Imię Postaci</span>
+                <div
+                  aria-label="Avatar postaci"
+                  style={{ fontFamily: FONT_DISPLAY, fontSize: 24, fontStyle: "italic", color: BLACK, display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <span style={{
+                    width: 28, height: 28, background: BLACK, color: "#fff",
+                    display: "inline-flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: FONT_DISPLAY, fontSize: 11, flexShrink: 0,
+                  }}>
+                    {initials}
+                  </span>
+                  {character.name}
+                </div>
+              </div>
 
-        {/* ══ LEFT COLUMN ══════════════════════════════════════════════════════ */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-
-          {/* Ability Scores */}
-          <Card>
-            <SectionTitle>Cechy</SectionTitle>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              {STAT_LABELS.map(({ key, short, label }) => {
-                const score = character[key];
-                const m = modNum(score);
-                return (
-                  <div
-                    key={key}
-                    aria-label={`${label}: ${score}`}
-                    style={{
-                      background: "#0f0e17", borderRadius: 8,
-                      border: "1px solid #2e2b3d", padding: "10px 8px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <div style={{ fontSize: 10, color: "#4a4759", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>
-                      {short}
-                    </div>
-                    <div style={{ fontFamily: "Cinzel, serif", fontSize: 22, fontWeight: 700, color: "#f0ece4", lineHeight: 1 }}>
-                      {score}
-                    </div>
-                    <div style={{ fontSize: 13, color: "#c9a84c", fontFamily: "Inter, sans-serif", fontWeight: 600, marginTop: 3 }}>
-                      {m >= 0 ? `+${m}` : `${m}`}
-                    </div>
+              {/* Fields 3-col */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px 24px" }}>
+                {[
+                  { label: "Klasa i Poziom", value: `${cls?.name ?? character.class} ${character.level}${subclass ? ` (${subclass.name})` : ""}` },
+                  { label: "Rasa", value: race?.name ?? character.race },
+                  { label: "Charakter", value: ALIGNMENT_PL[character.alignment] ?? character.alignment },
+                  { label: "Tło", value: bg?.name ?? character.background ?? "—" },
+                  { label: "PD", value: String(experience) },
+                ].map(({ label, value }) => (
+                  <div key={label} style={{ borderBottom: LIGHT_BORDER, paddingBottom: 4 }}>
+                    <span style={labelStyle}>{label}</span>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK }}>{value}</div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </Card>
+          </div>
+        </div>
 
-          {/* Saving Throws */}
-          <Card>
+        {/* ── BODY: 3-column ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "160px 200px 1fr", borderBottom: STRONG_BORDER }}>
+
+          {/* ══ COL A — Cechy ══ */}
+          <div style={{ borderRight: STRONG_BORDER, padding: "20px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
+            {STAT_LABELS.map(({ key, short, label }) => {
+              const score = character[key];
+              const m = modNum(score);
+              const mStr = m >= 0 ? `+${m}` : `${m}`;
+              return (
+                <div
+                  key={key}
+                  aria-label={`${label}: ${score}`}
+                  style={{ border: STRONG_BORDER, textAlign: "center", padding: "8px 6px 6px" }}
+                >
+                  <div style={{
+                    fontFamily: FONT_UI, fontWeight: 900, fontSize: 7,
+                    letterSpacing: "2px", textTransform: "uppercase", color: BLACK, marginBottom: 4,
+                  }}>
+                    {short}
+                  </div>
+                  <div style={{
+                    fontFamily: FONT_DISPLAY, fontSize: 26, color: BLACK,
+                    borderBottom: STRONG_BORDER, marginBottom: 5, paddingBottom: 2, letterSpacing: "-1px",
+                  }}>
+                    {score}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 8, fontWeight: 600, color: MID, letterSpacing: "1px", textTransform: "uppercase" }}>
+                      mod
+                    </span>
+                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK, borderBottom: LIGHT_BORDER, minWidth: 30, textAlign: "center" }}>
+                      {mStr}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ══ COL B — Saves & Skills ══ */}
+          <div style={{ borderRight: STRONG_BORDER, padding: "20px 14px" }}>
+
+            {/* Inspiracja + Premia Biegłości */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", border: STRONG_BORDER, marginBottom: 14 }}>
+              <div
+                style={{ padding: "8px 10px", textAlign: "center", borderRight: STRONG_BORDER, cursor: "pointer" }}
+                onClick={handleInspirationToggle}
+                title="Kliknij, aby przełączyć inspirację"
+              >
+                <div style={{
+                  fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px",
+                  borderBottom: LIGHT_BORDER, textAlign: "center", marginBottom: 4,
+                  color: inspirationState ? BLACK : "#cccccc",
+                }}>
+                  ★
+                </div>
+                <span style={labelStyle}>Inspiracja</span>
+              </div>
+              <div style={{ padding: "8px 10px", textAlign: "center" }}>
+                <div style={{
+                  fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px",
+                  borderBottom: LIGHT_BORDER, textAlign: "center", marginBottom: 4,
+                }}>
+                  +{prof}
+                </div>
+                <span style={labelStyle}>Premia Biegłości</span>
+              </div>
+            </div>
+
+            {/* Rzuty Obronne */}
             <SectionTitle>Rzuty Obronne</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <ul style={{ listStyle: "none", marginBottom: 14 }}>
               {STAT_LABELS.map(({ key, label, saveKey }) => {
                 const isProficient = savingThrowProficiencies.includes(saveKey);
                 const m = modNum(character[key]) + (isProficient ? prof : 0);
+                const mStr = m >= 0 ? `+${m}` : `${m}`;
                 return (
-                  <div key={key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div
-                      style={{
-                        width: 10, height: 10, borderRadius: "50%",
-                        background: isProficient ? "#c9a84c" : "transparent",
-                        border: `2px solid ${isProficient ? "#c9a84c" : "#4a4759"}`,
-                        flexShrink: 0,
-                      }}
-                      aria-label={isProficient ? "Biegłość" : undefined}
-                    />
-                    <span style={{ flex: 1, fontSize: 13, color: "#8b8699", fontFamily: "Inter, sans-serif" }}>
+                  <li key={key} style={{ display: "flex", alignItems: "center", gap: 6, padding: "2.5px 0", borderBottom: "1px solid #eeeeee" }}>
+                    <ProfDot filled={isProficient} />
+                    <span style={{ width: 22, fontFamily: FONT_DISPLAY, fontSize: 11, textAlign: "center", borderBottom: LIGHT_BORDER, flexShrink: 0 }}>
+                      {mStr}
+                    </span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 10, fontWeight: 400, color: "#1c1c1c", flex: 1, lineHeight: 1.2 }}>
                       {label}
                     </span>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: isProficient ? "#c9a84c" : "#f0ece4", fontFamily: "Inter, sans-serif" }}>
-                      {m >= 0 ? `+${m}` : `${m}`}
-                    </span>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-          </Card>
+            </ul>
 
-          {/* Skills */}
-          <Card>
+            {/* Umiejętności */}
             <SectionTitle>Umiejętności</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+            <ul style={{ listStyle: "none", marginBottom: 14 }}>
               {Object.entries(SKILL_NAMES_PL).map(([rawKey, namePl]) => {
-                const normalizedInput = proficientSkills.map(normalizeSkillKey);
-                const isProficient = normalizedInput.includes(rawKey);
+                const isProficient = normalizedProfSkills.includes(rawKey);
                 const abilityKey = SKILL_ABILITY[rawKey];
                 const abilityScore = abilityKey ? character[abilityKey] : 10;
                 const m = modNum(abilityScore) + (isProficient ? prof : 0);
+                const mStr = m >= 0 ? `+${m}` : `${m}`;
+                const attrShort = SKILL_ABILITY_SHORT[rawKey] ?? "";
                 return (
-                  <div key={rawKey} style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                    <div
-                      style={{
-                        width: 8, height: 8, borderRadius: "50%",
-                        background: isProficient ? "#c9a84c" : "transparent",
-                        border: `2px solid ${isProficient ? "#c9a84c" : "#2e2b3d"}`,
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span style={{ flex: 1, fontSize: 12, color: isProficient ? "#f0ece4" : "#8b8699", fontFamily: "Inter, sans-serif" }}>
-                      {namePl}
+                  <li key={rawKey} style={{ display: "flex", alignItems: "center", gap: 6, padding: "2.5px 0", borderBottom: "1px solid #eeeeee" }}>
+                    <ProfDot filled={isProficient} />
+                    <span style={{ width: 22, fontFamily: FONT_DISPLAY, fontSize: 11, textAlign: "center", borderBottom: LIGHT_BORDER, flexShrink: 0 }}>
+                      {mStr}
                     </span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: isProficient ? "#c9a84c" : "#8b8699", fontFamily: "Inter, sans-serif" }}>
-                      {m >= 0 ? `+${m}` : `${m}`}
+                    <span style={{ fontFamily: FONT_UI, fontSize: 10, fontWeight: 400, color: "#1c1c1c", flex: 1, lineHeight: 1.2 }}>
+                      {namePl}{" "}
+                      <em style={{ fontStyle: "italic", fontSize: 8, color: "#999999", fontWeight: 300 }}>({attrShort})</em>
                     </span>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-          </Card>
-        </div>
+            </ul>
 
-        {/* ══ MIDDLE COLUMN ════════════════════════════════════════════════════ */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-
-          {/* HP */}
-          <Card>
-            <SectionTitle>Punkty Trafienia</SectionTitle>
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              {/* Decrease button */}
-              <button
-                aria-label="Zmniejsz HP"
-                onClick={() => changeHp(-1)}
-                disabled={hpSaving || currentHp <= -99}
-                style={{
-                  width: 40, height: 40, borderRadius: 8,
-                  background: "transparent", border: "1px solid #e05252",
-                  color: "#e05252", fontSize: 20, fontWeight: 700,
-                  cursor: hpSaving || currentHp <= -99 ? "not-allowed" : "pointer",
-                  opacity: currentHp <= -99 ? 0.4 : 1,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "background 0.15s",
-                  fontFamily: "Inter, sans-serif",
-                }}
-              >
-                −
-              </button>
-
-              {/* HP display */}
-              <div style={{ flex: 1, textAlign: "center" }}>
-                <div data-testid="current-hp" style={{ fontFamily: "Cinzel, serif", fontSize: 48, fontWeight: 700, color: hpColor, lineHeight: 1 }}>
-                  {currentHp}
-                </div>
-                <div style={{ fontSize: 13, color: "#4a4759", fontFamily: "Inter, sans-serif", marginTop: 2 }}>
-                  / {hp} max
-                </div>
-                {/* HP bar */}
-                <div style={{ height: 4, background: "#0f0e17", borderRadius: 2, marginTop: 8, overflow: "hidden" }}>
-                  <div
-                    style={{
-                      height: "100%", borderRadius: 2,
-                      width: `${hpPercent}%`,
-                      background: hpColor,
-                      transition: "width 0.3s, background 0.3s",
-                    }}
-                  />
-                </div>
-                {hpSaving && (
-                  <div style={{ fontSize: 11, color: "#4a4759", marginTop: 4, fontFamily: "Inter, sans-serif" }}>
-                    Zapisywanie...
-                  </div>
-                )}
-                {hpError && (
-                  <div style={{ fontSize: 11, color: "#e05252", marginTop: 4, fontFamily: "Inter, sans-serif" }}>
-                    {hpError}
-                  </div>
-                )}
-              </div>
-
-              {/* Increase button */}
-              <button
-                aria-label="Zwiększ HP"
-                onClick={() => changeHp(1)}
-                disabled={hpSaving || currentHp >= 999}
-                style={{
-                  width: 40, height: 40, borderRadius: 8,
-                  background: "transparent", border: "1px solid #52c97a",
-                  color: "#52c97a", fontSize: 20, fontWeight: 700,
-                  cursor: hpSaving || currentHp >= 999 ? "not-allowed" : "pointer",
-                  opacity: currentHp >= 999 ? 0.4 : 1,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "background 0.15s",
-                  fontFamily: "Inter, sans-serif",
-                }}
-              >
-                +
-              </button>
-            </div>
-
-            {/* Temp HP */}
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12, padding: "8px 12px", background: "#0f0e17", borderRadius: 8 }}>
-              <span style={{ fontSize: 12, color: "#4a4759", fontFamily: "Inter, sans-serif" }}>Tymczasowe PT</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#8b8699", fontFamily: "Inter, sans-serif" }}>
-                {character.tempHp ?? 0}
+            {/* Bierna Percepcja */}
+            <div style={{ border: STRONG_BORDER, display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", marginTop: 12 }}>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 24, letterSpacing: "-1px", borderBottom: STRONG_BORDER, textAlign: "center", flexShrink: 0, minWidth: 38 }}>
+                {passivePerc}
               </span>
+              <span style={labelStyle}>Bierna Percepcja</span>
             </div>
-          </Card>
-
-          {/* Hit Dice + Death Saves */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            <Card>
-              <SectionTitle>Kość Trafień</SectionTitle>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "Cinzel, serif", fontSize: 32, fontWeight: 700, color: "#c9a84c" }}>
-                  k{cls?.hitDie ?? 8}
-                </div>
-                <div style={{ fontSize: 12, color: "#4a4759", fontFamily: "Inter, sans-serif", marginTop: 2 }}>
-                  {character.level}×
-                </div>
-              </div>
-            </Card>
-
-            <Card>
-              <SectionTitle>Rzuty Śmierci</SectionTitle>
-              {(["Sukcesy", "Porażki"] as const).map((label) => {
-                const isSuccess = label === "Sukcesy";
-                const count = (() => {
-                  try {
-                    const ds = JSON.parse(character.deathSaves) as { successes: number; failures: number };
-                    return isSuccess ? ds.successes : ds.failures;
-                  } catch { return 0; }
-                })();
-                return (
-                  <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-                    <span style={{ fontSize: 11, color: "#4a4759", fontFamily: "Inter, sans-serif", width: 52 }}>{label}</span>
-                    <div style={{ display: "flex", gap: 4 }}>
-                      {[0, 1, 2].map((i) => (
-                        <div
-                          key={i}
-                          style={{
-                            width: 14, height: 14, borderRadius: "50%",
-                            background: i < count ? (isSuccess ? "#52c97a" : "#e05252") : "transparent",
-                            border: `2px solid ${i < count ? (isSuccess ? "#52c97a" : "#e05252") : "#2e2b3d"}`,
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </Card>
           </div>
 
-          {/* Equipment */}
-          <Card>
-            <SectionTitle>Ekwipunek</SectionTitle>
-            {equipmentList.length === 0 ? (
-              <p style={{ fontSize: 13, color: "#4a4759", fontFamily: "Inter, sans-serif", margin: 0 }}>Brak ekwipunku</p>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                {equipmentList.map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                    <span style={{ fontSize: 13, color: "#f0ece4", fontFamily: "Inter, sans-serif" }}>
-                      {item.name}
-                    </span>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
-                      {item.qty > 1 && (
-                        <span style={{ fontSize: 12, color: "#4a4759", fontFamily: "Inter, sans-serif" }}>×{item.qty}</span>
-                      )}
-                      {item.weight > 0 && (
-                        <span style={{ fontSize: 11, color: "#4a4759", fontFamily: "Inter, sans-serif" }}>{item.weight} kg</span>
-                      )}
-                    </div>
+          {/* ══ COL C — Combat + HP + Attacks + Personality ══ */}
+          <div style={{ padding: "20px 16px" }}>
+
+            {/* AC | Init | Speed */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", border: STRONG_BORDER, marginBottom: 14 }}>
+              {[
+                { label: "Klasa Pancerza", value: ac, ariaLabel: "Klasa Pancerza" },
+                { label: "Inicjatywa", value: initiative >= 0 ? `+${initiative}` : `${initiative}`, ariaLabel: "Inicjatywa" },
+                { label: "Prędkość ruchu", value: `${Math.round(speed * 0.3)} m`, ariaLabel: "Prędkość ruchu" },
+              ].map(({ label, value, ariaLabel }, idx) => (
+                <div
+                  key={label}
+                  aria-label={ariaLabel}
+                  style={{
+                    textAlign: "center", padding: "8px 6px",
+                    borderRight: idx < 2 ? STRONG_BORDER : "none",
+                  }}
+                >
+                  <div style={{ fontFamily: FONT_DISPLAY, fontSize: 24, letterSpacing: "-1px", borderBottom: LIGHT_BORDER, textAlign: "center", marginBottom: 4 }}>
+                    {value}
                   </div>
-                ))}
-              </div>
-            )}
-            {/* Gold */}
-            <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid #2e2b3d", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: 12, color: "#4a4759", fontFamily: "Inter, sans-serif" }}>Złoto</span>
-              <span style={{ fontSize: 14, fontWeight: 700, color: "#c9a84c", fontFamily: "Cinzel, serif" }}>
-                {character.gold} sz. złota
-              </span>
+                  <span style={labelStyle}>{label}</span>
+                </div>
+              ))}
             </div>
-          </Card>
+
+            {/* Bonus biegłości — hidden but accessible */}
+            <div aria-label="Bonus biegłości" style={{ display: "none" }}>+{prof}</div>
+
+            {/* HP Block */}
+            <div style={{ border: STRONG_BORDER, marginBottom: 14 }}>
+              {/* Max HP row */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: STRONG_BORDER }}>
+                <div style={{ padding: "6px 10px", borderRight: STRONG_BORDER }}>
+                  <span style={labelStyle}>Maksymalne PT</span>
+                  <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, letterSpacing: "-0.5px", borderBottom: LIGHT_BORDER, height: 30, display: "flex", alignItems: "flex-end" }}>
+                    {hp}
+                  </div>
+                </div>
+                <div style={{ padding: "6px 10px" }}>
+                  <span style={labelStyle}>Tymczasowe PT</span>
+                  <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, letterSpacing: "-0.5px", borderBottom: LIGHT_BORDER, height: 30, display: "flex", alignItems: "flex-end" }}>
+                    {character.tempHp ?? 0}
+                  </div>
+                </div>
+              </div>
+
+              {/* Current HP row */}
+              <div style={{ padding: "10px 12px" }}>
+                <span style={labelStyle}>Bieżące Punkty Trafienia</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 4 }}>
+                  <button
+                    aria-label="Zmniejsz HP"
+                    onClick={() => changeHp(-1)}
+                    disabled={hpSaving || currentHp <= -99}
+                    style={{
+                      width: 32, height: 32, border: STRONG_BORDER,
+                      background: "transparent", color: BLACK,
+                      fontFamily: FONT_DISPLAY, fontSize: 20,
+                      cursor: hpSaving || currentHp <= -99 ? "not-allowed" : "pointer",
+                      opacity: currentHp <= -99 ? 0.3 : 1,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    −
+                  </button>
+                  <div
+                    data-testid="current-hp"
+                    style={{
+                      fontFamily: FONT_DISPLAY, fontSize: 48, color: BLACK,
+                      letterSpacing: "-2px", lineHeight: 1, flex: 1, textAlign: "center",
+                      borderBottom: STRONG_BORDER,
+                    }}
+                  >
+                    {currentHp}
+                  </div>
+                  <button
+                    aria-label="Zwiększ HP"
+                    onClick={() => changeHp(1)}
+                    disabled={hpSaving || currentHp >= 999}
+                    style={{
+                      width: 32, height: 32, border: STRONG_BORDER,
+                      background: "transparent", color: BLACK,
+                      fontFamily: FONT_DISPLAY, fontSize: 20,
+                      cursor: hpSaving || currentHp >= 999 ? "not-allowed" : "pointer",
+                      opacity: currentHp >= 999 ? 0.3 : 1,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 9, color: MID, marginTop: 2, textAlign: "center" }}>
+                  / {hp} max
+                  {hpSaving && " · Zapisywanie..."}
+                  {hpError && ` · ${hpError}`}
+                </div>
+              </div>
+            </div>
+
+            {/* Hit Dice + Death Saves */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+              {/* Hit Dice */}
+              <div style={{ border: STRONG_BORDER, padding: "8px 10px" }}>
+                <SectionTitle>Kość Trafień</SectionTitle>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontFamily: FONT_DISPLAY, fontSize: 28, letterSpacing: "-1px", color: BLACK }}>
+                    k{cls?.hitDie ?? 8}
+                  </div>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 8, color: MID, marginTop: 2 }}>
+                    {character.level}× do dyspozycji
+                  </div>
+                </div>
+              </div>
+
+              {/* Death Saves */}
+              <div style={{ border: STRONG_BORDER, padding: "8px 10px" }}>
+                <SectionTitle>Rzuty Śmierci</SectionTitle>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
+                  {(["Sukcesy", "Porażki"] as const).map((lbl) => {
+                    const isSuccess = lbl === "Sukcesy";
+                    const count = isSuccess ? deathSaves.successes : deathSaves.failures;
+                    return (
+                      <div key={lbl} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 7, letterSpacing: "1.5px", textTransform: "uppercase", width: 50 }}>
+                          {lbl}
+                        </span>
+                        <div style={{ display: "flex", gap: 4 }}>
+                          {[0, 1, 2].map((i) => (
+                            <div
+                              key={i}
+                              style={{
+                                width: 10, height: 10,
+                                border: STRONG_BORDER,
+                                borderRadius: isSuccess ? "50%" : 2,
+                                background: i < count ? BLACK : "transparent",
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Attacks table */}
+            <div style={{ marginBottom: 14 }}>
+              <SectionTitle>Ataki i Zaklęcia</SectionTitle>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ borderBottom: STRONG_BORDER }}>
+                    {["Broń / Zaklęcie", "Premia ATK", "Obrażenia"].map((h) => (
+                      <th key={h} style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 7, letterSpacing: "2px", textTransform: "uppercase", color: MID, textAlign: "left", padding: "0 0 5px" }}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {attacks.length > 0 ? attacks.map((atk, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid #eeeeee" }}>
+                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 11 }}>{atk.name}</td>
+                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 11 }}>{atk.bonus}</td>
+                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 11 }}>{atk.damage}</td>
+                    </tr>
+                  )) : (
+                    // empty rows placeholder
+                    [0, 1, 2].map((i) => (
+                      <tr key={i} style={{ borderBottom: "1px solid #eeeeee" }}>
+                        <td style={{ padding: "6px 0", fontFamily: FONT_UI, fontSize: 11, color: "#cccccc" }}>—</td>
+                        <td style={{ padding: "6px 0" }} />
+                        <td style={{ padding: "6px 0" }} />
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Personality traits */}
+            <div style={{ border: STRONG_BORDER, marginTop: 14 }}>
+              {[
+                { label: "Cechy Osobowości", items: personalityTraits },
+                { label: "Ideały", items: ideals },
+                { label: "Więzy", items: bonds },
+                { label: "Słabości", items: flaws },
+              ].map(({ label, items }, idx, arr) => (
+                <div
+                  key={label}
+                  style={{ padding: "7px 10px", borderBottom: idx < arr.length - 1 ? STRONG_BORDER : "none" }}
+                >
+                  <span style={labelStyle}>{label}</span>
+                  <div style={{
+                    fontFamily: FONT_UI, fontSize: 11, lineHeight: "18px",
+                    minHeight: 44, color: items.length > 0 ? BLACK : "#cccccc",
+                  }}>
+                    {items.length > 0 ? items.join(" / ") : "—"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* ══ RIGHT COLUMN ═════════════════════════════════════════════════════ */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {/* ── BOTTOM: 3-column ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderBottom: STRONG_BORDER }}>
 
-          {/* Personality */}
-          {(personalityTraits.length > 0 || ideals.length > 0 || bonds.length > 0 || flaws.length > 0) && (
-            <Card>
-              <SectionTitle>Osobowość</SectionTitle>
-              {personalityTraits.length > 0 && (
-                <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 10, color: "#c9a84c", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>
-                    Cechy Osobowości
-                  </div>
-                  {personalityTraits.map((t, i) => (
-                    <p key={i} style={{ fontSize: 12, color: "#8b8699", fontFamily: "Inter, sans-serif", margin: "0 0 3px", lineHeight: 1.5 }}>
-                      "{t}"
-                    </p>
-                  ))}
+          {/* Biegłości i Języki */}
+          <div style={{ padding: "16px 16px", borderRight: STRONG_BORDER }}>
+            <SectionTitle>Biegłości i Języki</SectionTitle>
+            <div style={{
+              width: "100%", minHeight: 140,
+              fontFamily: FONT_UI, fontSize: 11, color: BLACK,
+              lineHeight: "22px",
+              backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
+              backgroundAttachment: "local",
+            }}>
+              {languageList.length > 0 && (
+                <div style={{ marginBottom: 8 }}>
+                  <span style={{ ...labelStyle, display: "inline" }}>Języki: </span>
+                  {languageList.join(", ")}
                 </div>
               )}
-              {ideals.length > 0 && (
-                <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 10, color: "#c9a84c", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>
-                    Ideały
-                  </div>
-                  {ideals.map((t, i) => (
-                    <p key={i} style={{ fontSize: 12, color: "#8b8699", fontFamily: "Inter, sans-serif", margin: "0 0 3px", lineHeight: 1.5 }}>
-                      "{t}"
-                    </p>
-                  ))}
-                </div>
-              )}
-              {bonds.length > 0 && (
-                <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 10, color: "#c9a84c", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>
-                    Więzy
-                  </div>
-                  {bonds.map((t, i) => (
-                    <p key={i} style={{ fontSize: 12, color: "#8b8699", fontFamily: "Inter, sans-serif", margin: "0 0 3px", lineHeight: 1.5 }}>
-                      "{t}"
-                    </p>
-                  ))}
-                </div>
-              )}
-              {flaws.length > 0 && (
+              {cls?.armorTraining && cls.armorTraining.length > 0 && (
                 <div>
-                  <div style={{ fontSize: 10, color: "#c9a84c", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>
-                    Wady
-                  </div>
-                  {flaws.map((t, i) => (
-                    <p key={i} style={{ fontSize: 12, color: "#8b8699", fontFamily: "Inter, sans-serif", margin: "0 0 3px", lineHeight: 1.5 }}>
-                      "{t}"
-                    </p>
-                  ))}
+                  <span style={{ ...labelStyle, display: "inline" }}>Zbroje: </span>
+                  {cls.armorTraining.join(", ")}
                 </div>
               )}
-            </Card>
-          )}
+              {cls?.weaponProficiencies && (
+                <div>
+                  <span style={{ ...labelStyle, display: "inline" }}>Broń: </span>
+                  {cls.weaponProficiencies}
+                </div>
+              )}
+            </div>
+          </div>
 
-          {/* Background feature */}
-          {bg?.specialFeature && (
-            <Card>
-              <SectionTitle>Cecha Tła</SectionTitle>
-              <div style={{ fontSize: 12, fontWeight: 600, color: "#c9a84c", fontFamily: "Inter, sans-serif", marginBottom: 4 }}>
-                ✦ {bg.specialFeature.name}
+          {/* Wyposażenie */}
+          <div style={{ padding: "16px 16px", borderRight: STRONG_BORDER }}>
+            <SectionTitle>Wyposażenie</SectionTitle>
+            <div style={{
+              width: "100%", minHeight: 140,
+              fontFamily: FONT_UI, fontSize: 11, color: BLACK,
+              lineHeight: "22px",
+              backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
+              backgroundAttachment: "local",
+            }}>
+              {equipmentList.length === 0 ? (
+                <span style={{ color: "#cccccc" }}>Brak ekwipunku</span>
+              ) : (
+                equipmentList.map((item, i) => (
+                  <div key={i}>
+                    {item.name}{item.qty > 1 ? ` ×${item.qty}` : ""}
+                  </div>
+                ))
+              )}
+            </div>
+            <div style={{ borderTop: LIGHT_BORDER, marginTop: 8, paddingTop: 6, display: "flex", justifyContent: "space-between" }}>
+              <span style={labelStyle}>Złoto (szt.)</span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK }}>{character.gold}</span>
+            </div>
+          </div>
+
+          {/* Korzyści i Zdolności */}
+          <div style={{ padding: "16px 16px" }}>
+            <SectionTitle>Korzyści i Zdolności</SectionTitle>
+            <div style={{
+              width: "100%", minHeight: 140,
+              fontFamily: FONT_UI, fontSize: 11, color: BLACK,
+              lineHeight: "22px",
+              backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
+              backgroundAttachment: "local",
+            }}>
+              {bg?.specialFeature && (
+                <div style={{ marginBottom: 8 }}>
+                  <span style={{ ...labelStyle, display: "inline" }}>{bg.specialFeature.name}: </span>
+                  {bg.specialFeature.description}
+                </div>
+              )}
+              {isSpellcaster && (
+                <div>
+                  <span style={{ ...labelStyle, display: "inline" }}>Rzucanie czarów: </span>
+                  ST {spellDC} / Atak +{spellAttack}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ── SPELLS SECTION (spellcasters only) ── */}
+        {isSpellcaster && (
+          <div style={{ borderBottom: STRONG_BORDER }}>
+            {/* Spell header row */}
+            <div style={{ padding: "14px 24px", borderBottom: STRONG_BORDER, display: "flex", gap: 32, alignItems: "center" }}>
+              <div>
+                <span style={labelStyle}>ST Czarów</span>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px" }}>{spellDC}</div>
               </div>
-              <p style={{ fontSize: 12, color: "#8b8699", fontFamily: "Inter, sans-serif", margin: 0, lineHeight: 1.5 }}>
-                {bg.specialFeature.description}
-              </p>
-            </Card>
-          )}
+              <div>
+                <span style={labelStyle}>Premia do Ataku</span>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px" }}>+{spellAttack}</div>
+              </div>
+              <div>
+                <span style={labelStyle}>Sloty Poz. 1</span>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px" }}>{slotsLevel1}</div>
+              </div>
+              <div>
+                <span style={labelStyle}>Atrybut Czarowania</span>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px", textTransform: "uppercase" }}>
+                  {cls?.spellcastingAbility?.toUpperCase() ?? "—"}
+                </div>
+              </div>
+            </div>
 
-          {/* Spells */}
-          {isSpellcaster && (
-            <Card>
-              <SectionTitle>Magia</SectionTitle>
-
-              {/* Stats row */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 14 }}>
-                {[
-                  { label: "ST Czarów", value: spellDC },
-                  { label: "Atak", value: spellAttack >= 0 ? `+${spellAttack}` : `${spellAttack}` },
-                  { label: "Sloty poz.1", value: slotsLevel1 },
-                ].map(({ label, value }) => (
-                  <div key={label} style={{ textAlign: "center", background: "#0f0e17", borderRadius: 8, padding: "8px 4px" }}>
-                    <div style={{ fontFamily: "Cinzel, serif", fontSize: 16, fontWeight: 700, color: "#7c5cbf" }}>
-                      {value}
-                    </div>
-                    <div style={{ fontSize: 9, color: "#4a4759", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>
-                      {label}
-                    </div>
+            {/* Cantrips + Spells */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: STRONG_BORDER }}>
+              {/* Cantrips */}
+              <div style={{ padding: "14px 12px", borderRight: STRONG_BORDER }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>0</span>
+                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Sztuczki</span>
+                </div>
+                {cantripData.map((spell) => spell && (
+                  <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px 0", borderBottom: "1px solid #eeeeee" }}>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK }}>{spell.namePl}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID }}>{spell.castingTime}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Cantrips */}
-              {cantripData.length > 0 && (
-                <div style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 10, color: "#7c5cbf", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>
-                    Sztuczki (k0)
-                  </div>
-                  {cantripData.map((spell) => spell && (
-                    <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                      <span style={{ fontSize: 12, color: "#f0ece4", fontFamily: "Inter, sans-serif" }}>{spell.namePl}</span>
-                      <span style={{ fontSize: 10, color: "#4a4759", fontFamily: "Inter, sans-serif" }}>{spell.castingTime}</span>
-                    </div>
-                  ))}
+              {/* Level 1 spells */}
+              <div style={{ padding: "14px 12px", borderRight: STRONG_BORDER }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>1</span>
+                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
+                  <span style={{ marginLeft: "auto", fontFamily: FONT_UI, fontSize: 8, color: MID }}>{slotsLevel1} slotów</span>
                 </div>
-              )}
-
-              {/* Level 1 Spells */}
-              {spellData.length > 0 && (
-                <div>
-                  <div style={{ fontSize: 10, color: "#7c5cbf", fontFamily: "Inter, sans-serif", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>
-                    Zaklęcia poz.1
+                {spellData.map((spell) => spell && (
+                  <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px 0", borderBottom: "1px solid #eeeeee" }}>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK }}>{spell.namePl}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID }}>{spell.castingTime}</span>
                   </div>
-                  {spellData.map((spell) => spell && (
-                    <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                      <span style={{ fontSize: 12, color: "#f0ece4", fontFamily: "Inter, sans-serif" }}>{spell.namePl}</span>
-                      <span style={{ fontSize: 10, color: "#4a4759", fontFamily: "Inter, sans-serif" }}>{spell.castingTime}</span>
-                    </div>
-                  ))}
+                ))}
+              </div>
+
+              {/* Empty col 3 */}
+              <div style={{ padding: "14px 12px" }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>2</span>
+                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
                 </div>
-              )}
-            </Card>
-          )}
+              </div>
+            </div>
+          </div>
+        )}
 
-          {/* Backstory */}
-          {character.description && (
-            <Card>
-              <SectionTitle>Historia</SectionTitle>
-              <p style={{ fontSize: 12, color: "#8b8699", fontFamily: "Inter, sans-serif", margin: 0, lineHeight: 1.6 }}>
-                {character.description}
-              </p>
-            </Card>
-          )}
-
-          {/* Session Notes */}
-          <Card>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-              <span style={{ fontFamily: "Cinzel, serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#c9a84c", textTransform: "uppercase" }}>
-                Notatki Sesji
+        {/* ── NOTES SECTION ── */}
+        <div style={{ padding: "16px 24px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+            <SectionTitle>Notatki Sesji</SectionTitle>
+            {notesSaved && (
+              <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID, letterSpacing: "1px" }}>
+                ✓ Zapisano
               </span>
-              {notesSaved && (
-                <span style={{ fontSize: 10, color: "#52c97a", fontFamily: "Inter, sans-serif" }}>
-                  ✓ Zapisano
-                </span>
-              )}
-            </div>
-            <div style={{ height: 1, marginBottom: 12, background: "linear-gradient(90deg, #c9a84c 0%, rgba(201,168,76,0.15) 100%)" }} />
-            <textarea
-              aria-label="Notatki sesji"
-              value={notes}
-              onChange={handleNotesChange}
-              placeholder="Zapisz notatki z sesji..."
-              maxLength={5000}
-              style={{
-                width: "100%", minHeight: 120,
-                background: "#0f0e17", border: "1px solid #2e2b3d",
-                borderRadius: 8, color: "#f0ece4",
-                fontFamily: "Inter, sans-serif", fontSize: 12,
-                padding: "10px 12px", resize: "vertical",
-                boxSizing: "border-box", outline: "none",
-                transition: "border-color 0.15s",
-                lineHeight: 1.6,
-              }}
-              onFocus={(e) => { e.target.style.borderColor = "#c9a84c"; }}
-              onBlur={(e) => { e.target.style.borderColor = "#2e2b3d"; }}
-            />
-            <div style={{ fontSize: 10, color: "#2e2b3d", fontFamily: "Inter, sans-serif", marginTop: 4, textAlign: "right" }}>
-              {notes.length}/5000
-            </div>
-          </Card>
+            )}
+          </div>
+          <textarea
+            aria-label="Notatki sesji"
+            value={notes}
+            onChange={handleNotesChange}
+            placeholder="Zapisz notatki z sesji..."
+            maxLength={5000}
+            rows={6}
+            style={{
+              width: "100%",
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              fontFamily: FONT_UI,
+              fontSize: 12,
+              color: BLACK,
+              resize: "none",
+              lineHeight: "22px",
+              padding: "2px 0",
+              boxSizing: "border-box",
+              backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
+              backgroundAttachment: "local",
+            }}
+          />
+          <div style={{ fontFamily: FONT_UI, fontSize: 8, color: "#cccccc", textAlign: "right", marginTop: 4 }}>
+            {notes.length}/5000
+          </div>
         </div>
       </div>
     </div>

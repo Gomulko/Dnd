@@ -46,7 +46,8 @@
       "Bash(find \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app/src\" -type f \\\\\\( -name \"*.ts\" -o -name \"*.tsx\" \\\\\\) -exec wc -l {} + | tail -1)",
       "Bash(npx vitest:*)",
       "Bash(git add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(cd C:/Users/rafag/Desktop/projects/dnd-app && grep -E '\"Klasa Pancerza\"|\"Inicjatywa\"|\"Prędkość ruchu\"|Rzuty Obronne|ST Czarów' src/domains/character/components/CharacterSheet.tsx)"
     ]
   }
 }
