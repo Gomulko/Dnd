@@ -2,6 +2,13 @@
 
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
 const ALIGNMENT_LABELS: Record<string, string> = {
   LG: "Praworządny Dobry", NG: "Neutralny Dobry", CG: "Chaotyczny Dobry",
   LN: "Praworządny Neutralny", TN: "Prawdziwa Neutralność", CN: "Chaotyczny Neutralny",
@@ -20,12 +27,6 @@ const CLASS_LABELS: Record<string, string> = {
   rogue: "Łotrzyk", sorcerer: "Czarownik", warlock: "Warlock", wizard: "Czarodziej",
 };
 
-const CLASS_COLORS: Record<string, string> = {
-  barbarian: "#e05252", bard: "#7c5cbf", cleric: "#e8c97a", druid: "#52c97a",
-  fighter: "#e05252", monk: "#52c97a", paladin: "#e8c97a", ranger: "#52c97a",
-  rogue: "#8b8699", sorcerer: "#7c5cbf", warlock: "#7c5cbf", wizard: "#5c9be8",
-};
-
 function initials(name: string) {
   return name.trim()
     ? name.trim().split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
@@ -35,7 +36,6 @@ function initials(name: string) {
 export default function CharacterPreview() {
   const { step1, step2, step3 } = useWizardStore();
 
-  const accentColor = CLASS_COLORS[step3.class] ?? "#c9a84c";
   const hasName = step1.name.trim().length > 0;
   const raceLabel = RACE_LABELS[step2.race] ?? step2.race;
   const classLabel = CLASS_LABELS[step3.class] ?? step3.class;
@@ -43,7 +43,7 @@ export default function CharacterPreview() {
   return (
     <aside
       style={{
-        width: 220,
+        width: 200,
         flexShrink: 0,
         position: "sticky",
         top: 140,
@@ -52,49 +52,52 @@ export default function CharacterPreview() {
     >
       <div
         style={{
-          background: "#1a1825",
-          border: "1px solid #2e2b3d",
-          borderRadius: 12,
-          overflow: "hidden",
+          background: WHITE,
+          border: `1.5px solid ${BLACK}`,
         }}
       >
-        {/* Accent bar */}
-        <div style={{ height: 3, background: `linear-gradient(90deg, ${accentColor}, transparent)` }} />
-
         <div style={{ padding: 20 }}>
-          <div style={{ fontSize: 10, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 16 }}>
+          <div style={{
+            fontFamily: FONT_UI,
+            fontSize: 7,
+            color: MID,
+            textTransform: "uppercase",
+            letterSpacing: "2.5px",
+            marginBottom: 16,
+            borderBottom: `1px solid ${LIGHT}`,
+            paddingBottom: 8,
+          }}>
             Podgląd postaci
           </div>
 
-          {/* Avatar */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+          {/* Inicjały */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
             <div
               style={{
-                width: 64,
-                height: 64,
-                borderRadius: "50%",
-                background: `linear-gradient(135deg, ${accentColor}33, ${accentColor}11)`,
-                border: `2px solid ${accentColor}44`,
+                width: 56,
+                height: 56,
+                border: `1.5px solid ${BLACK}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "var(--font-cinzel), serif",
+                fontFamily: FONT_DISPLAY,
                 fontSize: 20,
-                fontWeight: 700,
-                color: accentColor,
+                fontStyle: "italic",
+                color: BLACK,
               }}
             >
               {initials(step1.name)}
             </div>
           </div>
 
-          {/* Name */}
+          {/* Imię */}
           <div
             style={{
-              fontFamily: "var(--font-cinzel), serif",
-              fontSize: 14,
-              fontWeight: 700,
-              color: hasName ? "#f0ece4" : "#4a4759",
+              fontFamily: FONT_DISPLAY,
+              fontSize: 15,
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: hasName ? BLACK : LIGHT,
               textAlign: "center",
               marginBottom: 4,
               minHeight: 20,
@@ -103,18 +106,23 @@ export default function CharacterPreview() {
             {hasName ? step1.name : "Imię postaci"}
           </div>
 
-          {/* Race / Class */}
-          <div style={{ fontSize: 11, color: "#8b8699", textAlign: "center", marginBottom: 16 }}>
+          {/* Rasa · Klasa */}
+          <div style={{
+            fontFamily: FONT_UI,
+            fontSize: 9,
+            color: MID,
+            textAlign: "center",
+            marginBottom: 16,
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+          }}>
             {raceLabel && classLabel
               ? `${raceLabel} · ${classLabel}`
-              : raceLabel || classLabel || <span style={{ color: "#4a4759" }}>Rasa · Klasa</span>}
+              : raceLabel || classLabel || <span style={{ color: LIGHT }}>Rasa · Klasa</span>}
           </div>
 
-          {/* Divider */}
-          <div style={{ height: 1, background: "#2e2b3d", marginBottom: 14 }} />
-
           {/* Stats */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <StatRow label="Poziom" value="1" />
             <StatRow
               label="Alignment"
@@ -137,8 +145,8 @@ export default function CharacterPreview() {
 function StatRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <span style={{ fontSize: 11, color: "#4a4759" }}>{label}</span>
-      <span style={{ fontSize: 11, color: "#8b8699", fontWeight: 500 }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 9, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK }}>{value}</span>
     </div>
   );
 }
