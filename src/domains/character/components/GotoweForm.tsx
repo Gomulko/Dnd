@@ -160,7 +160,7 @@ export default function GotoweForm() {
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: "0 0 8px" }}>
           {step1.name || "Twoja Postać"}
         </h1>
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>
           {race?.name ?? "—"}{subrace ? ` · ${subrace.name}` : ""} · {cls?.name ?? "—"}{subclass ? ` (${subclass.name})` : ""}
         </p>
 
@@ -225,7 +225,7 @@ export default function GotoweForm() {
               <div key={key} style={{ textAlign: "center", border: `1.5px solid ${BLACK}`, padding: "6px 4px" }}>
                 <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, color: BLACK }}>{step4[key]}</div>
                 <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase" }}>{short}</div>
-                <div style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, fontWeight: 700 }}>{mod(step4[key])}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, fontWeight: 700 }}>{mod(step4[key])}</div>
               </div>
             ))}
           </div>
@@ -262,13 +262,13 @@ export default function GotoweForm() {
       {step1.description && (
         <div style={{ border: `1px solid ${LIGHT}`, padding: "20px 24px", marginBottom: 32 }}>
           <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>Historia Postaci</div>
-          <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
+          <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
         </div>
       )}
 
       {/* Błąd zapisu */}
       {error && (
-        <div style={{ border: "1.5px solid #e05252", padding: "12px 16px", marginBottom: 20, fontFamily: FONT_UI, color: "#e05252", fontSize: 15 }}>
+        <div style={{ border: "1.5px solid #e05252", padding: "12px 16px", marginBottom: 20, fontFamily: FONT_UI, color: "#e05252", fontSize: 16 }}>
           {error}
         </div>
       )}
@@ -294,7 +294,7 @@ export default function GotoweForm() {
             padding: "12px 40px", border: "none",
             background: saving ? LIGHT : BLACK,
             color: saving ? MID : WHITE,
-            fontFamily: FONT_UI, fontSize: 15, fontWeight: 700,
+            fontFamily: FONT_UI, fontSize: 16, fontWeight: 700,
             textTransform: "uppercase", letterSpacing: "2px",
             cursor: saving ? "not-allowed" : "pointer",
           }}
@@ -334,7 +334,7 @@ function SummarySection({
         <button
           type="button"
           onClick={onEdit}
-          style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, background: "none", border: "none", cursor: "pointer", padding: 0, textTransform: "uppercase", letterSpacing: "1px" }}
+          style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, background: "none", border: "none", cursor: "pointer", padding: 0, textTransform: "uppercase", letterSpacing: "1px" }}
         >
           Edytuj →
         </button>
@@ -347,7 +347,7 @@ function SummarySection({
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 13, color: MID, flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</span>
       <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, textAlign: "right" }}>{value}</span>
     </div>
   );

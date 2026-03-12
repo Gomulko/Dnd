@@ -92,7 +92,7 @@ export default function CechyForm() {
           Wartości Cech
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>
           Przypisz wartości sześciu cech swojej postaci.
         </p>
       </div>
@@ -220,7 +220,7 @@ function StandardArray({ step2race, step4, setStep4 }: {
 
   return (
     <div>
-      <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, marginBottom: 20 }}>
+      <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, marginBottom: 20 }}>
         Przypisz każdą z wartości <strong style={{ color: BLACK }}>15, 14, 13, 12, 10, 8</strong> do jednej cechy. Każda wartość może być użyta tylko raz.
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -302,7 +302,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>
           Masz <strong style={{ color: BLACK }}>27 punktów</strong> do wydania. Wartości od 8 do 15.
         </p>
         <div style={{
@@ -325,7 +325,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: `1px solid ${LIGHT}` }}>
               <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
-              <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 15, color: MID }}>{label}</div>
+              <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 16, color: MID }}>{label}</div>
 
               <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}>
                 <button
@@ -405,7 +405,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>
           Rzuć 4k6, odrzuć najniższy wynik — powtórz 6 razy.
         </p>
         <button
@@ -431,7 +431,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: `1px solid ${LIGHT}` }}>
               <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
-              <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 15, color: MID }}>{label}</div>
+              <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 16, color: MID }}>{label}</div>
 
               <button
                 type="button"

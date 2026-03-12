@@ -69,7 +69,7 @@ export default function LogowaniePage() {
                 >
                   <span style={{ color: "#C9A84C", fontSize: 16 }}>✦</span>
                 </div>
-                <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 500, fontSize: 15, color: "#F0ECE4" }}>
+                <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 500, fontSize: 16, color: "#F0ECE4" }}>
                   {text}
                 </span>
               </div>

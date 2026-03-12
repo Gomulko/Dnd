@@ -102,7 +102,7 @@ export default function MagiaForm() {
           Magia
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>
           {isSpellcaster
             ? `Wybierz zaklęcia startowe dla klasy ${cls?.name ?? ""}.`
             : "Ta klasa nie posiada zdolności magicznych."}
@@ -114,7 +114,7 @@ export default function MagiaForm() {
         <div style={{ border: `1.5px dashed ${LIGHT}`, padding: "60px 0", textAlign: "center" }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>⚔</div>
           <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 17 }}>{cls?.name ?? "Ta klasa"} nie posiada zaklęć.</p>
-          <p style={{ fontFamily: FONT_UI, color: LIGHT, fontSize: 15, marginTop: 8 }}>Ten krok zostaje pominięty.</p>
+          <p style={{ fontFamily: FONT_UI, color: LIGHT, fontSize: 16, marginTop: 8 }}>Ten krok zostaje pominięty.</p>
         </div>
       ) : (
         <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
@@ -133,7 +133,7 @@ export default function MagiaForm() {
                     onClick={() => setSchoolFilter(school as SpellSchool | "Wszystkie")}
                     style={{
                       padding: "5px 12px",
-                      fontFamily: FONT_UI, fontSize: 13,
+                      fontFamily: FONT_UI, fontSize: 16,
                       border: active ? `1.5px solid ${BLACK}` : `1.5px solid ${LIGHT}`,
                       background: active ? BLACK : "transparent",
                       color: active ? WHITE : MID,
@@ -278,7 +278,7 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
                 border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
               }}
             >
-              <div style={{ fontFamily: FONT_UI, fontSize: 15, fontWeight: 700, color: isDisabled ? LIGHT : isSelected ? WHITE : MID }}>
+              <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: isDisabled ? LIGHT : isSelected ? WHITE : MID }}>
                 {isSelected && <span style={{ marginRight: 4 }}>✓</span>}
                 {spell.namePl}
               </div>
@@ -297,7 +297,7 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
                   </span>
                 )}
               </div>
-              <div style={{ fontFamily: FONT_UI, fontSize: 13, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
+              <div style={{ fontFamily: FONT_UI, fontSize: 16, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
                 {spell.castingTime} · {spell.range}
               </div>
             </button>
@@ -305,7 +305,7 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
         })}
       </div>
       {spells.length === 0 && (
-        <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 15 }}>Brak zaklęć dla wybranej szkoły.</p>
+        <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 16 }}>Brak zaklęć dla wybranej szkoły.</p>
       )}
     </div>
   );

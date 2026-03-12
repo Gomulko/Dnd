@@ -106,7 +106,7 @@ export default function CharacterCard({ character: c }: Props) {
               alignItems: "center",
               justifyContent: "center",
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 13,
+              fontSize: 16,
               fontWeight: 700,
               color: "#0a0a0a",
               flexShrink: 0,

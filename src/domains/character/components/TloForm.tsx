@@ -82,7 +82,7 @@ export default function TloForm() {
           Tło Postaci
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>
           Wybierz historię swojej postaci przed przygodami.
         </p>
       </div>
@@ -131,14 +131,14 @@ export default function TloForm() {
                   {active && (
                     <span style={{
                       position: "absolute", top: 6, right: 8,
-                      fontFamily: FONT_UI, fontSize: 13, color: WHITE,
+                      fontFamily: FONT_UI, fontSize: 16, color: WHITE,
                     }}>✓</span>
                   )}
                   <div style={{ fontSize: 22, marginBottom: 4 }}>{bg.icon}</div>
-                  <div style={{ fontFamily: FONT_UI, fontSize: 15, fontWeight: 700, color: active ? WHITE : BLACK, lineHeight: 1.2 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: active ? WHITE : BLACK, lineHeight: 1.2 }}>
                     {bg.name}
                   </div>
-                  <div style={{ fontFamily: FONT_UI, fontSize: 13, color: active ? LIGHT : MID, marginTop: 4 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID, marginTop: 4 }}>
                     {bg.skillProficiencies.slice(0, 2).map((s) => SKILL_NAMES_PL[s]).join(", ")}
                   </div>
                 </button>
@@ -147,7 +147,7 @@ export default function TloForm() {
           </div>
 
           {filtered.length === 0 && (
-            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 15, marginTop: 12 }}>
+            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 16, marginTop: 12 }}>
               Brak wyników dla &ldquo;{search}&rdquo;
             </p>
           )}
@@ -158,7 +158,7 @@ export default function TloForm() {
           {!selectedBg ? (
             <div style={{ border: `1.5px dashed ${LIGHT}`, padding: 48, textAlign: "center" }}>
               <div style={{ fontSize: 32, marginBottom: 12 }}>📜</div>
-              <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID }}>Wybierz tło, aby zobaczyć szczegóły</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>Wybierz tło, aby zobaczyć szczegóły</p>
             </div>
           ) : (
             <div>
@@ -175,7 +175,7 @@ export default function TloForm() {
                     fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em",
                   }}>{selectedBg.source}</span>
                 </div>
-                <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>{selectedBg.description}</p>
+                <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>{selectedBg.description}</p>
               </div>
 
               {/* Info — biegłości i języki */}
@@ -191,7 +191,7 @@ export default function TloForm() {
                 </InfoBox>
                 {selectedBg.languages > 0 && (
                   <InfoBox label="Języki">
-                    <span style={{ fontFamily: FONT_UI, fontSize: 15, color: BLACK }}>+{selectedBg.languages} do wyboru</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>+{selectedBg.languages} do wyboru</span>
                   </InfoBox>
                 )}
                 <InfoBox label="Narzędzia">
@@ -202,7 +202,7 @@ export default function TloForm() {
               {/* Cecha Specjalna */}
               <div style={{ border: `1.5px solid ${BLACK}`, padding: "14px 16px", marginBottom: 20 }}>
                 <div style={LABEL_STYLE}>✦ {selectedBg.specialFeature.name}</div>
-                <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0, lineHeight: 1.6 }}>
+                <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0, lineHeight: 1.6 }}>
                   {selectedBg.specialFeature.description}
                 </p>
               </div>
@@ -325,7 +325,7 @@ function PersonalitySection({
                 background: isSelected ? BLACK : "transparent",
                 border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
                 color: isDisabled ? LIGHT : isSelected ? WHITE : MID,
-                fontFamily: FONT_UI, fontSize: 15, lineHeight: 1.5,
+                fontFamily: FONT_UI, fontSize: 16, lineHeight: 1.5,
               }}
             >
               {isSelected && <span style={{ marginRight: 6 }}>✓</span>}

@@ -114,7 +114,7 @@ export default function KonceptForm() {
             maxLength={60}
           />
           {step1.name.trim().length > 0 && step1.name.trim().length < 2 && (
-            <p style={{ fontFamily: FONT_UI, fontSize: 13, color: "#e05252", marginTop: 4 }}>Minimum 2 znaki</p>
+            <p style={{ fontFamily: FONT_UI, fontSize: 16, color: "#e05252", marginTop: 4 }}>Minimum 2 znaki</p>
           )}
         </div>
 

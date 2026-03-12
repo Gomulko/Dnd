@@ -58,7 +58,7 @@ const iconStyle: React.CSSProperties = {
   left: 14,
   top: "50%",
   transform: "translateY(-50%)",
-  fontSize: 15,
+  fontSize: 16,
   color: "#4A4759",
   pointerEvents: "none",
 };
@@ -228,7 +228,7 @@ export function RegisterForm() {
           }}>
             {accepted && <span style={{ color: "#1A1408", fontSize: 16, fontWeight: 700 }}>✓</span>}
           </div>
-          <p style={{ fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: "20px", color: "#8B8699" }}>
+          <p style={{ fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: "20px", color: "#8B8699" }}>
             Akceptuję{" "}
             <Link href="/regulamin" style={{ color: "#C9A84C", textDecoration: "none" }} onClick={(e) => e.stopPropagation()}>
               regulamin
@@ -242,7 +242,7 @@ export function RegisterForm() {
         </div>
 
         {error && (
-          <p style={{ color: "#E05252", fontSize: 13, marginBottom: 12 }}>{error}</p>
+          <p style={{ color: "#E05252", fontSize: 16, marginBottom: 12 }}>{error}</p>
         )}
 
         {/* Przycisk */}
@@ -255,7 +255,7 @@ export function RegisterForm() {
             boxShadow: "0px 4px 20px rgba(201, 168, 76, 0.25)",
             borderRadius: 8, border: "none",
             fontFamily: "Inter, sans-serif",
-            fontWeight: 700, fontSize: 15,
+            fontWeight: 700, fontSize: 16,
             letterSpacing: "0.45px",
             color: "#1A1408",
             cursor: loading ? "not-allowed" : "pointer",

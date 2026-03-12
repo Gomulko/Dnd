@@ -498,7 +498,7 @@ export default function CharacterSheet({ character }: Props) {
                 ].map(({ label, value }) => (
                   <div key={label} style={{ borderBottom: LIGHT_BORDER, paddingBottom: 4 }}>
                     <span style={labelStyle}>{label}</span>
-                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK }}>{value}</div>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: BLACK }}>{value}</div>
                   </div>
                 ))}
               </div>
@@ -537,7 +537,7 @@ export default function CharacterSheet({ character }: Props) {
                     <span style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 600, color: MID, letterSpacing: "1px", textTransform: "uppercase" }}>
                       mod
                     </span>
-                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK, borderBottom: LIGHT_BORDER, minWidth: 30, textAlign: "center" }}>
+                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: BLACK, borderBottom: LIGHT_BORDER, minWidth: 30, textAlign: "center" }}>
                       {mStr}
                     </span>
                   </div>
@@ -895,7 +895,7 @@ export default function CharacterSheet({ character }: Props) {
             </div>
             <div style={{ borderTop: LIGHT_BORDER, marginTop: 8, paddingTop: 6, display: "flex", justifyContent: "space-between" }}>
               <span style={labelStyle}>Złoto (szt.)</span>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK }}>{character.gold}</span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: BLACK }}>{character.gold}</span>
             </div>
           </div>
 

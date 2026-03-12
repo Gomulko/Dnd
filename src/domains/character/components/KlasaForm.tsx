@@ -89,7 +89,7 @@ export default function KlasaForm() {
           Wybierz Klasę
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>
           Klasa definiuje umiejętności bojowe, magiczne i styl gry twojej postaci.
         </p>
       </div>
@@ -140,11 +140,11 @@ export default function KlasaForm() {
                   {active && (
                     <span style={{
                       position: "absolute", top: 8, right: 8,
-                      fontFamily: FONT_UI, fontSize: 13, color: WHITE,
+                      fontFamily: FONT_UI, fontSize: 16, color: WHITE,
                     }}>✓</span>
                   )}
                   {hasSynergy && !active && (
-                    <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 13, color: MID }}>★</span>
+                    <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 16, color: MID }}>★</span>
                   )}
 
                   <div style={{ fontSize: 24, marginBottom: 6 }}>{cls.icon}</div>
@@ -233,7 +233,7 @@ export default function KlasaForm() {
                           <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 600, color: active ? WHITE : BLACK }}>
                             {sub.name}
                           </div>
-                          <div style={{ fontFamily: FONT_UI, fontSize: 13, color: active ? LIGHT : MID, marginTop: 2 }}>{sub.description}</div>
+                          <div style={{ fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID, marginTop: 2 }}>{sub.description}</div>
                         </button>
                       );
                     })}
@@ -282,7 +282,7 @@ export default function KlasaForm() {
           ) : (
             <div style={{ background: WHITE, border: `1.5px dashed ${LIGHT}`, padding: 32, textAlign: "center" }}>
               <div style={{ fontSize: 32, marginBottom: 12 }}>⚔</div>
-              <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID }}>Wybierz klasę, aby zobaczyć szczegóły</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>Wybierz klasę, aby zobaczyć szczegóły</p>
             </div>
           )}
         </div>
@@ -337,7 +337,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Pill({ label }: { label: string }) {
   return (
-    <span style={{ fontFamily: FONT_UI, fontSize: 13, padding: "2px 8px", border: `1px solid ${LIGHT}`, color: MID }}>
+    <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px", border: `1px solid ${LIGHT}`, color: MID }}>
       {label}
     </span>
   );

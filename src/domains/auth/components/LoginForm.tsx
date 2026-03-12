@@ -96,7 +96,7 @@ export function LoginForm() {
               left: 14,
               top: "50%",
               transform: "translateY(-50%)",
-              fontSize: 15,
+              fontSize: 16,
               color: "#4A4759",
               pointerEvents: "none",
             }}>
@@ -152,7 +152,7 @@ export function LoginForm() {
               left: 14,
               top: "50%",
               transform: "translateY(-50%)",
-              fontSize: 15,
+              fontSize: 16,
               color: "#4A4759",
               pointerEvents: "none",
             }}>
@@ -200,14 +200,14 @@ export function LoginForm() {
               borderRadius: 4,
               flexShrink: 0,
             }} />
-            <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: "#8B8699" }}>
+            <span style={{ fontFamily: "Inter, sans-serif", fontSize: 16, color: "#8B8699" }}>
               Zapamiętaj mnie
             </span>
           </label>
           <Link href="/reset-hasla" style={{
             fontFamily: "Inter, sans-serif",
             fontWeight: 500,
-            fontSize: 13,
+            fontSize: 16,
             color: "#4A4759",
             textDecoration: "none",
           }}>
@@ -216,7 +216,7 @@ export function LoginForm() {
         </div>
 
         {error && (
-          <p style={{ color: "#E05252", fontSize: 13, marginBottom: 12 }}>{error}</p>
+          <p style={{ color: "#E05252", fontSize: 16, marginBottom: 12 }}>{error}</p>
         )}
 
         {/* Przycisk */}
@@ -232,7 +232,7 @@ export function LoginForm() {
             border: "none",
             fontFamily: "Inter, sans-serif",
             fontWeight: 700,
-            fontSize: 15,
+            fontSize: 16,
             letterSpacing: "0.45px",
             color: "#1A1408",
             cursor: loading ? "not-allowed" : "pointer",
