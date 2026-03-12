@@ -51,7 +51,11 @@
       "Bash(find src:*)",
       "Bash(grep -n \"gender\" /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/actions/getCharacter.ts 2>/dev/null || grep -rn \"gender\" /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/ --include=\"*.ts\" | head -10)",
       "Bash(ls /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/components/ | grep -i wizard\\\\|step\\\\|kreator\\\\|stepper)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"tak\" npx prisma db push --force-reset 2>&1)",
+      "Bash(taskkill /F /IM node.exe 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\rafag\\\\Desktop\\\\projects\\\\dnd-app\" && npx dotenv -e .env.neon -- npx prisma db push 2>&1)",
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(32\\).toString\\('hex'\\)\\)\")"
     ]
   }
 }
