@@ -50,7 +50,8 @@
       "Bash(cd C:/Users/rafag/Desktop/projects/dnd-app && grep -E '\"Klasa Pancerza\"|\"Inicjatywa\"|\"Prędkość ruchu\"|Rzuty Obronne|ST Czarów' src/domains/character/components/CharacterSheet.tsx)",
       "Bash(find src:*)",
       "Bash(grep -n \"gender\" /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/actions/getCharacter.ts 2>/dev/null || grep -rn \"gender\" /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/ --include=\"*.ts\" | head -10)",
-      "Bash(ls /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/components/ | grep -i wizard\\\\|step\\\\|kreator\\\\|stepper)"
+      "Bash(ls /c/Users/rafag/Desktop/projects/dnd-app/src/domains/character/components/ | grep -i wizard\\\\|step\\\\|kreator\\\\|stepper)",
+      "Bash(git commit:*)"
     ]
   }
 }
