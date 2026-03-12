@@ -420,10 +420,10 @@ export default function CharacterSheet({ character }: Props) {
   };
 
   return (
-    <div style={{ background: "#d8d8d8", minHeight: "100vh", padding: "24px", fontFamily: FONT_UI, color: BLACK }}>
+    <div className="char-sheet-outer" style={{ background: "#d8d8d8", minHeight: "100vh", padding: "24px", fontFamily: FONT_UI, color: BLACK }}>
 
       {/* ── Topbar ── */}
-      <div style={{ maxWidth: 920, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+      <div className="char-sheet-topbar" style={{ maxWidth: 920, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <Link
           href="/dashboard"
           data-testid="back-to-dashboard"
@@ -513,7 +513,7 @@ export default function CharacterSheet({ character }: Props) {
         </div>
 
         {/* ── BODY: 3-column ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "160px 200px 1fr", borderBottom: STRONG_BORDER }}>
+        <div className="char-sheet-columns" style={{ display: "grid", gridTemplateColumns: "160px 200px 1fr", borderBottom: STRONG_BORDER }}>
 
           {/* ══ COL A — Cechy ══ */}
           <div style={{ borderRight: STRONG_BORDER, padding: "20px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
@@ -847,7 +847,7 @@ export default function CharacterSheet({ character }: Props) {
         </div>
 
         {/* ── BOTTOM: 3-column ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderBottom: STRONG_BORDER }}>
+        <div className="char-sheet-grid3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderBottom: STRONG_BORDER }}>
 
           {/* Biegłości i Języki */}
           <div style={{ padding: "16px 16px", borderRight: STRONG_BORDER }}>

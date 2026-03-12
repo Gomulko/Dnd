@@ -145,7 +145,6 @@ export async function GET(
   const ideals  = resolveIds(character.ideals,  bg?.ideals  ?? []);
   const bonds   = resolveIds(character.bonds,   bg?.bonds   ?? []);
   const flaws   = resolveIds(character.flaws,   bg?.flaws   ?? []);
-  console.log("[PDF] bg:", bg?.id, "ideals raw:", character.ideals, "→", ideals);
   const languages = (JSON.parse(character.languages || "[]") as string[]).join(", ");
 
   // Ekwipunek

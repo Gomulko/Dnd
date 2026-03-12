@@ -58,7 +58,7 @@ export default function RasaForm() {
   const canProceed = !!step2.race;
 
   return (
-    <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
+    <div className="wizard-card" style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
@@ -73,7 +73,7 @@ export default function RasaForm() {
         </p>
       </div>
 
-      <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+      <div className="rasa-layout" style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
 
         {/* Lewa: grid + search */}
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -99,7 +99,7 @@ export default function RasaForm() {
           />
 
           {/* Grid ras */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+          <div className="rasa-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {filtered.map((race) => {
               const active = step2.race === race.id;
               return (

@@ -114,7 +114,7 @@ export default function MagiaForm() {
   }
 
   return (
-    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
+    <div className="wizard-card" style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
@@ -139,7 +139,7 @@ export default function MagiaForm() {
           <p style={{ fontFamily: FONT_UI, color: LIGHT, fontSize: 16, marginTop: 8 }}>Ten krok zostaje pominięty.</p>
         </div>
       ) : (
-        <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+        <div className="magia-layout" style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
           {/* Lewa kolumna — wybór zaklęć */}
           <div style={{ flex: 1, minWidth: 0 }}>
 
@@ -199,7 +199,7 @@ export default function MagiaForm() {
           </div>
 
           {/* Panel statystyk magii */}
-          <div style={{ width: 200, flexShrink: 0 }}>
+          <div className="magia-panel" style={{ width: 200, flexShrink: 0 }}>
             <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: 20 }}>
               <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
                 Statystyki Magii

@@ -15,10 +15,11 @@ const FEATURES = [
 
 export default function LogowaniePage() {
   return (
-    <div style={{ display: "flex", height: "100vh", width: "100vw", overflow: "hidden" }}>
+    <div style={{ display: "flex", minHeight: "100vh", width: "100vw", overflow: "hidden" }}>
 
       {/* Lewa strona — czarna, dekoracyjna */}
       <div
+        className="auth-left"
         style={{
           width: "50%",
           background: BLACK,
@@ -26,6 +27,7 @@ export default function LogowaniePage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "56px 64px",
+          flexShrink: 0,
         }}
       >
         {/* Logo */}
@@ -35,7 +37,10 @@ export default function LogowaniePage() {
 
         {/* Środek */}
         <div>
-          <div style={{ fontFamily: FONT_DISPLAY, fontSize: 80, fontStyle: "italic", color: WHITE, lineHeight: 1, marginBottom: 32 }}>
+          <div
+            className="auth-left-heading"
+            style={{ fontFamily: FONT_DISPLAY, fontSize: 80, fontStyle: "italic", color: WHITE, lineHeight: 1, marginBottom: 32 }}
+          >
             Witaj<br />z powrotem.
           </div>
           <div style={{ width: 60, height: 1.5, background: WHITE, marginBottom: 32 }} />
@@ -47,9 +52,7 @@ export default function LogowaniePage() {
           <div style={{ marginTop: 48, display: "flex", flexDirection: "column", gap: 20 }}>
             {FEATURES.map((text) => (
               <div key={text} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <div style={{
-                  width: 6, height: 6, background: WHITE, flexShrink: 0,
-                }} />
+                <div style={{ width: 6, height: 6, background: WHITE, flexShrink: 0 }} />
                 <span style={{ fontFamily: FONT_UI, fontSize: 14, color: WHITE }}>
                   {text}
                 </span>
@@ -66,15 +69,27 @@ export default function LogowaniePage() {
 
       {/* Prawa strona — formularz */}
       <div
+        className="auth-right"
         style={{
           width: "50%",
           background: PAGE,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          minHeight: "100vh",
+          padding: "48px 24px",
         }}
       >
-        <div style={{ width: 400 }}>
+        {/* Logo widoczne tylko na mobile (lewa strona ukryta) */}
+        <div
+          className="auth-mobile-logo"
+          style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "3px", marginBottom: 32, display: "none" }}
+        >
+          Kroniki Przygód
+        </div>
+
+        <div className="auth-form-wrap">
           <LoginForm />
         </div>
       </div>

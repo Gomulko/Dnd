@@ -251,6 +251,374 @@
   }
 }
 
+/* ── Navbar RWD ──────────────────────────────────────────────────────────── */
+
+.hamburger-btn {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .navbar-header {
+    padding-inline: 16px !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-subtitle {
+    display: none !important;
+  }
+
+  .navbar-user-text {
+    display: none !important;
+  }
+
+  .navbar-logout-btn {
+    font-size: 10px !important;
+    padding: 6px 10px !important;
+    letter-spacing: 1px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logout-btn {
+    display: none !important;
+  }
+}
+
+/* ── Sidebar RWD ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .sidebar-nav {
+    position: fixed !important;
+    left: 0 !important;
+    top: 56px;
+    width: 220px !important;
+    height: calc(100vh - 56px);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 40;
+    min-height: unset !important;
+    overflow-y: auto;
+  }
+
+  .sidebar-nav.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 39;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar-nav {
+    position: relative !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .sidebar-overlay {
+    display: none !important;
+  }
+}
+
+/* ── Dashboard RWD ───────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .dashboard-page {
+    padding: 20px 16px !important;
+  }
+
+  .dashboard-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+}
+
+/* ── Stepper — bez podpisów na mobile ───────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .stepper-label {
+    display: none !important;
+  }
+}
+
+/* ── Podgląd postaci (kreator) — ukryty na mobile ────────────────────────── */
+
+@media (max-width: 767px) {
+  .character-preview {
+    display: none !important;
+  }
+}
+
+/* ── Rasa / Klasa — 1 kolumna na mobile ─────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .rasa-layout {
+    flex-direction: column !important;
+  }
+
+  .rasa-layout > div:last-child {
+    width: 100% !important;
+  }
+
+  .rasa-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .rasa-grid button,
+  .klasa-grid button {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px !important;
+  }
+
+  .rasa-grid button > div:first-child,
+  .klasa-grid button > div:first-child {
+    font-size: 28px !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0;
+  }
+
+  .klasa-layout {
+    flex-direction: column !important;
+  }
+
+  .klasa-layout > div:last-child {
+    width: 100% !important;
+  }
+
+  .klasa-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Gotowe — 1 kolumna na mobile ───────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .gotowe-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gotowe-quickstats {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100%;
+  }
+
+  /* Inicjatywa (3. item) — usuń lewy border, bo to lewa kolumna row 2 */
+  .gotowe-quickstats > div:nth-child(3) {
+    border-left: none !important;
+  }
+
+  /* Row 1 — dodaj border-bottom */
+  .gotowe-quickstats > div:nth-child(1),
+  .gotowe-quickstats > div:nth-child(2) {
+    border-bottom: 1.5px solid #0a0a0a;
+  }
+}
+
+/* ── Magia — statystyki pod zaklęciami na mobile ────────────────────────── */
+
+@media (max-width: 767px) {
+  .magia-layout {
+    flex-direction: column !important;
+  }
+
+  .magia-panel {
+    width: 100% !important;
+  }
+}
+
+/* ── Ekwipunek — panel bojowy pod ekwipunkiem na mobile ─────────────────── */
+
+@media (max-width: 767px) {
+  .ekwipunek-layout {
+    flex-direction: column !important;
+  }
+
+  .ekwipunek-panel {
+    width: 100% !important;
+  }
+}
+
+/* ── Tło postaci — 1 kolumna, szczegóły pod spodem na mobile ────────────── */
+
+@media (max-width: 767px) {
+  .tlo-layout {
+    flex-direction: column !important;
+  }
+
+  .tlo-left {
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  .tlo-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Cechy — podsumowanie pod cechami na mobile ──────────────────────────── */
+
+@media (max-width: 767px) {
+  .cechy-layout {
+    flex-direction: column !important;
+  }
+
+  .cechy-summary {
+    width: 100% !important;
+    order: 2;
+  }
+}
+
+/* ── Kreator RWD ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .kreator-main {
+    padding: 20px 12px !important;
+  }
+
+  .wizard-card {
+    padding: 24px 20px !important;
+  }
+
+  .wizard-grid-3 {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .wizard-card {
+    padding: 32px 32px !important;
+  }
+
+  .wizard-grid-3 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── Karta postaci RWD ───────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .char-sheet-outer {
+    padding: 12px 8px !important;
+  }
+
+  .char-sheet-topbar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .char-sheet-topbar > div {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .char-sheet-topbar > div > * {
+    flex: 1;
+    text-align: center;
+  }
+
+  .char-sheet-columns {
+    grid-template-columns: 1fr !important;
+  }
+
+  .char-sheet-columns > div {
+    border-right: none !important;
+    border-bottom: 1.5px solid #0a0a0a;
+  }
+
+  .char-sheet-columns > div:last-child {
+    border-bottom: none;
+  }
+
+  .char-sheet-grid3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .char-sheet-grid3 > div {
+    border-right: none !important;
+    border-bottom: 1.5px solid #0a0a0a;
+  }
+
+  .char-sheet-grid3 > div:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .char-sheet-outer {
+    padding: 16px 12px !important;
+  }
+
+  .char-sheet-columns {
+    grid-template-columns: 160px 1fr !important;
+  }
+
+  .char-sheet-grid3 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .char-sheet-grid3 > div:nth-child(2) {
+    border-right: none !important;
+  }
+}
+
+/* ── Auth layout — RWD ──────────────────────────────────────────────────── */
+
+.auth-left {
+  /* domyślnie widoczna (desktop) */
+}
+
+.auth-right {
+  /* domyślnie 50% (desktop) */
+}
+
+.auth-form-wrap {
+  width: 400px;
+}
+
+/* Tablet: lewa węższa, nieco mniejszy font */
+@media (max-width: 1023px) and (min-width: 640px) {
+  .auth-left {
+    padding: 40px 40px !important;
+  }
+  .auth-left-heading {
+    font-size: 52px !important;
+  }
+}
+
+/* Mobile: lewa strona ukryta, formularz na całą szerokość */
+@media (max-width: 639px) {
+  .auth-left {
+    display: none !important;
+  }
+  .auth-right {
+    width: 100% !important;
+    padding: 40px 24px !important;
+  }
+  .auth-form-wrap {
+    width: 100% !important;
+    max-width: 400px;
+  }
+  .auth-mobile-logo {
+    display: block !important;
+  }
+}
+
 /* ── Print styles ────────────────────────────────────────────────────────── */
 
 @media print {

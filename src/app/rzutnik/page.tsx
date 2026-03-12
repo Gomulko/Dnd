@@ -7,7 +7,7 @@ const MID = "#555555";
 
 export default function RzutnikPage() {
   return (
-    <div style={{ padding: "40px 48px" }}>
+    <div className="dashboard-page" style={{ padding: "40px 48px" }}>
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "4px", marginBottom: 10 }}>
           Narzędzia

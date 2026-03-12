@@ -12,10 +12,10 @@ export default async function DashboardPage() {
   const drafts = characters.filter((c) => !c.isComplete);
 
   return (
-    <div style={{ padding: "36px 40px" }}>
+    <div className="dashboard-page" style={{ padding: "36px 40px" }}>
 
       {/* ── Nagłówek ──────────────────────────────────────────────────── */}
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 20 }}>
+      <div className="dashboard-header" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 20 }}>
         <div>
           <div
             style={{

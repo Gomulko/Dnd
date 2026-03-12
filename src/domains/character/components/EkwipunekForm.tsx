@@ -60,7 +60,7 @@ export default function EkwipunekForm() {
   const speed = race?.speed ?? 30;
 
   return (
-    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
+    <div className="wizard-card" style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
@@ -75,7 +75,7 @@ export default function EkwipunekForm() {
         </p>
       </div>
 
-      <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+      <div className="ekwipunek-layout" style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
         {/* Lewa kolumna */}
         <div style={{ flex: 1, minWidth: 0 }}>
 
@@ -152,7 +152,7 @@ export default function EkwipunekForm() {
         </div>
 
         {/* Panel podsumowania */}
-        <div style={{ width: 220, flexShrink: 0 }}>
+        <div className="ekwipunek-panel" style={{ width: 220, flexShrink: 0 }}>
           <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: 20 }}>
             <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
               Panel Bojowy

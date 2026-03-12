@@ -45,7 +45,7 @@ export default async function KreatorLayout({ children }: Props) {
         <StepperWrapper />
       </div>
 
-      <main style={{ margin: "0 auto", padding: "40px 24px" }}>
+      <main className="kreator-main" style={{ margin: "0 auto", padding: "40px 24px" }}>
         {children}
       </main>
     </div>

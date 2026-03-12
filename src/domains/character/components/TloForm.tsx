@@ -83,7 +83,7 @@ export default function TloForm() {
   }
 
   return (
-    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
+    <div className="wizard-card" style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
@@ -98,9 +98,9 @@ export default function TloForm() {
         </p>
       </div>
 
-      <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+      <div className="tlo-layout" style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
         {/* Lewa kolumna — grid teł */}
-        <div style={{ flex: "0 0 320px" }}>
+        <div className="tlo-left" style={{ flex: "0 0 320px" }}>
           {/* Wyszukiwarka */}
           <input
             type="text"
@@ -124,7 +124,7 @@ export default function TloForm() {
           />
 
           {/* Grid teł */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <div className="tlo-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             {filtered.map((bg) => {
               const active = step5.background === bg.id;
               return (

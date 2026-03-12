@@ -145,7 +145,7 @@ export default function GotoweForm() {
   }
 
   return (
-    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
+    <div className="wizard-card" style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32, textAlign: "center" }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
@@ -183,7 +183,7 @@ export default function GotoweForm() {
         </div>
 
         {/* Szybkie statsy */}
-        <div style={{ display: "inline-flex", justifyContent: "center", gap: 0, marginTop: 20, border: `1.5px solid ${BLACK}` }}>
+        <div className="gotowe-quickstats" style={{ display: "inline-flex", justifyContent: "center", gap: 0, marginTop: 20, border: `1.5px solid ${BLACK}` }}>
           <QuickStat label="Max HP" value={`${Math.max(1, maxHp)}`} />
           <QuickStat label="KP" value={`${ac}`} border />
           <QuickStat label="Inicjatywa" value={mod(step4.dexterity)} border />
@@ -194,7 +194,7 @@ export default function GotoweForm() {
       <div style={{ height: 1.5, background: BLACK, marginBottom: 32 }} />
 
       {/* Grid sekcji podsumowania */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
+      <div className="gotowe-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
 
         {/* Koncept */}
         <SummarySection title="Koncept" onEdit={() => router.push("/kreator/koncept")}>

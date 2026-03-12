@@ -1,4 +1,5 @@
 import { auth, signOut } from "@/shared/lib/auth";
+import { HamburgerButton } from "./HamburgerButton";
 
 export default async function Navbar() {
   const session = await auth();
@@ -12,6 +13,7 @@ export default async function Navbar() {
 
   return (
     <header
+      className="navbar-header"
       style={{
         height: 56,
         background: "#ffffff",
@@ -26,36 +28,41 @@ export default async function Navbar() {
       }}
     >
       {/* Logo */}
-      <div>
-        <span
-          style={{
-            fontFamily: "var(--font-display), Georgia, serif",
-            fontSize: 20,
-            fontWeight: 400,
-            color: "#0a0a0a",
-            letterSpacing: "0.01em",
-          }}
-        >
-          Kroniki Przygód
-        </span>
-        <span
-          style={{
-            display: "block",
-            fontFamily: "var(--font-ui), Helvetica, sans-serif",
-            fontWeight: 300,
-            fontSize: 16,
-            letterSpacing: "4px",
-            textTransform: "uppercase",
-            color: "#555555",
-          }}
-        >
-          Dungeons &amp; Dragons · 5e
-        </span>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <HamburgerButton />
+        <div>
+          <span
+            style={{
+              display: "block",
+              fontFamily: "var(--font-display), Georgia, serif",
+              fontSize: 20,
+              fontWeight: 400,
+              color: "#0a0a0a",
+              letterSpacing: "0.01em",
+            }}
+          >
+            Kroniki Przygód
+          </span>
+          <span
+            className="navbar-subtitle"
+            style={{
+              display: "block",
+              fontFamily: "var(--font-ui), Helvetica, sans-serif",
+              fontWeight: 300,
+              fontSize: 16,
+              letterSpacing: "4px",
+              textTransform: "uppercase",
+              color: "#555555",
+            }}
+          >
+            Dungeons &amp; Dragons · 5e
+          </span>
+        </div>
       </div>
 
       {/* User area */}
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{ textAlign: "right" }}>
+        <div className="navbar-user-text" style={{ textAlign: "right" }}>
           <div
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
@@ -109,6 +116,7 @@ export default async function Navbar() {
         >
           <button
             type="submit"
+            className="navbar-logout-btn"
             style={{
               background: "transparent",
               border: "1.5px solid #0a0a0a",

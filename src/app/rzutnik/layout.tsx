@@ -10,7 +10,7 @@ export default async function RzutnikLayout({ children }: { children: React.Reac
   return (
     <div style={{ minHeight: "100vh", background: "#d8d8d8" }}>
       <Navbar />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", position: "relative" }}>
         <Sidebar />
         <main style={{ flex: 1, minWidth: 0 }}>{children}</main>
       </div>

@@ -86,7 +86,7 @@ export default function KlasaForm() {
   const synergyRace = step2.race;
 
   return (
-    <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
+    <div className="wizard-card" style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
@@ -125,11 +125,11 @@ export default function KlasaForm() {
         })}
       </div>
 
-      <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+      <div className="klasa-layout" style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
 
         {/* Grid klas */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+          <div className="klasa-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {filtered.map((cls) => {
               const active = step3.class === cls.id;
               const hasSynergy = cls.synergies.includes(synergyRace);

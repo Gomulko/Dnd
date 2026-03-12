@@ -71,6 +71,7 @@ export default function CharacterPreview() {
   return (
     <aside
       data-testid="character-preview"
+      className="character-preview"
       style={{
         width: 220,
         flexShrink: 0,

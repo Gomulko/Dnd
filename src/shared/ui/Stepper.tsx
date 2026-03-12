@@ -63,6 +63,7 @@ export default function Stepper({ currentStep }: Props) {
                 {done ? "✓" : step}
               </div>
               <span
+                className="stepper-label"
                 style={{
                   fontSize: 16,
                   fontWeight: active ? 900 : 400,

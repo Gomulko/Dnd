@@ -178,7 +178,7 @@ export function RegisterForm() {
               regulamin
             </Link>
             {" "}i{" "}
-            <Link href="/prywatnosc" style={{ color: BLACK, textDecoration: "underline" }} onClick={(e) => e.stopPropagation()}>
+            <Link href="/polityka-prywatnosci" style={{ color: BLACK, textDecoration: "underline" }} onClick={(e) => e.stopPropagation()}>
               politykę prywatności
             </Link>
           </p>

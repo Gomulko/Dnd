@@ -60,6 +60,7 @@ export default function KonceptForm() {
 
   return (
     <div
+      className="wizard-card"
       style={{
         background: "#ffffff",
         border: `1.5px solid ${BLACK}`,
@@ -152,7 +153,7 @@ export default function KonceptForm() {
         </div>
 
         {/* Wiek + Wzrost + Waga */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
+        <div className="wizard-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
           <div>
             <label style={LABEL_STYLE}>Wiek (opcjonalnie)</label>
             <input
@@ -198,7 +199,7 @@ export default function KonceptForm() {
         </div>
 
         {/* Oczy + Skóra + Włosy */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
+        <div className="wizard-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
           <div>
             <label style={LABEL_STYLE}>Kolor oczu (opcjonalnie)</label>
             <input
@@ -259,6 +260,7 @@ export default function KonceptForm() {
         <div>
           <label style={LABEL_STYLE}>Postawa moralna</label>
           <div
+            className="wizard-grid-3"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
