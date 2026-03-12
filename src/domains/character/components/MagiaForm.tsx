@@ -95,14 +95,14 @@ export default function MagiaForm() {
     <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 7, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 7 z 8
         </div>
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
           Magia
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
           {isSpellcaster
             ? `Wybierz zaklęcia startowe dla klasy ${cls?.name ?? ""}.`
             : "Ta klasa nie posiada zdolności magicznych."}
@@ -113,8 +113,8 @@ export default function MagiaForm() {
         /* Klasa niemagiczna */
         <div style={{ border: `1.5px dashed ${LIGHT}`, padding: "60px 0", textAlign: "center" }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>⚔</div>
-          <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 14 }}>{cls?.name ?? "Ta klasa"} nie posiada zaklęć.</p>
-          <p style={{ fontFamily: FONT_UI, color: LIGHT, fontSize: 12, marginTop: 8 }}>Ten krok zostaje pominięty.</p>
+          <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 17 }}>{cls?.name ?? "Ta klasa"} nie posiada zaklęć.</p>
+          <p style={{ fontFamily: FONT_UI, color: LIGHT, fontSize: 15, marginTop: 8 }}>Ten krok zostaje pominięty.</p>
         </div>
       ) : (
         <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
@@ -133,7 +133,7 @@ export default function MagiaForm() {
                     onClick={() => setSchoolFilter(school as SpellSchool | "Wszystkie")}
                     style={{
                       padding: "5px 12px",
-                      fontFamily: FONT_UI, fontSize: 10,
+                      fontFamily: FONT_UI, fontSize: 13,
                       border: active ? `1.5px solid ${BLACK}` : `1.5px solid ${LIGHT}`,
                       background: active ? BLACK : "transparent",
                       color: active ? WHITE : MID,
@@ -173,7 +173,7 @@ export default function MagiaForm() {
           {/* Panel statystyk magii */}
           <div style={{ width: 200, flexShrink: 0 }}>
             <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: 20 }}>
-              <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
+              <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
                 Statystyki Magii
               </div>
               <MagicRow label="Atrybut" value={cls?.spellcastingAbility?.toUpperCase() ?? "—"} />
@@ -184,13 +184,13 @@ export default function MagiaForm() {
               {step7.cantrips.length > 0 && (
                 <>
                   <div style={{ height: 1, background: LIGHT, margin: "12px 0" }} />
-                  <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 8 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 8 }}>
                     Wybrane Cantripy
                   </div>
                   {step7.cantrips.map((id) => {
                     const sp = availableCantrips.find((c) => c.id === id);
                     return sp ? (
-                      <div key={id} style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginBottom: 4 }}>· {sp.namePl}</div>
+                      <div key={id} style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginBottom: 4 }}>· {sp.namePl}</div>
                     ) : null;
                   })}
                 </>
@@ -199,13 +199,13 @@ export default function MagiaForm() {
               {step7.spells.length > 0 && (
                 <>
                   <div style={{ height: 1, background: LIGHT, margin: "12px 0" }} />
-                  <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 8 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 8 }}>
                     Wybrane Zaklęcia
                   </div>
                   {step7.spells.map((id) => {
                     const sp = availableSpells.find((s) => s.id === id);
                     return sp ? (
-                      <div key={id} style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK, marginBottom: 4, fontWeight: 600 }}>· {sp.namePl}</div>
+                      <div key={id} style={{ fontFamily: FONT_UI, fontSize: 14, color: BLACK, marginBottom: 4, fontWeight: 600 }}>· {sp.namePl}</div>
                     ) : null;
                   })}
                 </>
@@ -223,7 +223,7 @@ export default function MagiaForm() {
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -236,7 +236,7 @@ export default function MagiaForm() {
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? WHITE : MID,
-            fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px",
+            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px",
             cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
@@ -258,7 +258,7 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
 }) {
   return (
     <div style={{ marginBottom: 28 }}>
-      <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>
+      <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>
         {title}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
@@ -278,26 +278,26 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
                 border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
               }}
             >
-              <div style={{ fontFamily: FONT_UI, fontSize: 12, fontWeight: 700, color: isDisabled ? LIGHT : isSelected ? WHITE : MID }}>
+              <div style={{ fontFamily: FONT_UI, fontSize: 15, fontWeight: 700, color: isDisabled ? LIGHT : isSelected ? WHITE : MID }}>
                 {isSelected && <span style={{ marginRight: 4 }}>✓</span>}
                 {spell.namePl}
               </div>
               <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
-                <span style={{ fontFamily: FONT_UI, fontSize: 9, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
+                <span style={{ fontFamily: FONT_UI, fontSize: 12, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
                   {SCHOOL_LABELS[spell.school]}
                 </span>
                 {spell.ritual && (
-                  <span style={{ fontFamily: FONT_UI, fontSize: 9, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
+                  <span style={{ fontFamily: FONT_UI, fontSize: 12, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
                     Rytuał
                   </span>
                 )}
                 {spell.concentration && (
-                  <span style={{ fontFamily: FONT_UI, fontSize: 9, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
+                  <span style={{ fontFamily: FONT_UI, fontSize: 12, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
                     Konc.
                   </span>
                 )}
               </div>
-              <div style={{ fontFamily: FONT_UI, fontSize: 10, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
+              <div style={{ fontFamily: FONT_UI, fontSize: 13, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
                 {spell.castingTime} · {spell.range}
               </div>
             </button>
@@ -305,7 +305,7 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
         })}
       </div>
       {spells.length === 0 && (
-        <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 12 }}>Brak zaklęć dla wybranej szkoły.</p>
+        <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 15 }}>Brak zaklęć dla wybranej szkoły.</p>
       )}
     </div>
   );
@@ -314,8 +314,8 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
 function MagicRow({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 9, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
-      <span style={{ fontFamily: FONT_DISPLAY, fontSize: highlight ? 22 : 18, color: BLACK, fontWeight: highlight ? 700 : 400 }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_DISPLAY, fontSize: highlight ? 24 : 20, color: BLACK, fontWeight: highlight ? 700 : 400 }}>{value}</span>
     </div>
   );
 }

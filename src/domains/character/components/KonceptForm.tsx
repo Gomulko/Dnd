@@ -31,7 +31,7 @@ const FONT_UI      = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 const LABEL_STYLE: React.CSSProperties = {
   display: "block",
   fontFamily: FONT_UI,
-  fontSize: 7,
+  fontSize: 10,
   color: MID,
   textTransform: "uppercase",
   letterSpacing: "2.5px",
@@ -45,7 +45,7 @@ const INPUT_STYLE: React.CSSProperties = {
   borderBottom: `1.5px solid ${BLACK}`,
   color: BLACK,
   fontFamily: FONT_UI,
-  fontSize: 14,
+  fontSize: 17,
   padding: "10px 0",
   outline: "none",
   boxSizing: "border-box",
@@ -69,7 +69,7 @@ export default function KonceptForm() {
       <div style={{ marginBottom: 36 }}>
         <div style={{
           fontFamily: FONT_UI,
-          fontSize: 7,
+          fontSize: 10,
           color: MID,
           textTransform: "uppercase",
           letterSpacing: "4px",
@@ -91,7 +91,7 @@ export default function KonceptForm() {
         <p style={{
           fontFamily: FONT_UI,
           color: MID,
-          fontSize: 12,
+          fontSize: 15,
           marginTop: 12,
           letterSpacing: "0.3px",
         }}>
@@ -114,7 +114,7 @@ export default function KonceptForm() {
             maxLength={60}
           />
           {step1.name.trim().length > 0 && step1.name.trim().length < 2 && (
-            <p style={{ fontFamily: FONT_UI, fontSize: 10, color: "#e05252", marginTop: 4 }}>Minimum 2 znaki</p>
+            <p style={{ fontFamily: FONT_UI, fontSize: 13, color: "#e05252", marginTop: 4 }}>Minimum 2 znaki</p>
           )}
         </div>
 
@@ -136,7 +136,7 @@ export default function KonceptForm() {
                     background: active ? BLACK : "transparent",
                     color: active ? "#ffffff" : BLACK,
                     fontFamily: FONT_UI,
-                    fontSize: 11,
+                    fontSize: 14,
                     fontWeight: active ? 700 : 400,
                     textTransform: "uppercase",
                     letterSpacing: "1.5px",
@@ -230,7 +230,7 @@ export default function KonceptForm() {
                 >
                   <div style={{
                     fontFamily: FONT_UI,
-                    fontSize: 9,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: active ? "#ffffff" : BLACK,
                     textTransform: "uppercase",
@@ -241,7 +241,7 @@ export default function KonceptForm() {
                   </div>
                   <div style={{
                     fontFamily: FONT_UI,
-                    fontSize: 9,
+                    fontSize: 12,
                     color: active ? "#cccccc" : MID,
                   }}>
                     {desc}
@@ -251,7 +251,7 @@ export default function KonceptForm() {
             })}
           </div>
           {step1.alignment && (
-            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginTop: 8 }}>
+            <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginTop: 8 }}>
               {ALIGNMENTS.find((a) => a.code === step1.alignment)?.label}
             </p>
           )}
@@ -279,7 +279,7 @@ export default function KonceptForm() {
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? "#ffffff" : MID,
             fontFamily: FONT_UI,
-            fontSize: 11,
+            fontSize: 14,
             fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "2px",

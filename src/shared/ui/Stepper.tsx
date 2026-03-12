@@ -51,7 +51,7 @@ export default function Stepper({ currentStep }: Props) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: done ? 12 : 11,
+                  fontSize: done ? 15 : 14,
                   fontWeight: 700,
                   fontFamily: FONT_UI,
                   flexShrink: 0,
@@ -64,7 +64,7 @@ export default function Stepper({ currentStep }: Props) {
               </div>
               <span
                 style={{
-                  fontSize: 7,
+                  fontSize: 10,
                   fontWeight: active ? 900 : 400,
                   fontFamily: FONT_UI,
                   color: done || active ? BLACK : MID,

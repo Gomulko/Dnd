@@ -82,14 +82,14 @@ export default function KlasaForm() {
     <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 7, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 3 z 8
         </div>
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
           Wybierz Klasę
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
           Klasa definiuje umiejętności bojowe, magiczne i styl gry twojej postaci.
         </p>
       </div>
@@ -104,7 +104,7 @@ export default function KlasaForm() {
               type="button"
               onClick={() => setFilter(value)}
               style={{
-                padding: "6px 14px", fontFamily: FONT_UI, fontSize: 11,
+                padding: "6px 14px", fontFamily: FONT_UI, fontSize: 14,
                 border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
                 background: active ? BLACK : "transparent",
                 color: active ? WHITE : MID, cursor: "pointer",
@@ -140,21 +140,21 @@ export default function KlasaForm() {
                   {active && (
                     <span style={{
                       position: "absolute", top: 8, right: 8,
-                      fontFamily: FONT_UI, fontSize: 10, color: WHITE,
+                      fontFamily: FONT_UI, fontSize: 13, color: WHITE,
                     }}>✓</span>
                   )}
                   {hasSynergy && !active && (
-                    <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 10, color: MID }}>★</span>
+                    <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 13, color: MID }}>★</span>
                   )}
 
-                  <div style={{ fontSize: 22, marginBottom: 6 }}>{cls.icon}</div>
-                  <div style={{ fontFamily: FONT_UI, fontSize: 13, fontWeight: 600, color: active ? WHITE : BLACK, marginBottom: 4 }}>
+                  <div style={{ fontSize: 24, marginBottom: 6 }}>{cls.icon}</div>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 600, color: active ? WHITE : BLACK, marginBottom: 4 }}>
                     {cls.name}
                   </div>
 
                   {/* Rola */}
                   <span style={{
-                    fontFamily: FONT_UI, fontSize: 9, padding: "1px 6px",
+                    fontFamily: FONT_UI, fontSize: 12, padding: "1px 6px",
                     border: `1px solid ${active ? LIGHT : LIGHT}`,
                     color: active ? LIGHT : MID,
                     display: "inline-block", marginBottom: 6,
@@ -172,7 +172,7 @@ export default function KlasaForm() {
                         }} />
                       ))}
                     </div>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 9, color: active ? LIGHT : MID }}>k{cls.hitDie}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 12, color: active ? LIGHT : MID }}>k{cls.hitDie}</span>
                   </div>
                 </button>
               );
@@ -188,11 +188,11 @@ export default function KlasaForm() {
         <div style={{ width: 260, flexShrink: 0 }}>
           {selectedClass ? (
             <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: 20 }}>
-              <div style={{ fontSize: 26, marginBottom: 8 }}>{selectedClass.icon}</div>
-              <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: "0 0 4px" }}>
+              <div style={{ fontSize: 28, marginBottom: 8 }}>{selectedClass.icon}</div>
+              <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: "0 0 4px" }}>
                 {selectedClass.name}
               </h3>
-              <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginBottom: 16 }}>{selectedClass.description}</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginBottom: 16 }}>{selectedClass.description}</p>
 
               {/* Statsy */}
               <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
@@ -203,14 +203,14 @@ export default function KlasaForm() {
 
               {/* Saving throws */}
               <Section title="Rzuty Obronne">
-                <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>
+                <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID }}>
                   {selectedClass.savingThrows.map((s) => STAT_LABELS[s]).join(", ")}
                 </p>
               </Section>
 
               {/* Zbroja */}
               <Section title="Zbroja">
-                <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>{selectedClass.armorTraining.join(", ")}</p>
+                <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID }}>{selectedClass.armorTraining.join(", ")}</p>
               </Section>
 
               {/* Subklasa */}
@@ -230,10 +230,10 @@ export default function KlasaForm() {
                             background: active ? BLACK : "transparent",
                           }}
                         >
-                          <div style={{ fontFamily: FONT_UI, fontSize: 11, fontWeight: 600, color: active ? WHITE : BLACK }}>
+                          <div style={{ fontFamily: FONT_UI, fontSize: 14, fontWeight: 600, color: active ? WHITE : BLACK }}>
                             {sub.name}
                           </div>
-                          <div style={{ fontFamily: FONT_UI, fontSize: 10, color: active ? LIGHT : MID, marginTop: 2 }}>{sub.description}</div>
+                          <div style={{ fontFamily: FONT_UI, fontSize: 13, color: active ? LIGHT : MID, marginTop: 2 }}>{sub.description}</div>
                         </button>
                       );
                     })}
@@ -257,7 +257,7 @@ export default function KlasaForm() {
                           padding: "5px 10px", textAlign: "left", cursor: maxed ? "not-allowed" : "pointer",
                           border: chosen ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
                           background: chosen ? BLACK : "transparent",
-                          fontFamily: FONT_UI, fontSize: 11,
+                          fontFamily: FONT_UI, fontSize: 14,
                           color: chosen ? WHITE : maxed ? LIGHT : MID,
                           display: "flex", alignItems: "center", gap: 6,
                         }}
@@ -268,7 +268,7 @@ export default function KlasaForm() {
                           alignItems: "center", justifyContent: "center",
                           border: chosen ? "1.5px solid #ffffff" : `1.5px solid ${LIGHT}`,
                           background: chosen ? WHITE : "transparent",
-                          fontSize: 9, color: BLACK,
+                          fontSize: 12, color: BLACK,
                         }}>
                           {chosen ? "✓" : ""}
                         </span>
@@ -282,7 +282,7 @@ export default function KlasaForm() {
           ) : (
             <div style={{ background: WHITE, border: `1.5px dashed ${LIGHT}`, padding: 32, textAlign: "center" }}>
               <div style={{ fontSize: 32, marginBottom: 12 }}>⚔</div>
-              <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>Wybierz klasę, aby zobaczyć szczegóły</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID }}>Wybierz klasę, aby zobaczyć szczegóły</p>
             </div>
           )}
         </div>
@@ -296,7 +296,7 @@ export default function KlasaForm() {
           style={{
             padding: "10px 28px",
             border: "1.5px solid #0a0a0a", background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -309,7 +309,7 @@ export default function KlasaForm() {
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? WHITE : MID,
-            fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px",
+            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px",
             cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
@@ -324,7 +324,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div style={{ marginBottom: 16 }}>
       <div style={{
-        fontFamily: FONT_UI, fontSize: 7, color: MID,
+        fontFamily: FONT_UI, fontSize: 10, color: MID,
         textTransform: "uppercase", letterSpacing: "2px",
         borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4, marginBottom: 8,
       }}>
@@ -337,7 +337,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Pill({ label }: { label: string }) {
   return (
-    <span style={{ fontFamily: FONT_UI, fontSize: 10, padding: "2px 8px", border: `1px solid ${LIGHT}`, color: MID }}>
+    <span style={{ fontFamily: FONT_UI, fontSize: 13, padding: "2px 8px", border: `1px solid ${LIGHT}`, color: MID }}>
       {label}
     </span>
   );

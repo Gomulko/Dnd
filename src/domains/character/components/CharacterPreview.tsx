@@ -59,7 +59,7 @@ export default function CharacterPreview() {
         <div style={{ padding: 20 }}>
           <div style={{
             fontFamily: FONT_UI,
-            fontSize: 7,
+            fontSize: 10,
             color: MID,
             textTransform: "uppercase",
             letterSpacing: "2.5px",
@@ -81,7 +81,7 @@ export default function CharacterPreview() {
                 alignItems: "center",
                 justifyContent: "center",
                 fontFamily: FONT_DISPLAY,
-                fontSize: 20,
+                fontSize: 22,
                 fontStyle: "italic",
                 color: BLACK,
               }}
@@ -94,7 +94,7 @@ export default function CharacterPreview() {
           <div
             style={{
               fontFamily: FONT_DISPLAY,
-              fontSize: 15,
+              fontSize: 17,
               fontWeight: 400,
               fontStyle: "italic",
               color: hasName ? BLACK : LIGHT,
@@ -109,7 +109,7 @@ export default function CharacterPreview() {
           {/* Rasa · Klasa */}
           <div style={{
             fontFamily: FONT_UI,
-            fontSize: 9,
+            fontSize: 12,
             color: MID,
             textAlign: "center",
             marginBottom: 16,
@@ -145,8 +145,8 @@ export default function CharacterPreview() {
 function StatRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 9, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
-      <span style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 14, color: BLACK }}>{value}</span>
     </div>
   );
 }

@@ -56,14 +56,14 @@ export default function EkwipunekForm() {
     <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 7, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 6 z 8
         </div>
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
           Ekwipunek Startowy
         </h1>
         <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
-        <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, margin: 0 }}>
           Wybierz pakiet ekwipunku lub zacznij z funtem złota.
         </p>
       </div>
@@ -76,7 +76,7 @@ export default function EkwipunekForm() {
           <SectionHeader label="Ekwipunek Klasy" icon={cls?.icon ?? "⚔"} subtitle={cls?.name ?? "—"} />
 
           {!cls ? (
-            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 12 }}>Wróć do kroku Klasa i wybierz klasę.</p>
+            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 15 }}>Wróć do kroku Klasa i wybierz klasę.</p>
           ) : (
             <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
               {/* Pakiet A */}
@@ -88,7 +88,7 @@ export default function EkwipunekForm() {
               >
                 <ul style={{ margin: "8px 0 0", padding: "0 0 0 16px", listStyle: "disc" }}>
                   {parseItems(cls.startingEquipmentA).map((item, i) => (
-                    <li key={i} style={{ fontFamily: FONT_UI, fontSize: 12, color: packageChoice === "A" ? LIGHT : MID, marginBottom: 3 }}>{item}</li>
+                    <li key={i} style={{ fontFamily: FONT_UI, fontSize: 15, color: packageChoice === "A" ? LIGHT : MID, marginBottom: 3 }}>{item}</li>
                   ))}
                 </ul>
               </PackageCard>
@@ -104,7 +104,7 @@ export default function EkwipunekForm() {
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: packageChoice === "gold" ? WHITE : BLACK }}>
                     {cls.startingEquipmentGold}
                   </span>
-                  <span style={{ fontFamily: FONT_UI, fontSize: 13, color: packageChoice === "gold" ? LIGHT : MID, marginLeft: 6 }}>sz. złota</span>
+                  <span style={{ fontFamily: FONT_UI, fontSize: 16, color: packageChoice === "gold" ? LIGHT : MID, marginLeft: 6 }}>sz. złota</span>
                 </div>
               </PackageCard>
             </div>
@@ -114,23 +114,23 @@ export default function EkwipunekForm() {
           <SectionHeader label="Ekwipunek z Tła" icon={bg?.icon ?? "📜"} subtitle={bg?.name ?? "—"} />
 
           {!bg ? (
-            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 12 }}>Wróć do kroku Tło i wybierz tło.</p>
+            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 15 }}>Wróć do kroku Tło i wybierz tło.</p>
           ) : (
             <div style={{ border: `1px solid ${LIGHT}`, padding: "14px 16px", marginBottom: 20 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                 <span style={{
-                  fontFamily: FONT_UI, fontSize: 9, padding: "2px 8px",
+                  fontFamily: FONT_UI, fontSize: 12, padding: "2px 8px",
                   border: `1px solid ${BLACK}`, color: BLACK,
                   fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em",
                 }}>Automatycznie dodany</span>
               </div>
               <ul style={{ margin: 0, padding: "0 0 0 16px", listStyle: "disc" }}>
                 {bgItems.map((item, i) => (
-                  <li key={i} style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, marginBottom: 3 }}>{item}</li>
+                  <li key={i} style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, marginBottom: 3 }}>{item}</li>
                 ))}
               </ul>
               {bg.equipmentGold > 0 && (
-                <div style={{ marginTop: 8, fontFamily: FONT_UI, fontSize: 12, color: MID }}>
+                <div style={{ marginTop: 8, fontFamily: FONT_UI, fontSize: 15, color: MID }}>
                   + {bg.equipmentGold} sz. złota z tła
                 </div>
               )}
@@ -141,7 +141,7 @@ export default function EkwipunekForm() {
         {/* Panel podsumowania */}
         <div style={{ width: 220, flexShrink: 0 }}>
           <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: 20 }}>
-            <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
+            <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
               Panel Bojowy
             </div>
 
@@ -151,38 +151,38 @@ export default function EkwipunekForm() {
 
             <div style={{ height: 1, background: LIGHT, margin: "12px 0" }} />
 
-            <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 10 }}>
+            <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 10 }}>
               Ekwipunek ({classItems.length + bgItems.length} szt.)
             </div>
 
             {packageChoice === "gold" && cls && (
-              <div style={{ fontFamily: FONT_UI, fontSize: 12, color: BLACK, marginBottom: 8, fontWeight: 700 }}>
+              <div style={{ fontFamily: FONT_UI, fontSize: 15, color: BLACK, marginBottom: 8, fontWeight: 700 }}>
                 🪙 {cls.startingEquipmentGold + (bg?.equipmentGold ?? 0)} sz. złota
               </div>
             )}
 
             {classItems.map((item, i) => (
-              <div key={i} style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginBottom: 4, display: "flex", gap: 6 }}>
+              <div key={i} style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginBottom: 4, display: "flex", gap: 6 }}>
                 <span style={{ color: BLACK }}>·</span>
                 <span>{item}</span>
               </div>
             ))}
 
             {bgItems.map((item, i) => (
-              <div key={i} style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginBottom: 4, display: "flex", gap: 6 }}>
+              <div key={i} style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginBottom: 4, display: "flex", gap: 6 }}>
                 <span>·</span>
                 <span>{item}</span>
               </div>
             ))}
 
             {classItems.length === 0 && bgItems.length === 0 && packageChoice !== "gold" && (
-              <p style={{ fontFamily: FONT_UI, fontSize: 11, color: LIGHT }}>Brak wybranego ekwipunku</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 14, color: LIGHT }}>Brak wybranego ekwipunku</p>
             )}
 
             {(step6.gold > 0 || (bg?.equipmentGold ?? 0) > 0) && packageChoice === "A" && (
               <>
                 <div style={{ height: 1, background: LIGHT, margin: "10px 0" }} />
-                <div style={{ fontFamily: FONT_UI, fontSize: 12, color: BLACK }}>
+                <div style={{ fontFamily: FONT_UI, fontSize: 15, color: BLACK }}>
                   🪙 {(bg?.equipmentGold ?? 0)} sz. złota
                 </div>
               </>
@@ -199,7 +199,7 @@ export default function EkwipunekForm() {
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -210,7 +210,7 @@ export default function EkwipunekForm() {
           style={{
             padding: "10px 28px", border: "none",
             background: BLACK, color: WHITE,
-            fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           Dalej — Magia →
@@ -225,10 +225,10 @@ export default function EkwipunekForm() {
 function SectionHeader({ label, icon, subtitle }: { label: string; icon: string; subtitle: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-      <span style={{ fontSize: 18 }}>{icon}</span>
+      <span style={{ fontSize: 20 }}>{icon}</span>
       <div>
-        <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{label}</div>
-        <div style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, fontWeight: 700 }}>{subtitle}</div>
+        <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{label}</div>
+        <div style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, fontWeight: 700 }}>{subtitle}</div>
       </div>
     </div>
   );
@@ -259,9 +259,9 @@ function PackageCard({
           border: `1.5px solid ${active ? WHITE : LIGHT}`,
           background: active ? WHITE : "transparent",
         }} />
-        <span style={{ fontFamily: FONT_UI, fontSize: 13, fontWeight: 700, color: active ? WHITE : BLACK }}>{label}</span>
+        <span style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: active ? WHITE : BLACK }}>{label}</span>
       </div>
-      <div style={{ fontFamily: FONT_UI, fontSize: 10, color: active ? LIGHT : MID, marginLeft: 22, marginBottom: 4 }}>{sublabel}</div>
+      <div style={{ fontFamily: FONT_UI, fontSize: 13, color: active ? LIGHT : MID, marginLeft: 22, marginBottom: 4 }}>{sublabel}</div>
       {children}
     </button>
   );
@@ -270,8 +270,8 @@ function PackageCard({
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 9, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
-      <span style={{ fontFamily: FONT_DISPLAY, fontSize: 18, color: BLACK }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_DISPLAY, fontSize: 20, color: BLACK }}>{value}</span>
     </div>
   );
 }

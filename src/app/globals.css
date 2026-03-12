@@ -40,7 +40,7 @@
   }
 
   html {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   body {
@@ -80,7 +80,7 @@
   .label {
     font-family: var(--font-ui), Helvetica, sans-serif;
     font-weight: 700;
-    font-size: 7px;
+    font-size: 10px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
     color: #555555;
@@ -92,7 +92,7 @@
   .section-title {
     font-family: var(--font-ui), Helvetica, sans-serif;
     font-weight: 900;
-    font-size: 8px;
+    font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #0a0a0a;
@@ -105,7 +105,7 @@
   .system-tag {
     font-family: var(--font-ui), Helvetica, sans-serif;
     font-weight: 300;
-    font-size: 8px;
+    font-size: 11px;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: #555555;
@@ -139,7 +139,7 @@
     background: transparent;
     border: none;
     font-family: var(--font-text), Georgia, serif;
-    font-size: 12px;
+    font-size: 14px;
     color: #0a0a0a;
     outline: none;
     resize: none;
@@ -162,7 +162,7 @@
     color: #ffffff;
     font-family: var(--font-ui), Helvetica, sans-serif;
     font-weight: 700;
-    font-size: 8px;
+    font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
     border: 1.5px solid #0a0a0a;
@@ -187,7 +187,7 @@
     color: #555555;
     font-family: var(--font-ui), Helvetica, sans-serif;
     font-weight: 700;
-    font-size: 8px;
+    font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
     border: 1.5px solid #555555;
@@ -243,7 +243,7 @@
   .page-divider span {
     font-family: var(--font-ui), Helvetica, sans-serif;
     font-weight: 900;
-    font-size: 7px;
+    font-size: 10px;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: #0a0a0a;
