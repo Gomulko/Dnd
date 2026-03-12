@@ -82,11 +82,11 @@ test("podgląd pokazuje klasę po jej wyborze w kroku 3", async ({ page }) => {
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "", subclass: null, skills: [] },
         step4: { method: "standard", strength: 0, dexterity: 0, constitution: 0, intelligence: 0, wisdom: 0, charisma: 0 },
-        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -112,11 +112,11 @@ test("sekcja walki pojawia się po uzupełnieniu cech", async ({ page }) => {
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "perception"] },
         step4: { method: "standard", strength: 15, dexterity: 14, constitution: 13, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -134,11 +134,11 @@ test("HP w podglądzie jest poprawnie wyliczone (k10 Wojownik + KON mod)", async
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "perception"] },
         step4: { method: "standard", strength: 15, dexterity: 14, constitution: 13, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -156,11 +156,11 @@ test("KP w podglądzie jest poprawnie wyliczone (10 + DEX mod)", async ({ page }
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "perception"] },
         step4: { method: "standard", strength: 15, dexterity: 14, constitution: 13, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -177,11 +177,11 @@ test("siatka 6 statystyk pojawia się po uzupełnieniu cech", async ({ page }) =
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "perception"] },
         step4: { method: "standard", strength: 15, dexterity: 14, constitution: 13, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -206,11 +206,11 @@ test("sekcja Tło pojawia się po wyborze tła", async ({ page }) => {
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "perception"] },
         step4: { method: "standard", strength: 15, dexterity: 14, constitution: 13, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "acolyte", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "acolyte", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -230,11 +230,11 @@ test("sekcja Ekwipunek pojawia się gdy są przedmioty", async ({ page }) => {
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "perception"] },
         step4: { method: "standard", strength: 15, dexterity: 14, constitution: 13, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "acolyte", personalityTraits: ["p1", "p2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "" },
+        step5: { background: "acolyte", personalityTraits: ["p1", "p2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [{ name: "Miecz", qty: 1, weight: 1 }, { name: "Tarcza", qty: 1, weight: 2 }], gold: 0 },
         step7: { cantrips: [], spells: [] },
         editingId: null,
@@ -259,11 +259,11 @@ test("sekcja Magia pojawia się po wyborze cantrypów", async ({ page }) => {
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "wizard", subclass: "abjurer", skills: ["arcana", "history"] },
         step4: { method: "standard", strength: 8, dexterity: 14, constitution: 13, intelligence: 15, wisdom: 12, charisma: 10 },
-        step5: { background: "acolyte", personalityTraits: ["p1", "p2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "" },
+        step5: { background: "acolyte", personalityTraits: ["p1", "p2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: ["fire-bolt", "mage-hand", "prestidigitation"], spells: [] },
         editingId: null,
@@ -281,11 +281,11 @@ test("liczba zaklęć w podglądzie aktualizuje się po wyborze", async ({ page 
   await page.evaluate(() => {
     sessionStorage.setItem("wizard-character", JSON.stringify({
       state: {
-        step1: { name: "Tester", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Tester", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "wizard", subclass: "abjurer", skills: ["arcana", "history"] },
         step4: { method: "standard", strength: 8, dexterity: 14, constitution: 13, intelligence: 15, wisdom: 12, charisma: 10 },
-        step5: { background: "acolyte", personalityTraits: ["p1", "p2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "" },
+        step5: { background: "acolyte", personalityTraits: ["p1", "p2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: ["fire-bolt", "mage-hand", "prestidigitation"], spells: ["magic-missile", "shield", "thunderwave", "charm-person", "detect-magic", "sleep"] },
         editingId: null,

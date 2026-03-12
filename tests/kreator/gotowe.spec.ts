@@ -13,6 +13,10 @@ async function setupStep8(page: Page) {
           gender: "mezczyzna",
           age: 130,
           height: 175,
+          weight: null,
+          eyeColor: "",
+          skinColor: "",
+          hairColor: "",
           description: "Dawny sługa świątyni szukający odkupienia.",
           alignment: "LG",
         },
@@ -31,6 +35,8 @@ async function setupStep8(page: Page) {
           flaws: ["f1"],
           languages: [],
           backstory: "",
+          allies: "",
+          treasure: "",
         },
         step6: {
           equipment: [

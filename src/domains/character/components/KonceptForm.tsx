@@ -151,8 +151,8 @@ export default function KonceptForm() {
           </div>
         </div>
 
-        {/* Wiek + Wzrost */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        {/* Wiek + Wzrost + Waga */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
           <div>
             <label style={LABEL_STYLE}>Wiek (opcjonalnie)</label>
             <input
@@ -179,6 +179,57 @@ export default function KonceptForm() {
                 setStep1({ height: e.target.value ? Number(e.target.value) : null })
               }
               placeholder="np. 175"
+            />
+          </div>
+          <div>
+            <label style={LABEL_STYLE}>Waga w kg (opcjonalnie)</label>
+            <input
+              style={INPUT_STYLE}
+              type="number"
+              min={1}
+              max={999}
+              value={step1.weight ?? ""}
+              onChange={(e) =>
+                setStep1({ weight: e.target.value ? Number(e.target.value) : null })
+              }
+              placeholder="np. 70"
+            />
+          </div>
+        </div>
+
+        {/* Oczy + Skóra + Włosy */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
+          <div>
+            <label style={LABEL_STYLE}>Kolor oczu (opcjonalnie)</label>
+            <input
+              style={INPUT_STYLE}
+              type="text"
+              value={step1.eyeColor}
+              onChange={(e) => setStep1({ eyeColor: e.target.value })}
+              placeholder="np. Niebieski"
+              maxLength={30}
+            />
+          </div>
+          <div>
+            <label style={LABEL_STYLE}>Kolor skóry (opcjonalnie)</label>
+            <input
+              style={INPUT_STYLE}
+              type="text"
+              value={step1.skinColor}
+              onChange={(e) => setStep1({ skinColor: e.target.value })}
+              placeholder="np. Oliwkowy"
+              maxLength={30}
+            />
+          </div>
+          <div>
+            <label style={LABEL_STYLE}>Kolor włosów (opcjonalnie)</label>
+            <input
+              style={INPUT_STYLE}
+              type="text"
+              value={step1.hairColor}
+              onChange={(e) => setStep1({ hairColor: e.target.value })}
+              placeholder="np. Czarny"
+              maxLength={30}
             />
           </div>
         </div>

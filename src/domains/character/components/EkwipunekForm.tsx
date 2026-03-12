@@ -31,7 +31,7 @@ function parseItems(raw: string): string[] {
 
 export default function EkwipunekForm() {
   const router = useRouter();
-  const { step2, step3, step4, step5, step6, setStep6 } = useWizardStore();
+  const { step2, step3, step4, step5, step6, setStep5, setStep6 } = useWizardStore();
 
   const cls = CLASSES.find((c) => c.id === step3.class);
   const bg = BACKGROUNDS.find((b) => b.id === step5.background);
@@ -202,6 +202,21 @@ export default function EkwipunekForm() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Majątek */}
+      <div style={{ marginTop: 24 }}>
+        <div style={{ height: 1, background: LIGHT, marginBottom: 20 }} />
+        <label style={{ display: "block", fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2.5px", marginBottom: 6 }}>
+          Majątek / Skarby (opcjonalnie)
+        </label>
+        <textarea
+          style={{ width: "100%", minHeight: 60, fontFamily: FONT_UI, fontSize: 14, color: BLACK, border: `1px solid ${LIGHT}`, background: "transparent", padding: "10px 12px", resize: "vertical", lineHeight: 1.6, boxSizing: "border-box" }}
+          value={step5.treasure}
+          onChange={(e) => setStep5({ treasure: e.target.value })}
+          placeholder="Klejnoty, relikwie, magiczne przedmioty, inne kosztowności..."
+          maxLength={500}
+        />
       </div>
 
       {/* Nawigacja */}

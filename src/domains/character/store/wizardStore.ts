@@ -10,6 +10,10 @@ export type WizardStep1 = {
   gender: "kobieta" | "mezczyzna" | "inne";
   age: number | null;
   height: number | null;
+  weight: number | null;
+  eyeColor: string;
+  skinColor: string;
+  hairColor: string;
   description: string;
   alignment: "LG" | "NG" | "CG" | "LN" | "TN" | "CN" | "LE" | "NE" | "CE";
 };
@@ -43,6 +47,8 @@ export type WizardStep5 = {
   flaws: string[];
   languages: string[];
   backstory: string;
+  allies: string;
+  treasure: string;
 };
 
 export type WizardStep6 = {
@@ -86,6 +92,10 @@ const DEFAULT_STEP1: WizardStep1 = {
   gender: "inne",
   age: null,
   height: null,
+  weight: null,
+  eyeColor: "",
+  skinColor: "",
+  hairColor: "",
   description: "",
   alignment: "TN",
 };
@@ -120,6 +130,8 @@ const DEFAULT_STEP5: WizardStep5 = {
   flaws: [],
   languages: [],
   backstory: "",
+  allies: "",
+  treasure: "",
 };
 
 const DEFAULT_STEP6: WizardStep6 = {

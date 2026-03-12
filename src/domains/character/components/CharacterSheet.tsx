@@ -187,6 +187,10 @@ export default function CharacterSheet({ character }: Props) {
         gender: character.gender as WizardData["step1"]["gender"],
         age: character.age,
         height: character.height,
+        weight: character.weight,
+        eyeColor: character.eyeColor ?? "",
+        skinColor: character.skinColor ?? "",
+        hairColor: character.hairColor ?? "",
         description: character.description ?? "",
         alignment: character.alignment as WizardData["step1"]["alignment"],
       },
@@ -213,6 +217,8 @@ export default function CharacterSheet({ character }: Props) {
         flaws: (() => { try { return JSON.parse(character.flaws) as string[]; } catch { return []; } })(),
         languages: (() => { try { return JSON.parse(character.languages) as string[]; } catch { return []; } })(),
         backstory: character.backstory ?? "",
+        allies: character.allies ?? "",
+        treasure: character.treasure ?? "",
       },
       step6: {
         equipment: (() => { try { return JSON.parse(character.equipment) as { name: string; qty: number; weight: number }[]; } catch { return []; } })(),
@@ -550,9 +556,9 @@ export default function CharacterSheet({ character }: Props) {
           <div style={{ borderRight: STRONG_BORDER, padding: "20px 14px" }}>
 
             {/* Inspiracja + Premia Biegłości */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", border: STRONG_BORDER, marginBottom: 14 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 14 }}>
               <div
-                style={{ padding: "8px 10px", textAlign: "center", borderRight: STRONG_BORDER, cursor: "pointer" }}
+                style={{ border: STRONG_BORDER, padding: "8px 10px", textAlign: "center", cursor: "pointer" }}
                 onClick={handleInspirationToggle}
                 title="Kliknij, aby przełączyć inspirację"
               >
@@ -565,7 +571,7 @@ export default function CharacterSheet({ character }: Props) {
                 </div>
                 <span style={labelStyle}>Inspiracja</span>
               </div>
-              <div style={{ padding: "8px 10px", textAlign: "center" }}>
+              <div style={{ border: STRONG_BORDER, padding: "8px 10px", textAlign: "center" }}>
                 <div style={{
                   fontFamily: FONT_DISPLAY, fontSize: 22, letterSpacing: "-1px",
                   borderBottom: LIGHT_BORDER, textAlign: "center", marginBottom: 4,
@@ -756,19 +762,20 @@ export default function CharacterSheet({ character }: Props) {
                     const isSuccess = lbl === "Sukcesy";
                     const count = isSuccess ? deathSaves.successes : deathSaves.failures;
                     return (
-                      <div key={lbl} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 16, letterSpacing: "1.5px", textTransform: "uppercase", width: 50 }}>
+                      <div key={lbl} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 11, letterSpacing: "1.5px", textTransform: "uppercase", minWidth: 58, flexShrink: 0 }}>
                           {lbl}
                         </span>
-                        <div style={{ display: "flex", gap: 4 }}>
+                        <div style={{ display: "flex", gap: 5 }}>
                           {[0, 1, 2].map((i) => (
                             <div
                               key={i}
                               style={{
-                                width: 10, height: 10,
+                                width: 12, height: 12,
                                 border: STRONG_BORDER,
                                 borderRadius: isSuccess ? "50%" : 2,
                                 background: i < count ? BLACK : "transparent",
+                                flexShrink: 0,
                               }}
                             />
                           ))}

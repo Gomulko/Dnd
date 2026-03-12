@@ -8,11 +8,11 @@ async function setupStep7(page: Page, classId: string) {
   await page.evaluate((cls) => {
     const data = {
       state: {
-        step1: { name: "Test", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Test", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "elf", subrace: null },
         step3: { class: cls, subclass: null, skills: [] },
         step4: { method: "standard", strength: 8, dexterity: 13, constitution: 12, intelligence: 10, wisdom: 15, charisma: 14 },
-        step5: { background: "acolyte", personalityTraits: ["pt1", "pt2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "" },
+        step5: { background: "acolyte", personalityTraits: ["pt1", "pt2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: [], spells: [] },
       },
@@ -87,11 +87,11 @@ test("[kleryk] Dalej aktywny po wyborze 3 cantrips i 2 zaklęć", async ({ page 
   await page.evaluate(() => {
     const data = {
       state: {
-        step1: { name: "Test", gender: "inne", age: null, height: null, description: "", alignment: "TN" },
+        step1: { name: "Test", gender: "inne", age: null, height: null, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "elf", subrace: null },
         step3: { class: "cleric", subclass: null, skills: [] },
         step4: { method: "standard", strength: 8, dexterity: 13, constitution: 12, intelligence: 10, wisdom: 15, charisma: 14 },
-        step5: { background: "acolyte", personalityTraits: ["pt1", "pt2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "" },
+        step5: { background: "acolyte", personalityTraits: ["pt1", "pt2"], ideals: ["i1"], bonds: ["b1"], flaws: ["f1"], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [], gold: 0 },
         step7: { cantrips: ["guidance", "light", "sacred-flame"], spells: [] },
       },

@@ -16,8 +16,8 @@ model User {
   image         String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  characters    Character[]
   accounts      Account[]
+  characters    Character[]
   sessions      Session[]
 }
 
@@ -48,75 +48,55 @@ model Session {
 }
 
 model Character {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  // Krok 1 — Koncept
-  name        String
-  gender      String   @default("inne")   // "kobieta" | "mezczyzna" | "inne"
-  age         Int?
-  height      Int?                         // cm
-  description String?
-  alignment   String   @default("TN")     // "LG"|"NG"|"CG"|"LN"|"TN"|"CN"|"LE"|"NE"|"CE"
-
-  // Krok 2 — Rasa
-  race        String
-  subrace     String?
-
-  // Krok 3 — Klasa
-  class       String
-  subclass    String?
-  level       Int      @default(1)
-  skills      String   @default("[]")     // JSON: string[] — wybrane biegłości
-
-  // Krok 4 — Cechy (ability scores)
-  strength     Int     @default(10)
-  dexterity    Int     @default(10)
-  constitution Int     @default(10)
-  intelligence Int     @default(10)
-  wisdom       Int     @default(10)
-  charisma     Int     @default(10)
-
-  // Krok 5 — Tło
+  id                String   @id @default(cuid())
+  userId            String
+  name              String
+  gender            String   @default("inne")
+  age               Int?
+  height            Int?
+  description       String?
+  alignment         String   @default("TN")
+  race              String
+  subrace           String?
+  class             String
+  subclass          String?
+  level             Int      @default(1)
+  skills            String   @default("[]")
+  strength          Int      @default(10)
+  dexterity         Int      @default(10)
+  constitution      Int      @default(10)
+  intelligence      Int      @default(10)
+  wisdom            Int      @default(10)
+  charisma          Int      @default(10)
   background        String?
-  personalityTraits String  @default("[]") // JSON: string[]
-  ideals            String  @default("[]") // JSON: string[]
-  bonds             String  @default("[]") // JSON: string[]
-  flaws             String  @default("[]") // JSON: string[]
-  languages         String  @default("[]") // JSON: string[]
+  personalityTraits String   @default("[]")
+  ideals            String   @default("[]")
+  bonds             String   @default("[]")
+  flaws             String   @default("[]")
+  languages         String   @default("[]")
   backstory         String?
-
-  // Krok 6 — Ekwipunek
-  equipment String  @default("[]") // JSON: { name, qty, weight }[]
-  gold      Int     @default(0)
-
-  // Krok 7 — Magia
-  cantrips  String  @default("[]") // JSON: string[] — spell ids
-  spells    String  @default("[]") // JSON: string[] — spell ids
-
-  // Stan rozgrywki (karta postaci)
-  currentHp    Int?
-  tempHp       Int     @default(0)
-  deathSaves   String  @default("{\"successes\":0,\"failures\":0}") // JSON
-  sessionNotes String?
-
-  // Faza 4 — rozszerzenie karta postaci
-  inspiration    Boolean @default(false)
-  experience     Int     @default(0)
-  weight         Int?                      // kg
-  eyeColor       String?
-  skinColor      String?
-  hairColor      String?
-  allies         String?                   // textarea
-  treasure       String?                   // majątek poza złotem
-  hitDiceUsed    Int     @default(0)
-  attacks        String  @default("[]")    // JSON: {name, atkBonus, damage}[]
-  spellSlotsUsed String  @default("{}")    // JSON: {1:0, 2:0, ...9:0}
-
-  // Meta
-  isComplete Boolean  @default(false)
-  imageUrl   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  equipment         String   @default("[]")
+  gold              Int      @default(0)
+  cantrips          String   @default("[]")
+  spells            String   @default("[]")
+  currentHp         Int?
+  tempHp            Int      @default(0)
+  deathSaves        String   @default("{\"successes\":0,\"failures\":0}")
+  sessionNotes      String?
+  inspiration       Boolean  @default(false)
+  experience        Int      @default(0)
+  weight            Int?
+  eyeColor          String?
+  skinColor         String?
+  hairColor         String?
+  allies            String?
+  treasure          String?
+  hitDiceUsed       Int      @default(0)
+  attacks           String   @default("[]")
+  spellSlotsUsed    String   @default("{}")
+  isComplete        Boolean  @default(false)
+  imageUrl          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -10,11 +10,11 @@ async function createCharacterForDeletion(page: Page) {
   await page.evaluate((name) => {
     const data = {
       state: {
-        step1: { name, gender: "mezczyzna", age: 25, height: 180, description: "", alignment: "TN" },
+        step1: { name, gender: "mezczyzna", age: 25, height: 180, weight: null, eyeColor: "", skinColor: "", hairColor: "", description: "", alignment: "TN" },
         step2: { race: "human", subrace: null },
         step3: { class: "fighter", subclass: "champion", skills: ["athletics", "intimidation"] },
         step4: { method: "standard", strength: 15, dexterity: 13, constitution: 14, intelligence: 12, wisdom: 10, charisma: 8 },
-        step5: { background: "soldier", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "" },
+        step5: { background: "soldier", personalityTraits: [], ideals: [], bonds: [], flaws: [], languages: [], backstory: "", allies: "", treasure: "" },
         step6: { equipment: [{ name: "Miecz długi", qty: 1, weight: 0 }], gold: 10 },
         step7: { cantrips: [], spells: [] },
       },

@@ -266,6 +266,33 @@ export default function TloForm() {
         </div>
       </div>
 
+      {/* Historia + Sojusznicy */}
+      {step5.background && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 24 }}>
+          <div style={{ height: 1, background: LIGHT }} />
+          <div>
+            <label style={LABEL_STYLE}>Historia postaci (opcjonalnie)</label>
+            <textarea
+              style={{ width: "100%", minHeight: 80, fontFamily: FONT_UI, fontSize: 14, color: BLACK, border: `1px solid ${LIGHT}`, background: "transparent", padding: "10px 12px", resize: "vertical", lineHeight: 1.6, boxSizing: "border-box" }}
+              value={step5.backstory}
+              onChange={(e) => setStep5({ backstory: e.target.value })}
+              placeholder="Opisz skąd pochodzi twoja postać, co ją ukształtowało..."
+              maxLength={2000}
+            />
+          </div>
+          <div>
+            <label style={LABEL_STYLE}>Sojusznicy i organizacje (opcjonalnie)</label>
+            <textarea
+              style={{ width: "100%", minHeight: 60, fontFamily: FONT_UI, fontSize: 14, color: BLACK, border: `1px solid ${LIGHT}`, background: "transparent", padding: "10px 12px", resize: "vertical", lineHeight: 1.6, boxSizing: "border-box" }}
+              value={step5.allies}
+              onChange={(e) => setStep5({ allies: e.target.value })}
+              placeholder="Frakcje, gildie, rodzina, przyjaciele..."
+              maxLength={500}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Nawigacja */}
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
