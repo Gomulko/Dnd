@@ -5,6 +5,13 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
 export function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -33,190 +40,100 @@ export function LoginForm() {
   }
 
   return (
-    <div>
+    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 40px" }}>
+
       {/* Nagłówek */}
-      <div style={{ marginBottom: 40 }}>
-        <p style={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 600,
-          fontSize: 16,
-          letterSpacing: "1.32px",
-          textTransform: "uppercase",
-          color: "#C9A84C",
-          marginBottom: 8,
-        }}>
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "3px", marginBottom: 12 }}>
+          Logowanie
+        </div>
+        <div style={{ fontFamily: FONT_DISPLAY, fontSize: 34, fontStyle: "italic", color: BLACK, lineHeight: 1.1 }}>
           Powrót do przygody
-        </p>
-        <h2 style={{
-          fontFamily: "Cinzel, serif",
-          fontWeight: 700,
-          fontSize: 28,
-          lineHeight: "34px",
-          letterSpacing: "0.84px",
-          color: "#F0ECE4",
-          marginBottom: 10,
-        }}>
-          Witaj z powrotem
-        </h2>
-        <p style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 16,
-          color: "#8B8699",
-          marginBottom: 12,
-        }}>
-          Twoje postacie czekają
-        </p>
-        {/* Złota linia */}
-        <div style={{
-          width: 48,
-          height: 2,
-          background: "linear-gradient(90deg, #C9A84C 0%, rgba(201, 168, 76, 0.2) 100%)",
-          borderRadius: 2,
-        }} />
+        </div>
+        <div style={{ width: 40, height: 1.5, background: BLACK, marginTop: 14 }} />
       </div>
 
       <form onSubmit={handleSubmit}>
+
         {/* Nazwa użytkownika */}
         <div style={{ marginBottom: 20 }}>
           <label style={{
             display: "block",
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 600,
-            fontSize: 16,
-            letterSpacing: "0.72px",
+            fontFamily: FONT_UI,
+            fontSize: 10,
             textTransform: "uppercase",
-            color: "#8B8699",
+            letterSpacing: "1.5px",
+            color: MID,
             marginBottom: 8,
           }}>
             Nazwa użytkownika
           </label>
-          <div style={{ position: "relative" }}>
-            <span style={{
-              position: "absolute",
-              left: 14,
-              top: "50%",
-              transform: "translateY(-50%)",
-              fontSize: 16,
-              color: "#4A4759",
-              pointerEvents: "none",
-            }}>
-              ⚔
-            </span>
-            <input
-              name="username"
-              type="text"
-              required
-              placeholder="Kelindra_Moonwhisper"
-              style={{
-                width: "100%",
-                height: 45,
-                background: "#0F0E17",
-                border: "1px solid rgba(82, 201, 122, 0.4)",
-                borderRadius: 8,
-                padding: "13px 14px 13px 42px",
-                fontFamily: "Inter, sans-serif",
-                fontSize: 16,
-                color: "#F0ECE4",
-                outline: "none",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => {
-                e.target.style.border = "1px solid #C9A84C";
-                e.target.style.boxShadow = "0px 0px 0px 3px rgba(201, 168, 76, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.border = "1px solid rgba(82, 201, 122, 0.4)";
-                e.target.style.boxShadow = "none";
-              }}
-            />
-          </div>
+          <input
+            name="username"
+            type="text"
+            required
+            placeholder="Kelindra_Moonwhisper"
+            style={{
+              width: "100%",
+              height: 44,
+              background: WHITE,
+              border: `1.5px solid ${BLACK}`,
+              borderRadius: 0,
+              padding: "0 14px",
+              fontFamily: FONT_UI,
+              fontSize: 15,
+              color: BLACK,
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
         </div>
 
         {/* Hasło */}
-        <div style={{ marginBottom: 20 }}>
+        <div style={{ marginBottom: 28 }}>
           <label style={{
             display: "block",
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 600,
-            fontSize: 16,
-            letterSpacing: "0.72px",
+            fontFamily: FONT_UI,
+            fontSize: 10,
             textTransform: "uppercase",
-            color: "#8B8699",
+            letterSpacing: "1.5px",
+            color: MID,
             marginBottom: 8,
           }}>
             Hasło
           </label>
-          <div style={{ position: "relative" }}>
-            <span style={{
-              position: "absolute",
-              left: 14,
-              top: "50%",
-              transform: "translateY(-50%)",
-              fontSize: 16,
-              color: "#4A4759",
-              pointerEvents: "none",
-            }}>
-              🔒
-            </span>
-            <input
-              name="password"
-              type="password"
-              required
-              placeholder="••••••••••••"
-              style={{
-                width: "100%",
-                height: 45,
-                background: "#0F0E17",
-                border: "1px solid #C9A84C",
-                boxShadow: "0px 0px 0px 3px rgba(201, 168, 76, 0.1)",
-                borderRadius: 8,
-                padding: "13px 14px 13px 42px",
-                fontFamily: "Inter, sans-serif",
-                fontSize: 16,
-                color: "#F0ECE4",
-                outline: "none",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => {
-                e.target.style.border = "1px solid #C9A84C";
-                e.target.style.boxShadow = "0px 0px 0px 3px rgba(201, 168, 76, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.border = "1px solid #2E2B3D";
-                e.target.style.boxShadow = "none";
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Zapamiętaj + Zapomniałem */}
-        <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
-          <label className="flex items-center" style={{ gap: 10, cursor: "pointer" }}>
-            <div style={{
-              width: 18,
-              height: 18,
-              background: "#C9A84C",
-              border: "1px solid #C9A84C",
-              borderRadius: 4,
-              flexShrink: 0,
-            }} />
-            <span style={{ fontFamily: "Inter, sans-serif", fontSize: 16, color: "#8B8699" }}>
-              Zapamiętaj mnie
-            </span>
-          </label>
-          <Link href="/reset-hasla" style={{
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 500,
-            fontSize: 16,
-            color: "#4A4759",
-            textDecoration: "none",
-          }}>
-            Zapomniałem hasła
-          </Link>
+          <input
+            name="password"
+            type="password"
+            required
+            placeholder="••••••••"
+            style={{
+              width: "100%",
+              height: 44,
+              background: WHITE,
+              border: `1.5px solid ${BLACK}`,
+              borderRadius: 0,
+              padding: "0 14px",
+              fontFamily: FONT_UI,
+              fontSize: 15,
+              color: BLACK,
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
         </div>
 
         {error && (
-          <p style={{ color: "#E05252", fontSize: 16, marginBottom: 12 }}>{error}</p>
+          <div style={{
+            fontFamily: FONT_UI,
+            fontSize: 13,
+            color: "#a02020",
+            marginBottom: 16,
+            padding: "10px 14px",
+            border: "1px solid #a02020",
+          }}>
+            {error}
+          </div>
         )}
 
         {/* Przycisk */}
@@ -225,75 +142,31 @@ export function LoginForm() {
           disabled={loading}
           style={{
             width: "100%",
-            height: 49,
-            background: loading ? "#8B6B2E" : "linear-gradient(135deg, #C9A84C 0%, #B8943C 100%)",
-            boxShadow: "0px 4px 20px rgba(201, 168, 76, 0.25)",
-            borderRadius: 8,
+            height: 46,
+            background: loading ? MID : BLACK,
             border: "none",
-            fontFamily: "Inter, sans-serif",
+            fontFamily: FONT_UI,
             fontWeight: 700,
-            fontSize: 16,
-            letterSpacing: "0.45px",
-            color: "#1A1408",
+            fontSize: 12,
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            color: WHITE,
             cursor: loading ? "not-allowed" : "pointer",
             marginBottom: 24,
           }}
         >
-          {loading ? "Logowanie..." : "Wkrocz do Świata →"}
+          {loading ? "Logowanie..." : "Wkrocz do świata"}
         </button>
       </form>
 
-      {/* Separator LUB */}
-      <div className="flex items-center" style={{ gap: 16, marginBottom: 20 }}>
-        <div style={{ flex: 1, height: 1, background: "#2E2B3D" }} />
-        <span style={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 500,
-          fontSize: 16,
-          letterSpacing: "0.96px",
-          textTransform: "uppercase",
-          color: "#4A4759",
-        }}>
-          lub
-        </span>
-        <div style={{ flex: 1, height: 1, background: "#2E2B3D" }} />
-      </div>
-
-      {/* Rejestracja link */}
-      <p style={{
-        textAlign: "center",
-        fontFamily: "Inter, sans-serif",
-        fontSize: 16,
-        color: "#8B8699",
-        marginBottom: 16,
-      }}>
-        Nie masz konta?{" "}
-        <Link href="/rejestracja" style={{ color: "#C9A84C", fontWeight: 500, textDecoration: "none" }}>
-          Zarejestruj się
-        </Link>
-      </p>
-
-      {/* Bezpieczeństwo */}
-      <div
-        className="flex items-center justify-center"
-        style={{
-          gap: 10,
-          height: 47,
-          background: "rgba(82, 201, 122, 0.05)",
-          border: "1px solid rgba(82, 201, 122, 0.12)",
-          borderRadius: 8,
-        }}
-      >
-        <span style={{ fontSize: 16, opacity: 0.8 }}>🛡</span>
-        <span style={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 500,
-          fontSize: 16,
-          letterSpacing: "0.12px",
-          color: "#4A4759",
-        }}>
-          Twoje dane są bezpieczne i szyfrowane
-        </span>
+      {/* Separator */}
+      <div style={{ borderTop: `1px solid ${LIGHT}`, paddingTop: 20 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 13, color: MID, margin: 0 }}>
+          Nie masz konta?{" "}
+          <Link href="/rejestracja" style={{ color: BLACK, fontWeight: 700, textDecoration: "underline" }}>
+            Zarejestruj się
+          </Link>
+        </p>
       </div>
     </div>
   );

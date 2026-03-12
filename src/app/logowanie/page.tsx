@@ -1,75 +1,56 @@
 import { LoginForm } from "@/domains/auth/components";
 
+const BLACK = "#0a0a0a";
+const WHITE = "#ffffff";
+const MID = "#555555";
+const PAGE = "#d8d8d8";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
+const FEATURES = [
+  "Kreator postaci krok po kroku",
+  "Karta postaci zawsze pod ręką",
+  "Zgodny z D&D 5e Basic Rules",
+];
+
 export default function LogowaniePage() {
   return (
-    <div className="flex h-screen w-screen overflow-hidden" style={{ background: "#0F0E17" }}>
+    <div style={{ display: "flex", height: "100vh", width: "100vw", overflow: "hidden" }}>
 
-      {/* Lewa strona — dekoracyjna */}
+      {/* Lewa strona — czarna, dekoracyjna */}
       <div
-        className="relative flex flex-col items-center justify-center"
         style={{
           width: "50%",
-          background: "radial-gradient(80% 60% at 30% 40%, rgba(124, 92, 191, 0.18) 0%, rgba(0,0,0,0) 65%), radial-gradient(60% 80% at 70% 80%, rgba(201, 168, 76, 0.07) 0%, rgba(0,0,0,0) 60%), linear-gradient(160deg, #12101E 8%, #0F0E17 42%, #0C0B14 92%)",
-          borderRight: "1px solid #2E2B3D",
+          background: BLACK,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "56px 64px",
         }}
       >
-        <div className="flex flex-col items-center" style={{ width: 520 }}>
+        {/* Logo */}
+        <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "3px" }}>
+          Kroniki Przygód
+        </div>
 
-          {/* Ikona mieczy */}
-          <div style={{ filter: "drop-shadow(0px 0px 64px rgba(201, 168, 76, 0.4))", fontSize: 160, lineHeight: 1, color: "#C9A84C", textAlign: "center" }}>
-            ⚔
+        {/* Środek */}
+        <div>
+          <div style={{ fontFamily: FONT_DISPLAY, fontSize: 80, fontStyle: "italic", color: WHITE, lineHeight: 1, marginBottom: 32 }}>
+            Witaj<br />z powrotem.
           </div>
-
-          {/* Tytuł */}
-          <h1
-            style={{
-              fontFamily: "Cinzel, serif",
-              fontWeight: 700,
-              fontSize: 36,
-              lineHeight: "40px",
-              letterSpacing: "1.44px",
-              color: "#F0ECE4",
-              textAlign: "center",
-              marginTop: 24,
-            }}
-          >
-            Kroniki Przygód
-          </h1>
-
-          {/* Podtytuł */}
-          <p style={{ fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: "26px", color: "#8B8699", textAlign: "center", marginTop: 16 }}>
+          <div style={{ width: 60, height: 1.5, background: WHITE, marginBottom: 32 }} />
+          <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, lineHeight: "26px", maxWidth: 320 }}>
             Twój cyfrowy towarzysz<br />w świecie D&amp;D 5e
           </p>
 
-          {/* Dekoracyjny separator */}
-          <div className="flex items-center" style={{ width: 400, gap: 16, marginTop: 32, marginBottom: 32 }}>
-            <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(201, 168, 76, 0.5) 50%, rgba(0,0,0,0) 100%)" }} />
-            <span style={{ color: "#C9A84C", fontSize: 16, opacity: 0.7 }}>◆</span>
-            <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(201, 168, 76, 0.5) 50%, rgba(0,0,0,0) 100%)" }} />
-          </div>
-
           {/* Feature lista */}
-          <div className="flex flex-col" style={{ gap: 20, width: 380 }}>
-            {[
-              "Kreator postaci krok po kroku",
-              "Karta postaci zawsze pod ręką",
-              "Zgodny z D&D 5e Basic Rules",
-            ].map((text) => (
-              <div key={text} className="flex items-center" style={{ gap: 16 }}>
-                <div
-                  className="flex items-center justify-center"
-                  style={{
-                    width: 40,
-                    height: 40,
-                    flexShrink: 0,
-                    background: "linear-gradient(135deg, rgba(201, 168, 76, 0.15) 0%, rgba(201, 168, 76, 0.04) 100%)",
-                    border: "1px solid rgba(201, 168, 76, 0.2)",
-                    borderRadius: 10,
-                  }}
-                >
-                  <span style={{ color: "#C9A84C", fontSize: 16 }}>✦</span>
-                </div>
-                <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 500, fontSize: 16, color: "#F0ECE4" }}>
+          <div style={{ marginTop: 48, display: "flex", flexDirection: "column", gap: 20 }}>
+            {FEATURES.map((text) => (
+              <div key={text} style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <div style={{
+                  width: 6, height: 6, background: WHITE, flexShrink: 0,
+                }} />
+                <span style={{ fontFamily: FONT_UI, fontSize: 14, color: WHITE }}>
                   {text}
                 </span>
               </div>
@@ -77,23 +58,23 @@ export default function LogowaniePage() {
           </div>
         </div>
 
-        {/* Bottom dekoracja */}
-        <div
-          className="absolute flex items-center"
-          style={{ bottom: 67, gap: 12, opacity: 0.35 }}
-        >
-          <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, #C9A84C 100%)" }} />
-          <span style={{ color: "#C9A84C", fontSize: 16, letterSpacing: "2.8px" }}>✦ ✦ ✦</span>
-          <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, #C9A84C 0%, rgba(0,0,0,0) 100%)" }} />
+        {/* Dół */}
+        <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, letterSpacing: "1px" }}>
+          D&amp;D 5e Basic Rules — SRD 5.2.1
         </div>
       </div>
 
       {/* Prawa strona — formularz */}
       <div
-        className="flex items-center justify-center"
-        style={{ width: "50%", background: "#1A1825" }}
+        style={{
+          width: "50%",
+          background: PAGE,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <div style={{ width: 440 }}>
+        <div style={{ width: 400 }}>
           <LoginForm />
         </div>
       </div>

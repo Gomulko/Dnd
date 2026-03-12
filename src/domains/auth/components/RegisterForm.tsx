@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { registerUser } from "../actions";
 
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
 function getPasswordStrength(password: string): { level: number; label: string; color: string } {
   if (!password) return { level: 0, label: "", color: "" };
   let score = 0;
@@ -13,54 +20,18 @@ function getPasswordStrength(password: string): { level: number; label: string; 
   if (/[A-Z]/.test(password) && /[0-9]/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
-  if (score <= 1) return { level: 1, label: "Siła hasła: Słabe", color: "#E05252" };
-  if (score === 2) return { level: 2, label: "Siła hasła: Średnia", color: "#E8B84C" };
-  if (score === 3) return { level: 3, label: "Siła hasła: Dobre", color: "#52C97A" };
-  return { level: 4, label: "Siła hasła: Silne", color: "#52C97A" };
+  if (score <= 1) return { level: 1, label: "Słabe", color: "#a02020" };
+  if (score === 2) return { level: 2, label: "Średnie", color: MID };
+  if (score === 3) return { level: 3, label: "Dobre", color: "#1a7a3a" };
+  return { level: 4, label: "Silne", color: BLACK };
 }
 
 const BAR_COLORS: Record<number, string[]> = {
-  0: ["#232136", "#232136", "#232136", "#232136"],
-  1: ["#E05252", "#232136", "#232136", "#232136"],
-  2: ["#E05252", "#E05252", "#E8B84C", "#232136"],
-  3: ["#52C97A", "#52C97A", "#52C97A", "#232136"],
-  4: ["#52C97A", "#52C97A", "#52C97A", "#52C97A"],
-};
-
-const inputStyle = (active = false): React.CSSProperties => ({
-  width: "100%",
-  height: 45,
-  background: "#0F0E17",
-  border: active ? "1px solid #C9A84C" : "1px solid #2E2B3D",
-  boxShadow: active ? "0px 0px 0px 3px rgba(201, 168, 76, 0.1)" : "none",
-  borderRadius: 8,
-  padding: "13px 14px 13px 42px",
-  fontFamily: "Inter, sans-serif",
-  fontSize: 16,
-  color: "#F0ECE4",
-  outline: "none",
-  boxSizing: "border-box" as const,
-});
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontFamily: "Inter, sans-serif",
-  fontWeight: 600,
-  fontSize: 16,
-  letterSpacing: "0.72px",
-  textTransform: "uppercase",
-  color: "#8B8699",
-  marginBottom: 8,
-};
-
-const iconStyle: React.CSSProperties = {
-  position: "absolute",
-  left: 14,
-  top: "50%",
-  transform: "translateY(-50%)",
-  fontSize: 16,
-  color: "#4A4759",
-  pointerEvents: "none",
+  0: [LIGHT, LIGHT, LIGHT, LIGHT],
+  1: ["#a02020", LIGHT, LIGHT, LIGHT],
+  2: [MID, MID, LIGHT, LIGHT],
+  3: ["#1a7a3a", "#1a7a3a", "#1a7a3a", LIGHT],
+  4: [BLACK, BLACK, BLACK, BLACK],
 };
 
 export function RegisterForm() {
@@ -69,7 +40,6 @@ export function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [accepted, setAccepted] = useState(true);
-  const [activeField, setActiveField] = useState<string | null>(null);
 
   const strength = getPasswordStrength(password);
   const bars = BAR_COLORS[strength.level];
@@ -99,132 +69,132 @@ export function RegisterForm() {
     router.push("/logowanie?registered=true");
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    height: 44,
+    background: WHITE,
+    border: `1.5px solid ${BLACK}`,
+    borderRadius: 0,
+    padding: "0 14px",
+    fontFamily: FONT_UI,
+    fontSize: 15,
+    color: BLACK,
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: "block",
+    fontFamily: FONT_UI,
+    fontSize: 10,
+    textTransform: "uppercase",
+    letterSpacing: "1.5px",
+    color: MID,
+    marginBottom: 8,
+  };
+
   return (
-    <div>
+    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 40px" }}>
+
       {/* Nagłówek */}
-      <div style={{ marginBottom: 40 }}>
-        <h2 style={{
-          fontFamily: "Cinzel, serif",
-          fontWeight: 700,
-          fontSize: 28,
-          lineHeight: "38px",
-          letterSpacing: "0.84px",
-          color: "#F0ECE4",
-          marginBottom: 10,
-        }}>
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "3px", marginBottom: 12 }}>
+          Rejestracja
+        </div>
+        <div style={{ fontFamily: FONT_DISPLAY, fontSize: 34, fontStyle: "italic", color: BLACK, lineHeight: 1.1 }}>
           Utwórz konto
-        </h2>
-        <p style={{ fontFamily: "Inter, sans-serif", fontSize: 16, color: "#8B8699", marginBottom: 12 }}>
-          Dołącz do tysięcy przygodników
-        </p>
-        <div style={{
-          width: 48, height: 2,
-          background: "linear-gradient(90deg, #C9A84C 0%, rgba(201, 168, 76, 0.2) 100%)",
-          borderRadius: 2,
-        }} />
+        </div>
+        <div style={{ width: 40, height: 1.5, background: BLACK, marginTop: 14 }} />
       </div>
 
       <form onSubmit={handleSubmit}>
+
         {/* Nazwa użytkownika */}
         <div style={{ marginBottom: 20 }}>
           <label style={labelStyle}>Nazwa użytkownika</label>
-          <div style={{ position: "relative" }}>
-            <span style={iconStyle}>⚔</span>
-            <input
-              name="username"
-              type="text"
-              required
-              placeholder="Kelindra_Moonwhisper"
-              style={inputStyle(activeField === "username")}
-              onFocus={() => setActiveField("username")}
-              onBlur={() => setActiveField(null)}
-            />
-          </div>
+          <input
+            name="username"
+            type="text"
+            required
+            placeholder="Kelindra_Moonwhisper"
+            style={inputStyle}
+          />
         </div>
 
-        {/* Hasło + pasek siły */}
+        {/* Hasło */}
         <div style={{ marginBottom: 20 }}>
           <label style={labelStyle}>Hasło</label>
-          <div style={{ position: "relative" }}>
-            <span style={iconStyle}>🔒</span>
-            <input
-              name="password"
-              type="password"
-              required
-              placeholder="mypassword123"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={inputStyle(activeField === "password")}
-              onFocus={() => setActiveField("password")}
-              onBlur={() => setActiveField(null)}
-            />
-          </div>
+          <input
+            name="password"
+            type="password"
+            required
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={inputStyle}
+          />
           {password && (
             <div style={{ marginTop: 8 }}>
-              <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
+              <div style={{ display: "flex", gap: 3, marginBottom: 4 }}>
                 {bars.map((color, i) => (
-                  <div key={i} style={{ flex: 1, height: 3, background: color, borderRadius: 2 }} />
+                  <div key={i} style={{ flex: 1, height: 2, background: color }} />
                 ))}
               </div>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 500,
-                fontSize: 16,
-                color: strength.color,
-              }}>
-                {strength.label}
-              </p>
+              <span style={{ fontFamily: FONT_UI, fontSize: 11, color: strength.color, textTransform: "uppercase", letterSpacing: "1px" }}>
+                Hasło: {strength.label}
+              </span>
             </div>
           )}
         </div>
 
         {/* Powtórz hasło */}
         <div style={{ marginBottom: 24 }}>
-          <label style={labelStyle}>Powtórz Hasło</label>
-          <div style={{ position: "relative" }}>
-            <span style={iconStyle}>🔒</span>
-            <input
-              name="confirmPassword"
-              type="password"
-              required
-              placeholder="mypassword123"
-              style={inputStyle(activeField === "confirm")}
-              onFocus={() => setActiveField("confirm")}
-              onBlur={() => setActiveField(null)}
-            />
-          </div>
+          <label style={labelStyle}>Powtórz hasło</label>
+          <input
+            name="confirmPassword"
+            type="password"
+            required
+            placeholder="••••••••"
+            style={inputStyle}
+          />
         </div>
 
-        {/* Checkbox regulamin */}
+        {/* Regulamin */}
         <div
-          className="flex items-start"
-          style={{ gap: 12, marginBottom: 24, cursor: "pointer" }}
+          style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 24, cursor: "pointer" }}
           onClick={() => setAccepted(!accepted)}
         >
           <div style={{
             width: 18, height: 18, flexShrink: 0, marginTop: 1,
-            background: accepted ? "#C9A84C" : "transparent",
-            border: `1px solid ${accepted ? "#C9A84C" : "#4A4759"}`,
-            borderRadius: 4,
+            border: `1.5px solid ${BLACK}`,
+            background: accepted ? BLACK : WHITE,
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            {accepted && <span style={{ color: "#1A1408", fontSize: 16, fontWeight: 700 }}>✓</span>}
+            {accepted && <span style={{ color: WHITE, fontSize: 12, fontWeight: 700, lineHeight: 1 }}>✓</span>}
           </div>
-          <p style={{ fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: "20px", color: "#8B8699" }}>
+          <p style={{ fontFamily: FONT_UI, fontSize: 13, lineHeight: "20px", color: MID, margin: 0 }}>
             Akceptuję{" "}
-            <Link href="/regulamin" style={{ color: "#C9A84C", textDecoration: "none" }} onClick={(e) => e.stopPropagation()}>
+            <Link href="/regulamin" style={{ color: BLACK, textDecoration: "underline" }} onClick={(e) => e.stopPropagation()}>
               regulamin
             </Link>
             {" "}i{" "}
-            <Link href="/prywatnosc" style={{ color: "#C9A84C", textDecoration: "none" }} onClick={(e) => e.stopPropagation()}>
+            <Link href="/prywatnosc" style={{ color: BLACK, textDecoration: "underline" }} onClick={(e) => e.stopPropagation()}>
               politykę prywatności
             </Link>
-            {" "}serwisu Kroniki Przygód
           </p>
         </div>
 
         {error && (
-          <p style={{ color: "#E05252", fontSize: 16, marginBottom: 12 }}>{error}</p>
+          <div style={{
+            fontFamily: FONT_UI,
+            fontSize: 13,
+            color: "#a02020",
+            marginBottom: 16,
+            padding: "10px 14px",
+            border: "1px solid #a02020",
+          }}>
+            {error}
+          </div>
         )}
 
         {/* Przycisk */}
@@ -232,41 +202,33 @@ export function RegisterForm() {
           type="submit"
           disabled={loading}
           style={{
-            width: "100%", height: 49,
-            background: loading ? "#8B6B2E" : "linear-gradient(135deg, #C9A84C 0%, #B8943C 100%)",
-            boxShadow: "0px 4px 20px rgba(201, 168, 76, 0.25)",
-            borderRadius: 8, border: "none",
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 700, fontSize: 16,
-            letterSpacing: "0.45px",
-            color: "#1A1408",
+            width: "100%",
+            height: 46,
+            background: loading ? MID : BLACK,
+            border: "none",
+            fontFamily: FONT_UI,
+            fontWeight: 700,
+            fontSize: 12,
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            color: WHITE,
             cursor: loading ? "not-allowed" : "pointer",
             marginBottom: 24,
           }}
         >
-          {loading ? "Tworzenie konta..." : "Rozpocznij Przygodę →"}
+          {loading ? "Tworzenie konta..." : "Rozpocznij przygodę"}
         </button>
       </form>
 
-      {/* Separator LUB */}
-      <div className="flex items-center" style={{ gap: 16, marginBottom: 20 }}>
-        <div style={{ flex: 1, height: 1, background: "#2E2B3D" }} />
-        <span style={{
-          fontFamily: "Inter, sans-serif", fontWeight: 500, fontSize: 16,
-          letterSpacing: "0.96px", textTransform: "uppercase", color: "#4A4759",
-        }}>
-          lub
-        </span>
-        <div style={{ flex: 1, height: 1, background: "#2E2B3D" }} />
+      {/* Link do logowania */}
+      <div style={{ borderTop: `1px solid ${LIGHT}`, paddingTop: 20 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 13, color: MID, margin: 0 }}>
+          Masz już konto?{" "}
+          <Link href="/logowanie" style={{ color: BLACK, fontWeight: 700, textDecoration: "underline" }}>
+            Zaloguj się
+          </Link>
+        </p>
       </div>
-
-      {/* Login link */}
-      <p style={{ textAlign: "center", fontFamily: "Inter, sans-serif", fontSize: 16, color: "#8B8699" }}>
-        Masz już konto?{" "}
-        <Link href="/logowanie" style={{ color: "#C9A84C", fontWeight: 500, textDecoration: "none" }}>
-          Zaloguj się
-        </Link>
-      </p>
     </div>
   );
 }
