@@ -10,6 +10,7 @@ type Props = {
   position?: Position;
   children: React.ReactNode;
   delay?: number;
+  wrapperStyle?: React.CSSProperties;
 };
 
 const BLACK = "#0a0a0a";
@@ -91,7 +92,7 @@ function calcCoords(
   return { top, left, arrowTop, arrowLeft, arrowBorderTop, arrowBorderLeft, arrowBorderRight, arrowBorderBottom };
 }
 
-export default function Tooltip({ content, position = "top", children, delay = 300 }: Props) {
+export default function Tooltip({ content, position = "top", children, delay = 300, wrapperStyle }: Props) {
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState<TooltipCoords | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -139,7 +140,7 @@ export default function Tooltip({ content, position = "top", children, delay = 3
         top: coords?.top ?? -9999,
         left: coords?.left ?? -9999,
         zIndex: 9999,
-        maxWidth: 280,
+        maxWidth: 320,
         background: BLACK,
         color: WHITE,
         fontFamily: FONT_UI,
@@ -182,7 +183,7 @@ export default function Tooltip({ content, position = "top", children, delay = 3
         onMouseLeave={hide}
         onFocus={show}
         onBlur={hide}
-        style={{ display: "inline-flex", alignItems: "center" }}
+        style={{ display: "inline-flex", alignItems: "center", ...wrapperStyle }}
       >
         {children}
       </span>

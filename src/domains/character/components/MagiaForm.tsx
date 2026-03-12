@@ -299,45 +299,53 @@ function SpellSection({ title, titleTooltip, spells, selected, maxSelect, onTogg
           const isSelected = selected.includes(spell.id);
           const isDisabled = !isSelected && selected.length >= maxSelect;
           return (
-            <button
+            <Tooltip
               key={spell.id}
-              type="button"
-              disabled={isDisabled}
-              onClick={() => onToggle(spell.id)}
-              aria-label={spell.namePl}
-              style={{
-                textAlign: "left", padding: "10px 12px", cursor: isDisabled ? "not-allowed" : "pointer",
-                background: isSelected ? BLACK : "transparent",
-                border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
-              }}
+              content={spell.description}
+              position="top"
+              delay={400}
+              wrapperStyle={{ display: "block" }}
             >
-              <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: isDisabled ? LIGHT : isSelected ? WHITE : MID }}>
-                {isSelected && <span style={{ marginRight: 4 }}>✓</span>}
-                {spell.namePl}
-              </div>
-              <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
-                <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
-                  {SCHOOL_LABELS[spell.school]}
-                </span>
-                {spell.ritual && (
-                  <Tooltip content="Można rzucić jako rytuał (10 min dłużej) bez zużywania slotu zaklęcia. Idealne dla zaklęć użytkowych poza walką." position="top">
-                    <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID, cursor: "help" }}>
-                      Rytuał
-                    </span>
-                  </Tooltip>
-                )}
-                {spell.concentration && (
-                  <Tooltip content="Wymaga Koncentracji — możesz utrzymywać tylko jedno takie zaklęcie na raz. Otrzymanie obrażeń może je przerwać (rzut KON DC 10)." position="top">
-                    <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID, cursor: "help" }}>
-                      Konc.
-                    </span>
-                  </Tooltip>
-                )}
-              </div>
-              <div style={{ fontFamily: FONT_UI, fontSize: 16, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
-                {spell.castingTime} · {spell.range}
-              </div>
-            </button>
+              <button
+                type="button"
+                disabled={isDisabled}
+                onClick={() => onToggle(spell.id)}
+                aria-label={spell.namePl}
+                style={{
+                  width: "100%", textAlign: "left", padding: "10px 12px",
+                  cursor: isDisabled ? "not-allowed" : "pointer",
+                  background: isSelected ? BLACK : "transparent",
+                  border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
+                }}
+              >
+                <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: isDisabled ? LIGHT : isSelected ? WHITE : MID }}>
+                  {isSelected && <span style={{ marginRight: 4 }}>✓</span>}
+                  {spell.namePl}
+                </div>
+                <div style={{ display: "flex", gap: 6, marginTop: 4, flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
+                    {SCHOOL_LABELS[spell.school]}
+                  </span>
+                  {spell.ritual && (
+                    <Tooltip content="Można rzucić jako rytuał (10 min dłużej) bez zużywania slotu zaklęcia. Idealne dla zaklęć użytkowych poza walką." position="top">
+                      <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID, cursor: "help" }}>
+                        Rytuał
+                      </span>
+                    </Tooltip>
+                  )}
+                  {spell.concentration && (
+                    <Tooltip content="Wymaga Koncentracji — możesz utrzymywać tylko jedno takie zaklęcie na raz. Otrzymanie obrażeń może je przerwać (rzut KON DC 10)." position="top">
+                      <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID, cursor: "help" }}>
+                        Konc.
+                      </span>
+                    </Tooltip>
+                  )}
+                </div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
+                  {spell.castingTime} · {spell.range}
+                </div>
+              </button>
+            </Tooltip>
           );
         })}
       </div>
