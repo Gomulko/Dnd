@@ -6,6 +6,7 @@ import { useWizardStore } from "@/domains/character/store/wizardStore";
 import { CLASSES } from "@/data/dnd/classes";
 import { getCantripsForClass, getLevel1SpellsForClass } from "@/data/dnd/spells";
 import type { Spell, SpellSchool } from "@/data/dnd/spells";
+import Tooltip from "@/shared/ui/Tooltip";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -30,6 +31,27 @@ const SCHOOL_LABELS: Record<SpellSchool, string> = {
   Evocation: "Ewokacja", Illusion: "Iluzja",
   Necromancy: "Nekromancja", Transmutation: "Transmutacja",
 };
+
+const SCHOOL_TOOLTIPS: Partial<Record<SpellSchool, string>> = {
+  Abjuration:    "Ochrona i odpędzanie — bariery, odporności, anulowanie magii.",
+  Conjuration:   "Przywoływanie stworzeń i teleportacja — materializuje sojuszników lub przenosi się w przestrzeni.",
+  Divination:    "Przepowiednia i wykrywanie — ujawnia ukryte informacje, przyszłość i wrogów.",
+  Enchantment:   "Wpływanie na umysły — usypia, fascynuje, wydaje rozkazy.",
+  Evocation:     "Czysta energia — ogień, błyskawice, lód. Najbardziej ofensywna szkoła.",
+  Illusion:      "Fałszywe obrazy i dźwięki — zmyla wrogów i ukrywa sojuszników.",
+  Necromancy:    "Manipulacja życiem i śmiercią — wysysa energię życiową lub ożywia umarłych.",
+  Transmutation: "Zmiana właściwości — modyfikuje istoty, obiekty i środowisko.",
+};
+
+const MAGIC_ROW_TOOLTIPS: Record<string, string> = {
+  Atrybut:       "Cecha decydująca o mocy twoich zaklęć. Wyższy modyfikator = wyższe DC i bonus ataku.",
+  "DC Zaklęć":   "Difficulty Class — liczba którą wróg musi wyrzucić żeby oprzeć się zaklęciu. Wzór: 8 + premia biegłości + modyfikator atrybutu.",
+  "Bonus Ataku": "Dodawany do rzutu ataku zaklęciami wymagającymi trafienia (np. Ognisty Pocisk). Wzór: premia biegłości + modyfikator atrybutu.",
+  "Sloty poz. 1": "Ile razy dziennie możesz rzucić zaklęcie 1. poziomu. Odnawia się po długim odpoczynku (8h).",
+};
+
+const CANTRIP_SECTION_TOOLTIP = "Cantripy to zaklęcia znane na pamięć — używasz ich do woli, bez slotów zaklęć. Zawsze dostępne, nie mają limitu dziennego użycia.";
+const SPELL_SECTION_TOOLTIP   = "Zaklęcia 1. poziomu są potężniejsze, ale wymagają slotu zaklęcia. Masz ograniczoną liczbę slotów na dzień — odnawiają się po długim odpoczynku.";
 
 // ── Główny komponent ───────────────────────────────────────────────────────────
 
@@ -126,7 +148,8 @@ export default function MagiaForm() {
               {(["Wszystkie", ...allSchools] as const).map((school) => {
                 const label = school === "Wszystkie" ? "Wszystkie" : SCHOOL_LABELS[school as SpellSchool];
                 const active = schoolFilter === school;
-                return (
+                const schoolTooltip = school !== "Wszystkie" ? SCHOOL_TOOLTIPS[school as SpellSchool] : undefined;
+                const btn = (
                   <button
                     key={school}
                     type="button"
@@ -144,6 +167,9 @@ export default function MagiaForm() {
                     {label}
                   </button>
                 );
+                return schoolTooltip
+                  ? <Tooltip key={school} content={schoolTooltip} position="bottom">{btn}</Tooltip>
+                  : btn;
               })}
             </div>
 
@@ -151,6 +177,7 @@ export default function MagiaForm() {
             {cantripLimit > 0 && (
               <SpellSection
                 title={`CANTRIPY (${step7.cantrips.length}/${cantripLimit})`}
+                titleTooltip={CANTRIP_SECTION_TOOLTIP}
                 spells={filteredCantrips}
                 selected={step7.cantrips}
                 maxSelect={cantripLimit}
@@ -162,6 +189,7 @@ export default function MagiaForm() {
             {spellLimit > 0 && (
               <SpellSection
                 title={`ZAKLĘCIA POZ. 1 (${step7.spells.length}/${spellLimit})`}
+                titleTooltip={SPELL_SECTION_TOOLTIP}
                 spells={filteredSpells}
                 selected={step7.spells}
                 maxSelect={spellLimit}
@@ -176,10 +204,10 @@ export default function MagiaForm() {
               <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
                 Statystyki Magii
               </div>
-              <MagicRow label="Atrybut" value={cls?.spellcastingAbility?.toUpperCase() ?? "—"} />
-              <MagicRow label="DC Zaklęć" value={`${spellDc}`} highlight />
-              <MagicRow label="Bonus Ataku" value={`+${2 + spellMod}`} />
-              <MagicRow label="Sloty poz. 1" value="2" />
+              <MagicRow label="Atrybut" value={cls?.spellcastingAbility?.toUpperCase() ?? "—"} tooltip={MAGIC_ROW_TOOLTIPS["Atrybut"]} />
+              <MagicRow label="DC Zaklęć" value={`${spellDc}`} highlight tooltip={MAGIC_ROW_TOOLTIPS["DC Zaklęć"]} />
+              <MagicRow label="Bonus Ataku" value={`+${2 + spellMod}`} tooltip={MAGIC_ROW_TOOLTIPS["Bonus Ataku"]} />
+              <MagicRow label="Sloty poz. 1" value="2" tooltip={MAGIC_ROW_TOOLTIPS["Sloty poz. 1"]} />
 
               {step7.cantrips.length > 0 && (
                 <>
@@ -249,8 +277,9 @@ export default function MagiaForm() {
 
 // ── Podkomponenty ──────────────────────────────────────────────────────────────
 
-function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
+function SpellSection({ title, titleTooltip, spells, selected, maxSelect, onToggle }: {
   title: string;
+  titleTooltip?: string;
   spells: Spell[];
   selected: string[];
   maxSelect: number;
@@ -259,7 +288,11 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
   return (
     <div style={{ marginBottom: 28 }}>
       <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>
-        {title}
+        {titleTooltip ? (
+          <Tooltip content={titleTooltip} position="right">
+            <span style={{ borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{title}</span>
+          </Tooltip>
+        ) : title}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         {spells.map((spell) => {
@@ -287,14 +320,18 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
                   {SCHOOL_LABELS[spell.school]}
                 </span>
                 {spell.ritual && (
-                  <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
-                    Rytuał
-                  </span>
+                  <Tooltip content="Można rzucić jako rytuał (10 min dłużej) bez zużywania slotu zaklęcia. Idealne dla zaklęć użytkowych poza walką." position="top">
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID, cursor: "help" }}>
+                      Rytuał
+                    </span>
+                  </Tooltip>
                 )}
                 {spell.concentration && (
-                  <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID }}>
-                    Konc.
-                  </span>
+                  <Tooltip content="Wymaga Koncentracji — możesz utrzymywać tylko jedno takie zaklęcie na raz. Otrzymanie obrażeń może je przerwać (rzut KON DC 10)." position="top">
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "1px 6px", border: `1px solid ${LIGHT}`, color: MID, cursor: "help" }}>
+                      Konc.
+                    </span>
+                  </Tooltip>
                 )}
               </div>
               <div style={{ fontFamily: FONT_UI, fontSize: 16, color: isSelected ? LIGHT : MID, marginTop: 4, lineHeight: 1.3 }}>
@@ -311,10 +348,16 @@ function SpellSection({ title, spells, selected, maxSelect, onToggle }: {
   );
 }
 
-function MagicRow({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
+function MagicRow({ label, value, highlight = false, tooltip }: { label: string; value: string; highlight?: boolean; tooltip?: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      {tooltip ? (
+        <Tooltip content={tooltip} position="left">
+          <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px", borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{label}</span>
+        </Tooltip>
+      ) : (
+        <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      )}
       <span style={{ fontFamily: FONT_DISPLAY, fontSize: highlight ? 24 : 20, color: BLACK, fontWeight: highlight ? 700 : 400 }}>{value}</span>
     </div>
   );

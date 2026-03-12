@@ -68,7 +68,7 @@ git push
 
 ---
 
-## Krok 3 — Utwórz konto na Vercel i połącz z GitHubem
+## ~~Krok 3 — Utwórz konto na Vercel i połącz z GitHubem~~ ✅ DONE
 
 1. Wejdź na **https://vercel.com** i kliknij **Sign Up**
 2. Wybierz **Continue with GitHub** — zaloguj się kontem GitHub
@@ -76,7 +76,7 @@ git push
 
 ---
 
-## Krok 4 — Importuj projekt na Vercel
+## ~~Krok 4 — Importuj projekt na Vercel~~ ✅ DONE
 
 1. Na dashboardzie Vercel kliknij **Add New... → Project**
 2. Znajdź repozytorium `Dnd` (lub jak je nazwałeś) i kliknij **Import**
@@ -101,7 +101,7 @@ git push
 
 ---
 
-## Krok 5 — Uzupełnij NEXTAUTH_URL po deploymencie
+## ~~Krok 5 — Uzupełnij NEXTAUTH_URL po deploymencie~~ ✅ DONE
 
 1. Po zakończeniu deploymentu Vercel pokaże Ci adres aplikacji, np. `kroniki-przygod-xxx.vercel.app`
 2. Wróć do **Settings → Environment Variables** w projekcie na Vercel

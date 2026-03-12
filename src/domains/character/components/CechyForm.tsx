@@ -6,6 +6,7 @@ import type { WizardStep4 } from "@/domains/character/store/wizardStore";
 import { CLASSES } from "@/data/dnd/classes";
 import { RACES } from "@/data/dnd/races";
 import type { StatKey } from "@/data/dnd/races";
+import Tooltip from "@/shared/ui/Tooltip";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -23,14 +24,29 @@ const POINT_BUY_COSTS: Record<number, number> = {
 };
 const POINT_BUY_BUDGET = 27;
 
-const STATS: { key: keyof Omit<WizardStep4, "method">; label: string; acc: string; short: string }[] = [
-  { key: "strength", label: "Siła", acc: "Siłę", short: "SIŁ" },
-  { key: "dexterity", label: "Zręczność", acc: "Zręczność", short: "ZRR" },
-  { key: "constitution", label: "Kondycja", acc: "Kondycję", short: "KON" },
-  { key: "intelligence", label: "Intelekt", acc: "Intelekt", short: "INT" },
-  { key: "wisdom", label: "Mądrość", acc: "Mądrość", short: "MĄD" },
-  { key: "charisma", label: "Charyzma", acc: "Charyzmę", short: "CHA" },
+const STATS: { key: keyof Omit<WizardStep4, "method">; label: string; acc: string; short: string; tooltip: string }[] = [
+  { key: "strength",     label: "Siła",      acc: "Siłę",      short: "SIŁ", tooltip: "Obrażenia w walce wręcz, udźwig i próby fizyczne jak wspinaczka czy wyważanie drzwi. Kluczowa dla wojowników i barbarzyńców." },
+  { key: "dexterity",   label: "Zręczność", acc: "Zręczność", short: "ZRE", tooltip: "Wpływa na Klasę Pancerza (AC), inicjatywę, ataki dystansowe i skradanie. Kluczowa dla łotrzyków i łuczników." },
+  { key: "constitution", label: "Kondycja",  acc: "Kondycję",  short: "KON", tooltip: "Każdy +1 modyfikatora = +1 HP na każdym poziomie. Wpływa na odporność na trucizny i choroby. Ważna dla każdej klasy." },
+  { key: "intelligence", label: "Intelekt",  acc: "Intelekt",  short: "INT", tooltip: "Moc zaklęć czarodziejów. Wpływa na Arkana, Historię, Naturę, Religię i Dociekliwość." },
+  { key: "wisdom",       label: "Mądrość",   acc: "Mądrość",   short: "MĄD", tooltip: "Moc zaklęć kleryków i druidów. Wpływa na Percepcję (najczęstszy rzut w grze!) i Wgląd." },
+  { key: "charisma",     label: "Charyzma",  acc: "Charyzmę",  short: "CHA", tooltip: "Moc zaklęć bardów, czarnoksiężników i paladynów. Wpływa na Perswazję, Oszustwo i Zastraszanie." },
 ];
+
+const METHOD_TOOLTIPS = {
+  standard: "Dostajesz gotowy zestaw: 15, 14, 13, 12, 10, 8. Przypisujesz je do cech jak chcesz. Prosta i zbalansowana opcja — idealna dla początkujących.",
+  pointbuy: "Masz 27 punktów. Każda cecha startuje na 8. Wyższe wartości kosztują więcej (14→15 kosztuje 2 pkt zamiast 1). Zakres: 8–15 przed bonusami rasowymi.",
+  roll:      "Rzucasz 4k6 i odrzucasz najniższy wynik — 6 razy. Możesz dostać bardzo wysokie lub bardzo niskie cechy. Najlosowsza opcja, polecana doświadczonym graczom.",
+};
+
+const SUMMARY_TOOLTIPS: Record<string, string> = {
+  hp:  "Punkty życia na 1. poziomie = maksymalna wartość kości trafień klasy + modyfikator Kondycji. Np. wojownik (k10) z KON 16 (+3) startuje z 13 HP.",
+  ac:  "Klasa Pancerza — ile musi wyrzucić wróg żeby cię trafić. Bez pancerza: 10 + modyfikator Zręczności. Pancerz całkowicie zmienia to obliczenie.",
+  ini: "Kolejność działania w walce — wyższa inicjatywa = działasz wcześniej. Równa modyfikatorowi Zręczności.",
+  spd: "Ile stóp możesz przejść w jednej turze walki (1 stopa ≈ 30 cm). Większość ras ma 30 stóp (≈ 9 metrów).",
+  pb:  "Premia do Biegłości: +2 na poziomach 1–4. Dodajesz ją do rzutów, w których masz biegłość: ataki, umiejętności, rzuty obronne klasy.",
+  dc:  "Difficulty Class zaklęć — liczba którą wróg musi wyrzucić na rzucie obronnym żeby oprzeć się twojemu zaklęciu. Wzór: 8 + premia biegłości + modyfikator atrybutu rzucania.",
+};
 
 function mod(score: number): string {
   const m = Math.floor((score - 10) / 2);
@@ -109,22 +125,24 @@ export default function CechyForm() {
               ? { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 }
               : RESET_STATS;
           return (
-            <button
-              key={m}
-              type="button"
-              onClick={() => setStep4({ method: m, ...resetFor })}
-              style={{
-                flex: 1, padding: "8px 4px",
-                fontFamily: FONT_UI, fontSize: 16,
-                border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
-                background: active ? BLACK : "transparent",
-                color: active ? WHITE : MID,
-                cursor: "pointer",
-                textTransform: "uppercase", letterSpacing: "1px",
-              }}
-            >
-              {labels[m]}
-            </button>
+            <Tooltip key={m} content={METHOD_TOOLTIPS[m]} position="top">
+              <button
+                type="button"
+                onClick={() => setStep4({ method: m, ...resetFor })}
+                style={{
+                  flex: 1, padding: "8px 4px",
+                  fontFamily: FONT_UI, fontSize: 16,
+                  border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
+                  background: active ? BLACK : "transparent",
+                  color: active ? WHITE : MID,
+                  cursor: "pointer",
+                  textTransform: "uppercase", letterSpacing: "1px",
+                  width: "100%",
+                }}
+              >
+                {labels[m]}
+              </button>
+            </Tooltip>
           );
         })}
       </div>
@@ -155,15 +173,16 @@ export default function CechyForm() {
             <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
               Podsumowanie
             </div>
-            <StatSummaryRow label="Max HP (poz. 1)" value={`${Math.max(1, maxHp)}`} highlight />
-            <StatSummaryRow label="Klasa Pancerza" value={`${ac}`} />
-            <StatSummaryRow label="Inicjatywa" value={mod(step4.dexterity)} />
-            <StatSummaryRow label="Prędkość" value={`${RACES.find((r) => r.id === step2.race)?.speed ?? 30} stóp`} />
-            <StatSummaryRow label="Bonus Biegłości" value="+2" />
+            <StatSummaryRow label="Max HP (poz. 1)" value={`${Math.max(1, maxHp)}`} highlight tooltip={SUMMARY_TOOLTIPS.hp} />
+            <StatSummaryRow label="Klasa Pancerza" value={`${ac}`} tooltip={SUMMARY_TOOLTIPS.ac} />
+            <StatSummaryRow label="Inicjatywa" value={mod(step4.dexterity)} tooltip={SUMMARY_TOOLTIPS.ini} />
+            <StatSummaryRow label="Prędkość" value={`${RACES.find((r) => r.id === step2.race)?.speed ?? 30} stóp`} tooltip={SUMMARY_TOOLTIPS.spd} />
+            <StatSummaryRow label="Bonus Biegłości" value="+2" tooltip={SUMMARY_TOOLTIPS.pb} />
             {cls?.spellcasting && cls.spellcastingAbility && (
               <StatSummaryRow
                 label="DC Zaklęć"
                 value={`${8 + 2 + Math.floor((step4[abilityKeyMap[cls.spellcastingAbility]] - 10) / 2)}`}
+                tooltip={SUMMARY_TOOLTIPS.dc}
               />
             )}
           </div>
@@ -224,13 +243,15 @@ function StandardArray({ step2race, step4, setStep4 }: {
         Przypisz każdą z wartości <strong style={{ color: BLACK }}>15, 14, 13, 12, 10, 8</strong> do jednej cechy. Każda wartość może być użyta tylko raz.
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {STATS.map(({ key, label, short }) => {
+        {STATS.map(({ key, label, short, tooltip }) => {
           const bonus = racialBonus(step2race, key);
           const base = step4[key];
           const total = base + bonus;
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: `1px solid ${LIGHT}` }}>
-              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
+              <Tooltip content={tooltip} position="right">
+                <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px", borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{short}</div>
+              </Tooltip>
 
               <select
                 aria-label={label}
@@ -315,7 +336,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {STATS.map(({ key, label, acc, short }) => {
+        {STATS.map(({ key, label, acc, short, tooltip }) => {
           const bonus = racialBonus(step2race, key);
           const base = step4[key];
           const total = base + bonus;
@@ -324,7 +345,9 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
 
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: `1px solid ${LIGHT}` }}>
-              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
+              <Tooltip content={tooltip} position="right">
+                <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px", borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{short}</div>
+              </Tooltip>
               <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 16, color: MID }}>{label}</div>
 
               <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}>
@@ -423,14 +446,16 @@ function RollMethod({ step2race, step4, setStep4 }: {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {STATS.map(({ key, label, acc, short }) => {
+        {STATS.map(({ key, label, acc, short, tooltip }) => {
           const bonus = racialBonus(step2race, key);
           const base = step4[key];
           const total = base + bonus;
 
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: `1px solid ${LIGHT}` }}>
-              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
+              <Tooltip content={tooltip} position="right">
+                <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px", borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{short}</div>
+              </Tooltip>
               <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 16, color: MID }}>{label}</div>
 
               <button
@@ -469,10 +494,16 @@ function RollMethod({ step2race, step4, setStep4 }: {
 
 // ── Pomocnicze ────────────────────────────────────────────────────────────────
 
-function StatSummaryRow({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
+function StatSummaryRow({ label, value, highlight = false, tooltip }: { label: string; value: string; highlight?: boolean; tooltip?: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      {tooltip ? (
+        <Tooltip content={tooltip} position="left">
+          <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px", borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{label}</span>
+        </Tooltip>
+      ) : (
+        <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      )}
       <span style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: highlight ? BLACK : BLACK }}>{value}</span>
     </div>
   );

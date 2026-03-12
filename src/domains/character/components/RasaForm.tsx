@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { RACES } from "@/data/dnd/races";
 import type { Race, Subrace, StatKey } from "@/data/dnd/races";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
+import Tooltip from "@/shared/ui/Tooltip";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -16,6 +17,13 @@ const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 const STAT_LABELS: Record<StatKey, string> = {
   str: "SIŁ", dex: "ZRR", con: "KON", int: "INT", wis: "MĄD", cha: "CHA",
 };
+
+const PHB_TOOLTIP     = "Player's Handbook — oficjalna, podstawowa rasa z podręcznika D&D 5e (System Reference Document 5.2.1 CC-BY-4.0).";
+const SPEED_TOOLTIP   = "Ile stóp możesz przejść w jednej turze walki (1 stopa ≈ 30 cm). Większość ras ma 30 stóp (≈ 9 m na turę).";
+const SIZE_SMALL_TOOLTIP  = "Małe rasy mają trudności z ciężką bronią — broń przeznaczona dla Średnich wymaga dwóch rąk.";
+const SIZE_MEDIUM_TOOLTIP = "Rasy Średniego rozmiaru mogą używać każdej broni bez ograniczeń.";
+const STAT_BONUS_TOOLTIP  = "Stały bonus dodawany do cechy — niezależnie od twoich wyborów. Kumuluje się z wartością z kroku Cechy.";
+const SUBRACE_TOOLTIP     = "Specjalizacja rasy — daje dodatkowe cechy, bonusy i czasem zaklęcia. Wybierana raz, na stałe.";
 
 function statBonusesText(bonuses: Partial<Record<StatKey, number>>): string {
   return Object.entries(bonuses)
@@ -120,11 +128,13 @@ export default function RasaForm() {
                   </div>
                   <div style={{ fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID }}>{race.roleplayHint}</div>
                   {race.source === "PHB" && (
-                    <div style={{
-                      marginTop: 6, fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID,
-                      border: `1px solid ${active ? LIGHT : LIGHT}`,
-                      padding: "1px 5px", display: "inline-block",
-                    }}>PHB</div>
+                    <Tooltip content={PHB_TOOLTIP} position="top">
+                      <div style={{
+                        marginTop: 6, fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID,
+                        border: `1px solid ${active ? LIGHT : LIGHT}`,
+                        padding: "1px 5px", display: "inline-block", cursor: "help",
+                      }}>PHB</div>
+                    </Tooltip>
                   )}
                 </button>
               );
@@ -149,9 +159,13 @@ export default function RasaForm() {
 
               {/* Podstawowe info */}
               <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-                <Pill label={`Prędkość: ${selectedRace.speed} stóp`} />
-                <Pill label={selectedRace.size === "Small" ? "Mały" : "Średni"} />
-                <Pill label={selectedRace.source} />
+                <Tooltip content={SPEED_TOOLTIP} position="top"><Pill label={`Prędkość: ${selectedRace.speed} stóp`} hoverable /></Tooltip>
+                <Tooltip content={selectedRace.size === "Small" ? SIZE_SMALL_TOOLTIP : SIZE_MEDIUM_TOOLTIP} position="top">
+                  <Pill label={selectedRace.size === "Small" ? "Mały" : "Średni"} hoverable />
+                </Tooltip>
+                {selectedRace.source === "PHB" && (
+                  <Tooltip content={PHB_TOOLTIP} position="top"><Pill label={selectedRace.source} hoverable /></Tooltip>
+                )}
               </div>
 
               {/* Bonusy statystyk */}
@@ -160,12 +174,15 @@ export default function RasaForm() {
                   <SectionTitle>Bonusy statystyk</SectionTitle>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                     {Object.entries(selectedRace.statBonuses).map(([k, v]) => (
-                      <span key={k} style={{
-                        border: `1px solid ${BLACK}`,
-                        padding: "2px 8px", fontFamily: FONT_UI, fontSize: 16, color: BLACK, fontWeight: 600,
-                      }}>
-                        +{v} {STAT_LABELS[k as StatKey]}
-                      </span>
+                      <Tooltip key={k} content={STAT_BONUS_TOOLTIP} position="top">
+                        <span style={{
+                          border: `1px solid ${BLACK}`,
+                          padding: "2px 8px", fontFamily: FONT_UI, fontSize: 16, color: BLACK, fontWeight: 600,
+                          cursor: "help",
+                        }}>
+                          +{v} {STAT_LABELS[k as StatKey]}
+                        </span>
+                      </Tooltip>
                     ))}
                   </div>
                 </div>
@@ -174,7 +191,7 @@ export default function RasaForm() {
               {/* Podrasy */}
               {selectedRace.subraces.length > 0 && (
                 <div style={{ marginBottom: 16 }}>
-                  <SectionTitle>Podrasa</SectionTitle>
+                  <SectionTitle tooltip={SUBRACE_TOOLTIP}>Podrasa</SectionTitle>
                   <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                     {selectedRace.subraces.map((sub) => {
                       const active = step2.subrace === sub.id;
@@ -203,6 +220,27 @@ export default function RasaForm() {
                       );
                     })}
                   </div>
+
+                  {/* Box z opisem wybranej podrasy */}
+                  {selectedSubrace && selectedSubrace.traits.length > 0 && (
+                    <div style={{
+                      marginTop: 10,
+                      border: `1px solid ${LIGHT}`,
+                      padding: "10px 12px",
+                      background: "#fafafa",
+                    }}>
+                      {selectedSubrace.traits.map((trait) => (
+                        <div key={trait.nameEn} style={{ marginBottom: 6, lineHeight: 1.5 }}>
+                          <span style={{ fontFamily: FONT_UI, fontSize: 12, fontWeight: 700, color: BLACK, textTransform: "uppercase", letterSpacing: "1px" }}>
+                            {trait.name}
+                          </span>
+                          <span style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, marginLeft: 6 }}>
+                            {trait.description}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -275,23 +313,28 @@ export default function RasaForm() {
   );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
+function SectionTitle({ children, tooltip }: { children: React.ReactNode; tooltip?: string }) {
   return (
     <div style={{
       fontFamily: FONT_UI, fontSize: 16, color: MID,
       textTransform: "uppercase", letterSpacing: "2px",
       borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4, marginBottom: 8,
     }}>
-      {children}
+      {tooltip ? (
+        <Tooltip content={tooltip} position="left">
+          <span style={{ borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{children}</span>
+        </Tooltip>
+      ) : children}
     </div>
   );
 }
 
-function Pill({ label }: { label: string }) {
+function Pill({ label, hoverable = false }: { label: string; hoverable?: boolean }) {
   return (
     <span style={{
       fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px",
       border: `1px solid ${LIGHT}`, color: MID,
+      cursor: hoverable ? "help" : undefined,
     }}>
       {label}
     </span>

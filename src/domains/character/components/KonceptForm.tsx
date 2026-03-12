@@ -3,17 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 import type { WizardStep1 } from "@/domains/character/store/wizardStore";
+import Tooltip from "@/shared/ui/Tooltip";
 
-const ALIGNMENTS: { code: WizardStep1["alignment"]; label: string; desc: string }[] = [
-  { code: "LG", label: "Praworządny Dobry", desc: "Honorowy obrońca" },
-  { code: "NG", label: "Neutralny Dobry", desc: "Czyni dobro" },
-  { code: "CG", label: "Chaotyczny Dobry", desc: "Wolny duch" },
-  { code: "LN", label: "Praworządny Neutralny", desc: "Żyje według zasad" },
-  { code: "TN", label: "Prawdziwa Neutralność", desc: "Balans we wszystkim" },
-  { code: "CN", label: "Chaotyczny Neutralny", desc: "Nieprzewidywalny" },
-  { code: "LE", label: "Praworządny Zły", desc: "Metodyczny despota" },
-  { code: "NE", label: "Neutralny Zły", desc: "Bez skrupułów" },
-  { code: "CE", label: "Chaotyczny Zły", desc: "Destrukcja i chaos" },
+const ALIGNMENTS: { code: WizardStep1["alignment"]; label: string; desc: string; tooltip: string }[] = [
+  { code: "LG", label: "Praworządny Dobry",    desc: "Honorowy obrońca",     tooltip: "Żyje według kodeksu honoru i czyni dobro w ramach prawa. Np. Rycerz Świętego Zakonu." },
+  { code: "NG", label: "Neutralny Dobry",       desc: "Czyni dobro",          tooltip: "Czyni dobro jak może, bez przywiązania do reguł ani chaosu. Np. Wędrowny Uzdrowiciel." },
+  { code: "CG", label: "Chaotyczny Dobry",      desc: "Wolny duch",           tooltip: "Idzie za sercem, niezależnie od zasad. Dobry, ale nieprzewidywalny. Np. Robin Hood." },
+  { code: "LN", label: "Praworządny Neutralny", desc: "Żyje według zasad",    tooltip: "Przestrzega prawa i porządku ponad wszystko. Dobro i zło są drugorzędne. Np. Sędzia." },
+  { code: "TN", label: "Prawdziwa Neutralność", desc: "Balans we wszystkim",  tooltip: "Stara się zachować balans między skrajnościami. Unika angażowania się po stronach. Np. Druid Koła Ziemi." },
+  { code: "CN", label: "Chaotyczny Neutralny",  desc: "Nieprzewidywalny",     tooltip: "Kieruje się własnym impulsem. Nie zły, ale trudny do współpracy. Np. Kłopotliwy Łotrzyk." },
+  { code: "LE", label: "Praworządny Zły",       desc: "Metodyczny despota",   tooltip: "Używa prawa i struktury do własnych celów. Tyran z systemem. Np. Skorumpowany Inkwizytor." },
+  { code: "NE", label: "Neutralny Zły",         desc: "Bez skrupułów",        tooltip: "Robi co chce dla własnego zysku, bez zasad ani lojalności. Np. Najemnik gotowy na wszystko." },
+  { code: "CE", label: "Chaotyczny Zły",        desc: "Destrukcja i chaos",   tooltip: "Niszczy i sieje chaos dla samego chaosu. Najtrudniejsza postawa do gry w drużynie. Np. Demon." },
 ];
 
 const GENDERS: { value: WizardStep1["gender"]; label: string }[] = [
@@ -213,40 +214,42 @@ export default function KonceptForm() {
               gap: 6,
             }}
           >
-            {ALIGNMENTS.map(({ code, label, desc }) => {
+            {ALIGNMENTS.map(({ code, label: _label, desc, tooltip }) => {
               const active = step1.alignment === code;
               return (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setStep1({ alignment: code })}
-                  style={{
-                    padding: "8px 10px",
-                    border: `1.5px solid ${active ? BLACK : LIGHT}`,
-                    background: active ? BLACK : "transparent",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
-                  <div style={{
-                    fontFamily: FONT_UI,
-                    fontSize: 16,
-                    fontWeight: 700,
-                    color: active ? "#ffffff" : BLACK,
-                    textTransform: "uppercase",
-                    letterSpacing: "1.5px",
-                    marginBottom: 2,
-                  }}>
-                    {code}
-                  </div>
-                  <div style={{
-                    fontFamily: FONT_UI,
-                    fontSize: 16,
-                    color: active ? "#cccccc" : MID,
-                  }}>
-                    {desc}
-                  </div>
-                </button>
+                <Tooltip key={code} content={tooltip} position="top">
+                  <button
+                    type="button"
+                    onClick={() => setStep1({ alignment: code })}
+                    style={{
+                      padding: "8px 10px",
+                      border: `1.5px solid ${active ? BLACK : LIGHT}`,
+                      background: active ? BLACK : "transparent",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      width: "100%",
+                    }}
+                  >
+                    <div style={{
+                      fontFamily: FONT_UI,
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: active ? "#ffffff" : BLACK,
+                      textTransform: "uppercase",
+                      letterSpacing: "1.5px",
+                      marginBottom: 2,
+                    }}>
+                      {code}
+                    </div>
+                    <div style={{
+                      fontFamily: FONT_UI,
+                      fontSize: 16,
+                      color: active ? "#cccccc" : MID,
+                    }}>
+                      {desc}
+                    </div>
+                  </button>
+                </Tooltip>
               );
             })}
           </div>

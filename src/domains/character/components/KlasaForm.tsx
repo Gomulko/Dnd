@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { CLASSES } from "@/data/dnd/classes";
 import type { ClassData, ClassRole, SkillKey } from "@/data/dnd/classes";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
+import Tooltip from "@/shared/ui/Tooltip";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -38,14 +39,20 @@ const SKILL_LABELS: Record<SkillKey, string> = {
   stealth: "Ukrywanie", survival: "Przetrwanie", animalHandling: "Obsługa zwierząt",
 };
 
-const FILTERS: { label: string; value: ClassRole | "ALL" }[] = [
+const FILTERS: { label: string; value: ClassRole | "ALL"; tooltip?: string }[] = [
   { label: "Wszystkie", value: "ALL" },
-  { label: "Damage", value: "DAMAGE" },
-  { label: "Tank", value: "TANK" },
-  { label: "Support", value: "SUPPORT" },
-  { label: "Kontrola", value: "KONTROLA" },
-  { label: "Hybrid", value: "HYBRID" },
+  { label: "Damage",   value: "DAMAGE",   tooltip: "Zadaje dużo obrażeń. Skupia się na eliminowaniu wrogów. Zwykle kruchy — strzeż się na pierwszej linii." },
+  { label: "Tank",     value: "TANK",     tooltip: "Wytrzymały, wchodzi w pierwszą linię. Skupia ogień wrogów na sobie i chroni sojuszników." },
+  { label: "Support",  value: "SUPPORT",  tooltip: "Leczy i wzmacnia sojuszników. Niezbędny w trudnych walkach i ekspedycjach." },
+  { label: "Kontrola", value: "KONTROLA", tooltip: "Ogranicza wrogów zaklęciami i efektami. Nie zadaje dużo obrażeń, ale zmienia przebieg całej walki." },
+  { label: "Hybrid",   value: "HYBRID",   tooltip: "Łączy dwie role. Elastyczny, ale rzadko najlepszy w jednej kategorii — wymaga doświadczenia." },
 ];
+
+const HIT_DIE_TOOLTIP = "Kość rzucana przy zdobyciu każdego poziomu — wynik + modyfikator KON = zdobyte HP. Na 1. poziomie zawsze bierzesz maksimum tej kości.";
+const SYNERGY_TOOLTIP  = "Ta klasa szczególnie dobrze współpracuje z wybraną przez ciebie rasą — bonusy rasowe trafiają w kluczowe cechy tej klasy.";
+const DIFFICULTY_TOOLTIP = "Złożoność klasy w rozgrywce. ● — prosta mechanicznie. ●●● — wymaga doświadczenia z systemem D&D.";
+const SAVING_THROWS_TOOLTIP = "Ataki i pułapki często wymuszają rzut obronny. Masz biegłość w tych dwóch — dodajesz premię do biegłości (+2) do rzutu.";
+const ARMOR_TOOLTIP = "Typy pancerza, które możesz nosić. Ciężki pancerz daje wysoki AC, ale wymaga treningu i często wysokiej Siły.";
 
 // ── Komponent ─────────────────────────────────────────────────────────────────
 
@@ -96,9 +103,9 @@ export default function KlasaForm() {
 
       {/* Filtry */}
       <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        {FILTERS.map(({ label, value }) => {
+        {FILTERS.map(({ label, value, tooltip }) => {
           const active = filter === value;
-          return (
+          const btn = (
             <button
               key={value}
               type="button"
@@ -114,6 +121,7 @@ export default function KlasaForm() {
               {label}
             </button>
           );
+          return tooltip ? <Tooltip key={value} content={tooltip} position="bottom">{btn}</Tooltip> : btn;
         })}
       </div>
 
@@ -144,7 +152,9 @@ export default function KlasaForm() {
                     }}>✓</span>
                   )}
                   {hasSynergy && !active && (
-                    <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 16, color: MID }}>★</span>
+                    <Tooltip content={SYNERGY_TOOLTIP} position="top">
+                      <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 16, color: MID, cursor: "help" }}>★</span>
+                    </Tooltip>
                   )}
 
                   <div style={{ fontSize: 24, marginBottom: 6 }}>{cls.icon}</div>
@@ -164,15 +174,19 @@ export default function KlasaForm() {
 
                   {/* Trudność + Hit Die */}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ display: "flex", gap: 2 }}>
-                      {[1, 2, 3].map((d) => (
-                        <div key={d} style={{
-                          width: 5, height: 5,
-                          background: d <= cls.difficulty ? (active ? WHITE : BLACK) : LIGHT,
-                        }} />
-                      ))}
-                    </div>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID }}>k{cls.hitDie}</span>
+                    <Tooltip content={DIFFICULTY_TOOLTIP} position="bottom">
+                      <div style={{ display: "flex", gap: 2, cursor: "help" }}>
+                        {[1, 2, 3].map((d) => (
+                          <div key={d} style={{
+                            width: 5, height: 5,
+                            background: d <= cls.difficulty ? (active ? WHITE : BLACK) : LIGHT,
+                          }} />
+                        ))}
+                      </div>
+                    </Tooltip>
+                    <Tooltip content={HIT_DIE_TOOLTIP} position="bottom">
+                      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID, cursor: "help" }}>k{cls.hitDie}</span>
+                    </Tooltip>
                   </div>
                 </button>
               );
@@ -202,14 +216,14 @@ export default function KlasaForm() {
               </div>
 
               {/* Saving throws */}
-              <Section title="Rzuty Obronne">
+              <Section title="Rzuty Obronne" tooltip={SAVING_THROWS_TOOLTIP}>
                 <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>
                   {selectedClass.savingThrows.map((s) => STAT_LABELS[s]).join(", ")}
                 </p>
               </Section>
 
               {/* Zbroja */}
-              <Section title="Zbroja">
+              <Section title="Zbroja" tooltip={ARMOR_TOOLTIP}>
                 <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{selectedClass.armorTraining.join(", ")}</p>
               </Section>
 
@@ -320,7 +334,7 @@ export default function KlasaForm() {
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children, tooltip }: { title: string; children: React.ReactNode; tooltip?: string }) {
   return (
     <div style={{ marginBottom: 16 }}>
       <div style={{
@@ -328,7 +342,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
         textTransform: "uppercase", letterSpacing: "2px",
         borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4, marginBottom: 8,
       }}>
-        {title}
+        {tooltip ? (
+          <Tooltip content={tooltip} position="left">
+            <span style={{ borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{title}</span>
+          </Tooltip>
+        ) : title}
       </div>
       {children}
     </div>

@@ -6,10 +6,17 @@ import { useWizardStore } from "@/domains/character/store/wizardStore";
 import { CLASSES } from "@/data/dnd/classes";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { RACES } from "@/data/dnd/races";
+import Tooltip from "@/shared/ui/Tooltip";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
 const LIGHT = "#cccccc";
+
+const PACKAGE_A_TOOLTIP  = "Gotowy zestaw ekwipunku dostosowany do twojej klasy. Szybka opcja dla początkujących — wszystko co potrzebne na start.";
+const PACKAGE_GOLD_TOOLTIP = "Dostajesz złoto i sam decydujesz co kupić. Daje więcej kontroli, ale wymaga znajomości cen i zasad ekwipunku.";
+const AC_TOOLTIP   = "Klasa Pancerza — liczba którą wróg musi wyrzucić żeby cię trafić. Zależy od rodzaju pancerza i modyfikatora Zręczności.";
+const PB_TOOLTIP   = "Premia do Biegłości: +2 na poziomach 1–4. Dodajesz ją do ataków z biegłością, umiejętności i rzutów obronnych klasy.";
+const GOLD_TOOLTIP = "Sztuki złota (sz.) — waluta D&D. 1 sz. złota = 10 sz. srebra = 100 sz. miedzi.";
 const WHITE = "#ffffff";
 const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
 const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
@@ -80,6 +87,7 @@ export default function EkwipunekForm() {
           ) : (
             <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
               {/* Pakiet A */}
+              <Tooltip content={PACKAGE_A_TOOLTIP} position="top">
               <PackageCard
                 label="Pakiet A"
                 sublabel="Gotowy ekwipunek"
@@ -92,8 +100,10 @@ export default function EkwipunekForm() {
                   ))}
                 </ul>
               </PackageCard>
+              </Tooltip>
 
               {/* Pakiet Złota */}
+              <Tooltip content={PACKAGE_GOLD_TOOLTIP} position="top">
               <PackageCard
                 label="Pakiet Złota"
                 sublabel="Kup sam w sklepie"
@@ -104,9 +114,12 @@ export default function EkwipunekForm() {
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: packageChoice === "gold" ? WHITE : BLACK }}>
                     {cls.startingEquipmentGold}
                   </span>
-                  <span style={{ fontFamily: FONT_UI, fontSize: 16, color: packageChoice === "gold" ? LIGHT : MID, marginLeft: 6 }}>sz. złota</span>
+                  <Tooltip content={GOLD_TOOLTIP} position="top">
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: packageChoice === "gold" ? LIGHT : MID, marginLeft: 6, cursor: "help" }}>sz. złota</span>
+                  </Tooltip>
                 </div>
               </PackageCard>
+              </Tooltip>
             </div>
           )}
 
@@ -145,7 +158,7 @@ export default function EkwipunekForm() {
               Panel Bojowy
             </div>
 
-            <SummaryRow label="Klasa Pancerza" value={`${ac}`} />
+            <SummaryRow label="Klasa Pancerza" value={`${ac}`} tooltip={AC_TOOLTIP} />
             <SummaryRow label="Prędkość" value={`${speed} stóp`} />
             <SummaryRow label="Bonus Biegłości" value="+2" />
 
@@ -267,10 +280,16 @@ function PackageCard({
   );
 }
 
-function SummaryRow({ label, value }: { label: string; value: string }) {
+function SummaryRow({ label, value, tooltip }: { label: string; value: string; tooltip?: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      {tooltip ? (
+        <Tooltip content={tooltip} position="left">
+          <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px", borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{label}</span>
+        </Tooltip>
+      ) : (
+        <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      )}
       <span style={{ fontFamily: FONT_DISPLAY, fontSize: 20, color: BLACK }}>{value}</span>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
+import Tooltip from "@/shared/ui/Tooltip";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { SKILL_NAMES_PL } from "@/data/dnd/classes";
 
@@ -12,6 +13,16 @@ const LIGHT = "#cccccc";
 const WHITE = "#ffffff";
 const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
 const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
+const PERSONALITY_TOOLTIPS: Record<string, string> = {
+  "CECHY CHARAKTERU": "Krótkie zdania opisujące zachowanie twojej postaci. Bez mechanicznego efektu — budują klimat i pomagają odgrywać postać przy stole.",
+  "IDEAŁ":            "Wartość lub przekonanie wyznawane przez postać. Może wpływać na interakcje z frakcjami i organizacjami w świecie gry.",
+  "WIĘŹ":             "Osoba, miejsce lub przedmiot wyjątkowo ważny dla postaci. Mistrz Gry może to wpleść w fabułę.",
+  "WADA":             "Słabość lub mroczna cecha charakteru. Dobra wada czyni postać ludzką i ciekawszą do odgrywania — nie bój się jej!",
+};
+
+const SPECIAL_FEATURE_TOOLTIP = "Unikalna umiejętność fabularna tła — np. Żołnierz ma stopień wojskowy, Przestępca zna półświatek. Mistrz Gry decyduje jak to działa w grze.";
+const SKILL_PROFICIENCY_TOOLTIP = "Umiejętności z tła dają automatyczną biegłość — dodajesz premię do biegłości (+2) do rzutów tymi umiejętnościami.";
 
 const LABEL_STYLE: React.CSSProperties = {
   display: "block",
@@ -180,7 +191,7 @@ export default function TloForm() {
 
               {/* Info — biegłości i języki */}
               <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-                <InfoBox label="Biegłości">
+                <InfoBox label="Biegłości" tooltip={SKILL_PROFICIENCY_TOOLTIP}>
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                     {selectedBg.skillProficiencies.map((s) => (
                       <span key={s} style={{ fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px", border: `1px solid ${BLACK}`, color: BLACK }}>
@@ -201,7 +212,9 @@ export default function TloForm() {
 
               {/* Cecha Specjalna */}
               <div style={{ border: `1.5px solid ${BLACK}`, padding: "14px 16px", marginBottom: 20 }}>
-                <div style={LABEL_STYLE}>✦ {selectedBg.specialFeature.name}</div>
+                <Tooltip content={SPECIAL_FEATURE_TOOLTIP} position="top">
+                  <div style={{ ...LABEL_STYLE, cursor: "help", display: "inline-flex", alignItems: "center", gap: 4 }}>✦ {selectedBg.specialFeature.name}</div>
+                </Tooltip>
                 <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0, lineHeight: 1.6 }}>
                   {selectedBg.specialFeature.description}
                 </p>
@@ -212,6 +225,7 @@ export default function TloForm() {
               {/* Cechy Charakteru */}
               <PersonalitySection
                 title={`CECHY CHARAKTERU (${step5.personalityTraits.length}/2)`}
+                titleTooltip={PERSONALITY_TOOLTIPS["CECHY CHARAKTERU"]}
                 options={selectedBg.personalityTraits}
                 selected={step5.personalityTraits}
                 maxSelect={2}
@@ -221,6 +235,7 @@ export default function TloForm() {
               {/* Ideał */}
               <PersonalitySection
                 title={`IDEAŁ (${step5.ideals.length}/1)`}
+                titleTooltip={PERSONALITY_TOOLTIPS["IDEAŁ"]}
                 options={selectedBg.ideals}
                 selected={step5.ideals}
                 maxSelect={1}
@@ -230,6 +245,7 @@ export default function TloForm() {
               {/* Więź */}
               <PersonalitySection
                 title={`WIĘŹ (${step5.bonds.length}/1)`}
+                titleTooltip={PERSONALITY_TOOLTIPS["WIĘŹ"]}
                 options={selectedBg.bonds}
                 selected={step5.bonds}
                 maxSelect={1}
@@ -239,6 +255,7 @@ export default function TloForm() {
               {/* Wada */}
               <PersonalitySection
                 title={`WADA (${step5.flaws.length}/1)`}
+                titleTooltip={PERSONALITY_TOOLTIPS["WADA"]}
                 options={selectedBg.flaws}
                 selected={step5.flaws}
                 maxSelect={1}
@@ -283,10 +300,16 @@ export default function TloForm() {
 
 // ── Podkomponenty ──────────────────────────────────────────────────────────────
 
-function InfoBox({ label, children }: { label: string; children: React.ReactNode }) {
+function InfoBox({ label, children, tooltip }: { label: string; children: React.ReactNode; tooltip?: string }) {
   return (
     <div style={{ border: `1px solid ${LIGHT}`, padding: "10px 14px" }}>
-      <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>{label}</div>
+      <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>
+        {tooltip ? (
+          <Tooltip content={tooltip} position="top">
+            <span style={{ borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{label}</span>
+          </Tooltip>
+        ) : label}
+      </div>
       {children}
     </div>
   );
@@ -294,12 +317,14 @@ function InfoBox({ label, children }: { label: string; children: React.ReactNode
 
 function PersonalitySection({
   title,
+  titleTooltip,
   options,
   selected,
   maxSelect,
   onToggle,
 }: {
   title: string;
+  titleTooltip?: string;
   options: { id: string; text: string }[];
   selected: string[];
   maxSelect: number;
@@ -308,7 +333,11 @@ function PersonalitySection({
   return (
     <div style={{ marginBottom: 20 }}>
       <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 10 }}>
-        {title}
+        {titleTooltip ? (
+          <Tooltip content={titleTooltip} position="right">
+            <span style={{ borderBottom: `1px dashed ${LIGHT}`, cursor: "help" }}>{title}</span>
+          </Tooltip>
+        ) : title}
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {options.map((opt) => {
