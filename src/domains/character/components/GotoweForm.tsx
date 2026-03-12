@@ -142,7 +142,7 @@ export default function GotoweForm() {
     <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32, textAlign: "center" }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 8 z 8
         </div>
 
@@ -170,7 +170,7 @@ export default function GotoweForm() {
             fontFamily: FONT_UI,
             display: "inline-block", padding: "4px 16px",
             border: `1.5px solid ${BLACK}`,
-            fontSize: 12, fontWeight: 700, color: BLACK, letterSpacing: "2px", textTransform: "uppercase",
+            fontSize: 16, fontWeight: 700, color: BLACK, letterSpacing: "2px", textTransform: "uppercase",
           }}>
             ✓ KREATOR UKOŃCZONY
           </span>
@@ -224,7 +224,7 @@ export default function GotoweForm() {
             {STATS.map(({ key, short }) => (
               <div key={key} style={{ textAlign: "center", border: `1.5px solid ${BLACK}`, padding: "6px 4px" }}>
                 <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, color: BLACK }}>{step4[key]}</div>
-                <div style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, textTransform: "uppercase" }}>{short}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase" }}>{short}</div>
                 <div style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, fontWeight: 700 }}>{mod(step4[key])}</div>
               </div>
             ))}
@@ -261,7 +261,7 @@ export default function GotoweForm() {
       {/* Historia */}
       {step1.description && (
         <div style={{ border: `1px solid ${LIGHT}`, padding: "20px 24px", marginBottom: 32 }}>
-          <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>Historia Postaci</div>
+          <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>Historia Postaci</div>
           <p style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
         </div>
       )}
@@ -281,7 +281,7 @@ export default function GotoweForm() {
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -315,7 +315,7 @@ function QuickStat({ label, value, border = false }: { label: string; value: str
       borderLeft: border ? `1.5px solid ${BLACK}` : undefined,
     }}>
       <div style={{ fontFamily: FONT_DISPLAY, fontSize: 24, color: BLACK, fontStyle: "italic" }}>{value}</div>
-      <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 2 }}>{label}</div>
+      <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 2 }}>{label}</div>
     </div>
   );
 }
@@ -330,7 +330,7 @@ function SummarySection({
   return (
     <div style={{ border: `1.5px solid ${BLACK}`, padding: "16px 18px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{title}</div>
+        <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{title}</div>
         <button
           type="button"
           onClick={onEdit}
@@ -348,7 +348,7 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
       <span style={{ fontFamily: FONT_UI, fontSize: 13, color: MID, flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</span>
-      <span style={{ fontFamily: FONT_UI, fontSize: 14, color: BLACK, textAlign: "right" }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, textAlign: "right" }}>{value}</span>
     </div>
   );
 }

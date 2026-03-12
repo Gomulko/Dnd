@@ -32,7 +32,7 @@ export function AddCharacterTile() {
       <span style={{ fontSize: 28, lineHeight: 1 }}>+</span>
       <span
         style={{
-          fontSize: 7,
+          fontSize: 16,
           fontWeight: 700,
           letterSpacing: "2.5px",
           textTransform: "uppercase",

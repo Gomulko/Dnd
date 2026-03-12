@@ -5,33 +5,33 @@ import { useWizardStore } from "@/domains/character/store/wizardStore";
 import type { WizardStep1 } from "@/domains/character/store/wizardStore";
 
 const ALIGNMENTS: { code: WizardStep1["alignment"]; label: string; desc: string }[] = [
-  { code: "LG", label: "Praworządny Dobry",      desc: "Honorowy obrońca" },
-  { code: "NG", label: "Neutralny Dobry",         desc: "Czyni dobro" },
-  { code: "CG", label: "Chaotyczny Dobry",        desc: "Wolny duch" },
-  { code: "LN", label: "Praworządny Neutralny",   desc: "Żyje według zasad" },
-  { code: "TN", label: "Prawdziwa Neutralność",   desc: "Balans we wszystkim" },
-  { code: "CN", label: "Chaotyczny Neutralny",    desc: "Nieprzewidywalny" },
-  { code: "LE", label: "Praworządny Zły",         desc: "Metodyczny despota" },
-  { code: "NE", label: "Neutralny Zły",           desc: "Bez skrupułów" },
-  { code: "CE", label: "Chaotyczny Zły",          desc: "Destrukcja i chaos" },
+  { code: "LG", label: "Praworządny Dobry", desc: "Honorowy obrońca" },
+  { code: "NG", label: "Neutralny Dobry", desc: "Czyni dobro" },
+  { code: "CG", label: "Chaotyczny Dobry", desc: "Wolny duch" },
+  { code: "LN", label: "Praworządny Neutralny", desc: "Żyje według zasad" },
+  { code: "TN", label: "Prawdziwa Neutralność", desc: "Balans we wszystkim" },
+  { code: "CN", label: "Chaotyczny Neutralny", desc: "Nieprzewidywalny" },
+  { code: "LE", label: "Praworządny Zły", desc: "Metodyczny despota" },
+  { code: "NE", label: "Neutralny Zły", desc: "Bez skrupułów" },
+  { code: "CE", label: "Chaotyczny Zły", desc: "Destrukcja i chaos" },
 ];
 
 const GENDERS: { value: WizardStep1["gender"]; label: string }[] = [
-  { value: "kobieta",   label: "Kobieta"   },
+  { value: "kobieta", label: "Kobieta" },
   { value: "mezczyzna", label: "Mężczyzna" },
-  { value: "inne",      label: "Inne"      },
+  { value: "inne", label: "Inne" },
 ];
 
-const BLACK  = "#0a0a0a";
-const MID    = "#555555";
-const LIGHT  = "#cccccc";
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
 const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
-const FONT_UI      = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 
 const LABEL_STYLE: React.CSSProperties = {
   display: "block",
   fontFamily: FONT_UI,
-  fontSize: 10,
+  fontSize: 16,
   color: MID,
   textTransform: "uppercase",
   letterSpacing: "2.5px",
@@ -69,7 +69,7 @@ export default function KonceptForm() {
       <div style={{ marginBottom: 36 }}>
         <div style={{
           fontFamily: FONT_UI,
-          fontSize: 10,
+          fontSize: 16,
           color: MID,
           textTransform: "uppercase",
           letterSpacing: "4px",
@@ -91,7 +91,7 @@ export default function KonceptForm() {
         <p style={{
           fontFamily: FONT_UI,
           color: MID,
-          fontSize: 15,
+          fontSize: 16,
           marginTop: 12,
           letterSpacing: "0.3px",
         }}>
@@ -136,7 +136,7 @@ export default function KonceptForm() {
                     background: active ? BLACK : "transparent",
                     color: active ? "#ffffff" : BLACK,
                     fontFamily: FONT_UI,
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: active ? 700 : 400,
                     textTransform: "uppercase",
                     letterSpacing: "1.5px",
@@ -230,7 +230,7 @@ export default function KonceptForm() {
                 >
                   <div style={{
                     fontFamily: FONT_UI,
-                    fontSize: 12,
+                    fontSize: 16,
                     fontWeight: 700,
                     color: active ? "#ffffff" : BLACK,
                     textTransform: "uppercase",
@@ -241,7 +241,7 @@ export default function KonceptForm() {
                   </div>
                   <div style={{
                     fontFamily: FONT_UI,
-                    fontSize: 12,
+                    fontSize: 16,
                     color: active ? "#cccccc" : MID,
                   }}>
                     {desc}
@@ -251,7 +251,7 @@ export default function KonceptForm() {
             })}
           </div>
           {step1.alignment && (
-            <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginTop: 8 }}>
+            <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, marginTop: 8 }}>
               {ALIGNMENTS.find((a) => a.code === step1.alignment)?.label}
             </p>
           )}
@@ -279,7 +279,7 @@ export default function KonceptForm() {
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? "#ffffff" : MID,
             fontFamily: FONT_UI,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "2px",

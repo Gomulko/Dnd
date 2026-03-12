@@ -16,7 +16,7 @@ export default function LogowaniePage() {
         <div className="flex flex-col items-center" style={{ width: 520 }}>
 
           {/* Ikona mieczy */}
-          <div style={{ filter: "drop-shadow(0px 0px 64px rgba(201, 168, 76, 0.4))", fontSize: 80, lineHeight: 1, color: "#C9A84C", textAlign: "center" }}>
+          <div style={{ filter: "drop-shadow(0px 0px 64px rgba(201, 168, 76, 0.4))", fontSize: 160, lineHeight: 1, color: "#C9A84C", textAlign: "center" }}>
             ⚔
           </div>
 
@@ -44,7 +44,7 @@ export default function LogowaniePage() {
           {/* Dekoracyjny separator */}
           <div className="flex items-center" style={{ width: 400, gap: 16, marginTop: 32, marginBottom: 32 }}>
             <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(201, 168, 76, 0.5) 50%, rgba(0,0,0,0) 100%)" }} />
-            <span style={{ color: "#C9A84C", fontSize: 12, opacity: 0.7 }}>◆</span>
+            <span style={{ color: "#C9A84C", fontSize: 16, opacity: 0.7 }}>◆</span>
             <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(201, 168, 76, 0.5) 50%, rgba(0,0,0,0) 100%)" }} />
           </div>
 
@@ -83,7 +83,7 @@ export default function LogowaniePage() {
           style={{ bottom: 67, gap: 12, opacity: 0.35 }}
         >
           <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, #C9A84C 100%)" }} />
-          <span style={{ color: "#C9A84C", fontSize: 14, letterSpacing: "2.8px" }}>✦ ✦ ✦</span>
+          <span style={{ color: "#C9A84C", fontSize: 16, letterSpacing: "2.8px" }}>✦ ✦ ✦</span>
           <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, #C9A84C 0%, rgba(0,0,0,0) 100%)" }} />
         </div>
       </div>

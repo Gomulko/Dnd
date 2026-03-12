@@ -43,7 +43,7 @@ export default function CharacterPreview() {
   return (
     <aside
       style={{
-        width: 200,
+        width: 300,
         flexShrink: 0,
         position: "sticky",
         top: 140,
@@ -59,7 +59,7 @@ export default function CharacterPreview() {
         <div style={{ padding: 20 }}>
           <div style={{
             fontFamily: FONT_UI,
-            fontSize: 10,
+            fontSize: 16,
             color: MID,
             textTransform: "uppercase",
             letterSpacing: "2.5px",
@@ -109,7 +109,7 @@ export default function CharacterPreview() {
           {/* Rasa · Klasa */}
           <div style={{
             fontFamily: FONT_UI,
-            fontSize: 12,
+            fontSize: 16,
             color: MID,
             textAlign: "center",
             marginBottom: 16,
@@ -130,8 +130,8 @@ export default function CharacterPreview() {
             />
             <StatRow label="Płeć" value={
               step1.gender === "kobieta" ? "Kobieta"
-              : step1.gender === "mezczyzna" ? "Mężczyzna"
-              : "Inne"
+                : step1.gender === "mezczyzna" ? "Mężczyzna"
+                  : "Inne"
             } />
             {step1.age && <StatRow label="Wiek" value={`${step1.age} lat`} />}
             {step1.height && <StatRow label="Wzrost" value={`${step1.height} cm`} />}
@@ -145,8 +145,8 @@ export default function CharacterPreview() {
 function StatRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
-      <span style={{ fontFamily: FONT_UI, fontSize: 14, color: BLACK }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>{value}</span>
     </div>
   );
 }

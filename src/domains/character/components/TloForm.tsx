@@ -16,7 +16,7 @@ const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 const LABEL_STYLE: React.CSSProperties = {
   display: "block",
   fontFamily: FONT_UI,
-  fontSize: 10,
+  fontSize: 16,
   color: MID,
   textTransform: "uppercase",
   letterSpacing: "2.5px",
@@ -75,7 +75,7 @@ export default function TloForm() {
     <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 5 z 8
         </div>
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
@@ -170,7 +170,7 @@ export default function TloForm() {
                     {selectedBg.name}
                   </h2>
                   <span style={{
-                    fontFamily: FONT_UI, fontSize: 12, padding: "2px 8px",
+                    fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px",
                     border: `1px solid ${BLACK}`, color: BLACK,
                     fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em",
                   }}>{selectedBg.source}</span>
@@ -183,7 +183,7 @@ export default function TloForm() {
                 <InfoBox label="Biegłości">
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                     {selectedBg.skillProficiencies.map((s) => (
-                      <span key={s} style={{ fontFamily: FONT_UI, fontSize: 14, padding: "2px 8px", border: `1px solid ${BLACK}`, color: BLACK }}>
+                      <span key={s} style={{ fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px", border: `1px solid ${BLACK}`, color: BLACK }}>
                         {SKILL_NAMES_PL[s]}
                       </span>
                     ))}
@@ -195,7 +195,7 @@ export default function TloForm() {
                   </InfoBox>
                 )}
                 <InfoBox label="Narzędzia">
-                  <span style={{ fontFamily: FONT_UI, fontSize: 14, color: MID }}>{selectedBg.toolProficiency}</span>
+                  <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{selectedBg.toolProficiency}</span>
                 </InfoBox>
               </div>
 
@@ -257,7 +257,7 @@ export default function TloForm() {
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -270,7 +270,7 @@ export default function TloForm() {
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? WHITE : MID,
-            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px",
+            fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px",
             cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
@@ -286,7 +286,7 @@ export default function TloForm() {
 function InfoBox({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ border: `1px solid ${LIGHT}`, padding: "10px 14px" }}>
-      <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>{label}</div>
+      <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>{label}</div>
       {children}
     </div>
   );
@@ -307,7 +307,7 @@ function PersonalitySection({
 }) {
   return (
     <div style={{ marginBottom: 20 }}>
-      <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 10 }}>
+      <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 10 }}>
         {title}
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>

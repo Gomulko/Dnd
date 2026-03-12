@@ -84,14 +84,14 @@ const ALIGNMENT_PL: Record<string, string> = {
 // Index = spell level - 1.  Level 1 characters only.
 const SPELL_SLOTS_LVL1: Record<string, number[]> = {
   //              1  2  3  4  5  6  7  8  9
-  bard:     [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  cleric:   [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  druid:    [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  paladin:  [     0, 0, 0, 0, 0, 0, 0, 0, 0 ], // Paladin starts slots at level 2
-  ranger:   [     0, 0, 0, 0, 0, 0, 0, 0, 0 ], // Ranger starts slots at level 2
-  sorcerer: [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  warlock:  [     1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-  wizard:   [     2, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  bard: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+  cleric: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+  druid: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+  paladin: [0, 0, 0, 0, 0, 0, 0, 0, 0], // Paladin starts slots at level 2
+  ranger: [0, 0, 0, 0, 0, 0, 0, 0, 0], // Ranger starts slots at level 2
+  sorcerer: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+  warlock: [1, 0, 0, 0, 0, 0, 0, 0, 0],
+  wizard: [2, 0, 0, 0, 0, 0, 0, 0, 0],
 };
 
 // Shared style constants
@@ -105,7 +105,7 @@ const STRONG_BORDER = "1.5px solid #0a0a0a";
 const labelStyle: React.CSSProperties = {
   fontFamily: FONT_UI,
   fontWeight: 700,
-  fontSize: 7,
+  fontSize: 16,
   letterSpacing: "2.5px",
   textTransform: "uppercase",
   color: MID,
@@ -118,7 +118,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
     <div style={{
       fontFamily: FONT_UI,
       fontWeight: 900,
-      fontSize: 8,
+      fontSize: 16,
       letterSpacing: "3px",
       textTransform: "uppercase",
       color: BLACK,
@@ -287,12 +287,12 @@ export default function CharacterSheet({ character }: Props) {
   const spellAbilityMod = isSpellcaster
     ? cls?.spellcastingAbility === "wis" ? wisMod
       : cls?.spellcastingAbility === "int" ? intMod
-      : chaMod
+        : chaMod
     : 0;
   const spellDC = 8 + prof + spellAbilityMod;
   const spellAttack = prof + spellAbilityMod;
   // SRD 5e: at level 1, only 1st-level slots (and cantrips = ∞)
-  const classSlotsLvl1 = SPELL_SLOTS_LVL1[character.class] ?? [0,0,0,0,0,0,0,0,0];
+  const classSlotsLvl1 = SPELL_SLOTS_LVL1[character.class] ?? [0, 0, 0, 0, 0, 0, 0, 0, 0];
   // slotsForLevel[i] = total slots for spell level (i+1) at character's level
   // For level-1 character, we use the level-1 table
   const slotsForSpellLevel = classSlotsLvl1;
@@ -314,7 +314,7 @@ export default function CharacterSheet({ character }: Props) {
   // Spellcasting ability label
   const spellAbilityLabel = cls?.spellcastingAbility === "wis" ? "Mądrość"
     : cls?.spellcastingAbility === "int" ? "Intelekt"
-    : "Charyzma";
+      : "Charyzma";
 
   // Death saves
   const deathSaves = (() => {
@@ -383,7 +383,7 @@ export default function CharacterSheet({ character }: Props) {
     background: "transparent",
     border: STRONG_BORDER,
     fontFamily: FONT_UI,
-    fontSize: 7,
+    fontSize: 16,
     fontWeight: 700,
     letterSpacing: "2px",
     textTransform: "uppercase",
@@ -400,7 +400,7 @@ export default function CharacterSheet({ character }: Props) {
     background: BLACK,
     border: STRONG_BORDER,
     fontFamily: FONT_UI,
-    fontSize: 7,
+    fontSize: 16,
     fontWeight: 700,
     letterSpacing: "2px",
     textTransform: "uppercase",
@@ -454,7 +454,7 @@ export default function CharacterSheet({ character }: Props) {
             {/* Title block */}
             <div style={{ borderRight: STRONG_BORDER, paddingRight: 32, paddingBottom: 4 }}>
               <div style={{
-                fontFamily: FONT_UI, fontWeight: 300, fontSize: 8,
+                fontFamily: FONT_UI, fontWeight: 300, fontSize: 16,
                 letterSpacing: "4px", textTransform: "uppercase", color: MID, marginBottom: 6,
               }}>
                 Dungeons &amp; Dragons · 5e
@@ -479,7 +479,7 @@ export default function CharacterSheet({ character }: Props) {
                   <span style={{
                     width: 28, height: 28, background: BLACK, color: "#fff",
                     display: "inline-flex", alignItems: "center", justifyContent: "center",
-                    fontFamily: FONT_DISPLAY, fontSize: 11, flexShrink: 0,
+                    fontFamily: FONT_DISPLAY, fontSize: 16, flexShrink: 0,
                   }}>
                     {initials}
                   </span>
@@ -522,7 +522,7 @@ export default function CharacterSheet({ character }: Props) {
                   style={{ border: STRONG_BORDER, textAlign: "center", padding: "8px 6px 6px" }}
                 >
                   <div style={{
-                    fontFamily: FONT_UI, fontWeight: 900, fontSize: 7,
+                    fontFamily: FONT_UI, fontWeight: 900, fontSize: 16,
                     letterSpacing: "2px", textTransform: "uppercase", color: BLACK, marginBottom: 4,
                   }}>
                     {short}
@@ -534,7 +534,7 @@ export default function CharacterSheet({ character }: Props) {
                     {score}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 8, fontWeight: 600, color: MID, letterSpacing: "1px", textTransform: "uppercase" }}>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 600, color: MID, letterSpacing: "1px", textTransform: "uppercase" }}>
                       mod
                     </span>
                     <span style={{ fontFamily: FONT_DISPLAY, fontSize: 15, color: BLACK, borderBottom: LIGHT_BORDER, minWidth: 30, textAlign: "center" }}>
@@ -586,10 +586,10 @@ export default function CharacterSheet({ character }: Props) {
                 return (
                   <li key={key} style={{ display: "flex", alignItems: "center", gap: 6, padding: "2.5px 0", borderBottom: "1px solid #eeeeee" }}>
                     <ProfDot filled={isProficient} />
-                    <span style={{ width: 22, fontFamily: FONT_DISPLAY, fontSize: 11, textAlign: "center", borderBottom: LIGHT_BORDER, flexShrink: 0 }}>
+                    <span style={{ width: 22, fontFamily: FONT_DISPLAY, fontSize: 16, textAlign: "center", borderBottom: LIGHT_BORDER, flexShrink: 0 }}>
                       {mStr}
                     </span>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 10, fontWeight: 400, color: "#1c1c1c", flex: 1, lineHeight: 1.2 }}>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 400, color: "#1c1c1c", flex: 1, lineHeight: 1.2 }}>
                       {label}
                     </span>
                   </li>
@@ -610,12 +610,12 @@ export default function CharacterSheet({ character }: Props) {
                 return (
                   <li key={rawKey} style={{ display: "flex", alignItems: "center", gap: 6, padding: "2.5px 0", borderBottom: "1px solid #eeeeee" }}>
                     <ProfDot filled={isProficient} />
-                    <span style={{ width: 22, fontFamily: FONT_DISPLAY, fontSize: 11, textAlign: "center", borderBottom: LIGHT_BORDER, flexShrink: 0 }}>
+                    <span style={{ width: 22, fontFamily: FONT_DISPLAY, fontSize: 16, textAlign: "center", borderBottom: LIGHT_BORDER, flexShrink: 0 }}>
                       {mStr}
                     </span>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 10, fontWeight: 400, color: "#1c1c1c", flex: 1, lineHeight: 1.2 }}>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 400, color: "#1c1c1c", flex: 1, lineHeight: 1.2 }}>
                       {namePl}{" "}
-                      <em style={{ fontStyle: "italic", fontSize: 8, color: "#999999", fontWeight: 300 }}>({attrShort})</em>
+                      <em style={{ fontStyle: "italic", fontSize: 16, color: "#999999", fontWeight: 300 }}>({attrShort})</em>
                     </span>
                   </li>
                 );
@@ -742,7 +742,7 @@ export default function CharacterSheet({ character }: Props) {
                   <div style={{ fontFamily: FONT_DISPLAY, fontSize: 28, letterSpacing: "-1px", color: BLACK }}>
                     k{cls?.hitDie ?? 8}
                   </div>
-                  <div style={{ fontFamily: FONT_UI, fontSize: 8, color: MID, marginTop: 2 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, marginTop: 2 }}>
                     {character.level}× do dyspozycji
                   </div>
                 </div>
@@ -757,7 +757,7 @@ export default function CharacterSheet({ character }: Props) {
                     const count = isSuccess ? deathSaves.successes : deathSaves.failures;
                     return (
                       <div key={lbl} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 7, letterSpacing: "1.5px", textTransform: "uppercase", width: 50 }}>
+                        <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 16, letterSpacing: "1.5px", textTransform: "uppercase", width: 50 }}>
                           {lbl}
                         </span>
                         <div style={{ display: "flex", gap: 4 }}>
@@ -787,7 +787,7 @@ export default function CharacterSheet({ character }: Props) {
                 <thead>
                   <tr style={{ borderBottom: STRONG_BORDER }}>
                     {["Broń / Zaklęcie", "Premia ATK", "Obrażenia"].map((h) => (
-                      <th key={h} style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 7, letterSpacing: "2px", textTransform: "uppercase", color: MID, textAlign: "left", padding: "0 0 5px" }}>
+                      <th key={h} style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 16, letterSpacing: "2px", textTransform: "uppercase", color: MID, textAlign: "left", padding: "0 0 5px" }}>
                         {h}
                       </th>
                     ))}
@@ -796,15 +796,15 @@ export default function CharacterSheet({ character }: Props) {
                 <tbody>
                   {attacks.length > 0 ? attacks.map((atk, i) => (
                     <tr key={i} style={{ borderBottom: "1px solid #eeeeee" }}>
-                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 11 }}>{atk.name}</td>
-                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 11 }}>{atk.bonus}</td>
-                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 11 }}>{atk.damage}</td>
+                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 16 }}>{atk.name}</td>
+                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 16 }}>{atk.bonus}</td>
+                      <td style={{ padding: "3px 0", fontFamily: FONT_UI, fontSize: 16 }}>{atk.damage}</td>
                     </tr>
                   )) : (
                     // empty rows placeholder
                     [0, 1, 2].map((i) => (
                       <tr key={i} style={{ borderBottom: "1px solid #eeeeee" }}>
-                        <td style={{ padding: "6px 0", fontFamily: FONT_UI, fontSize: 11, color: "#cccccc" }}>—</td>
+                        <td style={{ padding: "6px 0", fontFamily: FONT_UI, fontSize: 16, color: "#cccccc" }}>—</td>
                         <td style={{ padding: "6px 0" }} />
                         <td style={{ padding: "6px 0" }} />
                       </tr>
@@ -828,7 +828,7 @@ export default function CharacterSheet({ character }: Props) {
                 >
                   <span style={labelStyle}>{label}</span>
                   <div style={{
-                    fontFamily: FONT_UI, fontSize: 11, lineHeight: "18px",
+                    fontFamily: FONT_UI, fontSize: 16, lineHeight: "18px",
                     minHeight: 44, color: items.length > 0 ? BLACK : "#cccccc",
                   }}>
                     {items.length > 0 ? items.join(" / ") : "—"}
@@ -847,7 +847,7 @@ export default function CharacterSheet({ character }: Props) {
             <SectionTitle>Biegłości i Języki</SectionTitle>
             <div style={{
               width: "100%", minHeight: 140,
-              fontFamily: FONT_UI, fontSize: 11, color: BLACK,
+              fontFamily: FONT_UI, fontSize: 16, color: BLACK,
               lineHeight: "22px",
               backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
               backgroundAttachment: "local",
@@ -878,7 +878,7 @@ export default function CharacterSheet({ character }: Props) {
             <SectionTitle>Wyposażenie</SectionTitle>
             <div style={{
               width: "100%", minHeight: 140,
-              fontFamily: FONT_UI, fontSize: 11, color: BLACK,
+              fontFamily: FONT_UI, fontSize: 16, color: BLACK,
               lineHeight: "22px",
               backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
               backgroundAttachment: "local",
@@ -904,7 +904,7 @@ export default function CharacterSheet({ character }: Props) {
             <SectionTitle>Korzyści i Zdolności</SectionTitle>
             <div style={{
               width: "100%", minHeight: 140,
-              fontFamily: FONT_UI, fontSize: 11, color: BLACK,
+              fontFamily: FONT_UI, fontSize: 16, color: BLACK,
               lineHeight: "22px",
               backgroundImage: "repeating-linear-gradient(to bottom, transparent 0px, transparent 21px, #d8d8d8 21px, #d8d8d8 22px)",
               backgroundAttachment: "local",
@@ -956,12 +956,12 @@ export default function CharacterSheet({ character }: Props) {
               <div style={{ padding: "14px 12px", borderRight: STRONG_BORDER }}>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>0</span>
-                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Sztuczki</span>
+                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 16, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Sztuczki</span>
                 </div>
                 {cantripData.map((spell) => spell && (
                   <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px 0", borderBottom: "1px solid #eeeeee" }}>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK }}>{spell.namePl}</span>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID }}>{spell.castingTime}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>{spell.namePl}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{spell.castingTime}</span>
                   </div>
                 ))}
               </div>
@@ -970,13 +970,13 @@ export default function CharacterSheet({ character }: Props) {
               <div style={{ padding: "14px 12px", borderRight: STRONG_BORDER }}>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>1</span>
-                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
-                  <span style={{ marginLeft: "auto", fontFamily: FONT_UI, fontSize: 8, color: MID }}>{slotsForSpellLevel[0] ?? 0} slotów</span>
+                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 16, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
+                  <span style={{ marginLeft: "auto", fontFamily: FONT_UI, fontSize: 16, color: MID }}>{slotsForSpellLevel[0] ?? 0} slotów</span>
                 </div>
                 {spellData.map((spell) => spell && (
                   <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px 0", borderBottom: "1px solid #eeeeee" }}>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK }}>{spell.namePl}</span>
-                    <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID }}>{spell.castingTime}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>{spell.namePl}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{spell.castingTime}</span>
                   </div>
                 ))}
               </div>
@@ -985,7 +985,7 @@ export default function CharacterSheet({ character }: Props) {
               <div style={{ padding: "14px 12px" }}>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6, borderBottom: STRONG_BORDER, paddingBottom: 4, marginBottom: 5 }}>
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, lineHeight: 1, letterSpacing: "-1px" }}>2</span>
-                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
+                  <span style={{ fontFamily: FONT_UI, fontWeight: 700, fontSize: 16, letterSpacing: "2px", textTransform: "uppercase", color: MID }}>Poziom</span>
                 </div>
               </div>
             </div>
@@ -997,7 +997,7 @@ export default function CharacterSheet({ character }: Props) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <SectionTitle>Notatki Sesji</SectionTitle>
             {notesSaved && (
-              <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID, letterSpacing: "1px" }}>
+              <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, letterSpacing: "1px" }}>
                 ✓ Zapisano
               </span>
             )}
@@ -1015,7 +1015,7 @@ export default function CharacterSheet({ character }: Props) {
               border: "none",
               outline: "none",
               fontFamily: FONT_UI,
-              fontSize: 12,
+              fontSize: 16,
               color: BLACK,
               resize: "none",
               lineHeight: "22px",
@@ -1025,7 +1025,7 @@ export default function CharacterSheet({ character }: Props) {
               backgroundAttachment: "local",
             }}
           />
-          <div style={{ fontFamily: FONT_UI, fontSize: 8, color: "#cccccc", textAlign: "right", marginTop: 4 }}>
+          <div style={{ fontFamily: FONT_UI, fontSize: 16, color: "#cccccc", textAlign: "right", marginTop: 4 }}>
             {notes.length}/5000
           </div>
         </div>
@@ -1052,7 +1052,7 @@ export default function CharacterSheet({ character }: Props) {
             ].map(({ label, value }, i) => (
               <div key={label} style={{ padding: "10px 12px", borderRight: i % 3 < 2 ? LIGHT_BORDER : "none", borderBottom: i < 3 ? LIGHT_BORDER : "none" }}>
                 <span className="label">{label}</span>
-                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 14, color: BLACK }}>{value}</div>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: BLACK }}>{value}</div>
               </div>
             ))}
           </div>
@@ -1062,13 +1062,13 @@ export default function CharacterSheet({ character }: Props) {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", padding: "16px 24px", gap: 24, borderBottom: LIGHT_BORDER }}>
           <div>
             <SectionTitle>Historia Postaci</SectionTitle>
-            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
+            <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
               {character.backstory || character.description || "—"}
             </p>
           </div>
           <div>
             <SectionTitle>Sojusznicy i Organizacje</SectionTitle>
-            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
+            <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
               {allies || "—"}
             </p>
           </div>
@@ -1077,14 +1077,14 @@ export default function CharacterSheet({ character }: Props) {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", padding: "16px 24px", gap: 24 }}>
           <div>
             <SectionTitle>Majątek</SectionTitle>
-            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
+            <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>
               {treasure || "—"}
             </p>
           </div>
           <div>
             <SectionTitle>Punkty Doświadczenia</SectionTitle>
             <div style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: BLACK }}>{experience}</div>
-            <span style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, letterSpacing: "2px", textTransform: "uppercase" }}>PD</span>
+            <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, letterSpacing: "2px", textTransform: "uppercase" }}>PD</span>
           </div>
         </div>
 
@@ -1118,12 +1118,12 @@ export default function CharacterSheet({ character }: Props) {
             <div style={{ padding: "16px 24px", borderBottom: LIGHT_BORDER }}>
               <SectionTitle>Sztuczki (Poziom 0)</SectionTitle>
               {cantripData.length === 0 ? (
-                <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>Brak sztuczek</p>
+                <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>Brak sztuczek</p>
               ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "4px 24px" }}>
                   {cantripData.map((spell) => spell && (
                     <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", borderBottom: LIGHT_BORDER, padding: "3px 0" }}>
-                      <span style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK }}>{spell.namePl}</span>
+                      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>{spell.namePl}</span>
                       <span style={{ fontFamily: FONT_UI, fontSize: 9, color: MID }}>{spell.castingTime}</span>
                     </div>
                   ))}
@@ -1146,7 +1146,7 @@ export default function CharacterSheet({ character }: Props) {
                         {/* Level header */}
                         <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 4 }}>
                           <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, color: BLACK, lineHeight: 1 }}>{spellLevel}</span>
-                          <span style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, letterSpacing: "2px", textTransform: "uppercase" }}>
+                          <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, letterSpacing: "2px", textTransform: "uppercase" }}>
                             poziom · Sloty: {totalSlots}
                           </span>
                         </div>
@@ -1177,8 +1177,8 @@ export default function CharacterSheet({ character }: Props) {
                         ) : (
                           levelSpells.map((spell) => spell && (
                             <div key={spell.id} style={{ display: "flex", justifyContent: "space-between", borderBottom: LIGHT_BORDER, padding: "2px 0" }}>
-                              <span style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK }}>{spell.namePl}</span>
-                              <span style={{ fontFamily: FONT_UI, fontSize: 8, color: MID }}>{spell.castingTime}</span>
+                              <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>{spell.namePl}</span>
+                              <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{spell.castingTime}</span>
                             </div>
                           ))
                         )}

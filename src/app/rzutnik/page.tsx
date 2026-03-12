@@ -25,7 +25,7 @@ export default function RzutnikPage() {
             borderRadius: 1,
           }}
         />
-        <p style={{ marginTop: 12, color: "#8b8699", fontSize: 14, margin: "8px 0 0" }}>
+        <p style={{ marginTop: 12, color: "#8b8699", fontSize: 16, margin: "8px 0 0" }}>
           Rzucaj kośćmi i śledź historię rzutów w bieżącej sesji.
         </p>
       </div>

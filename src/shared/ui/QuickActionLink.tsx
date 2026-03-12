@@ -53,7 +53,7 @@ export function QuickActionLink({ title, desc, href }: Props) {
         className="qa-desc"
         style={{
           fontFamily: "var(--font-ui), Helvetica, sans-serif",
-          fontSize: 10,
+          fontSize: 16,
           fontWeight: 300,
           color: "#555555",
         }}

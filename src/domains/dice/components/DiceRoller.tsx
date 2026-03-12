@@ -83,7 +83,7 @@ export default function DiceRoller() {
               <div
                 data-testid="roll-total"
                 style={{
-                  fontSize: 80,
+                  fontSize: 160,
                   fontWeight: 900,
                   fontFamily: "Cinzel, serif",
                   color: totalColor,
@@ -93,7 +93,7 @@ export default function DiceRoller() {
               >
                 {rolling ? "..." : lastRoll.total}
               </div>
-              <div style={{ color: "#8b8699", fontSize: 14, marginTop: 8 }}>
+              <div style={{ color: "#8b8699", fontSize: 16, marginTop: 8 }}>
                 {lastRoll.count}k{lastRoll.die}
                 {lastRoll.count > 1 && (
                   <span style={{ color: "#4a4759", marginLeft: 8 }}>
@@ -150,7 +150,7 @@ export default function DiceRoller() {
             gap: 16,
           }}
         >
-          <span style={{ color: "#8b8699", fontSize: 14, flexShrink: 0 }}>Liczba kości:</span>
+          <span style={{ color: "#8b8699", fontSize: 16, flexShrink: 0 }}>Liczba kości:</span>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <button
               onClick={() => setDiceCount((n) => Math.max(1, n - 1))}
@@ -263,7 +263,7 @@ export default function DiceRoller() {
             <h3
               style={{
                 margin: 0,
-                fontSize: 14,
+                fontSize: 16,
                 fontFamily: "Cinzel, serif",
                 color: "#f0ece4",
                 fontWeight: 600,
@@ -279,7 +279,7 @@ export default function DiceRoller() {
                   background: "transparent",
                   border: "none",
                   color: "#4a4759",
-                  fontSize: 12,
+                  fontSize: 16,
                   cursor: "pointer",
                   padding: "2px 6px",
                 }}
@@ -320,7 +320,7 @@ export default function DiceRoller() {
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <span
                       style={{
-                        fontSize: 11,
+                        fontSize: 16,
                         color: "#8b8699",
                         fontFamily: "Cinzel, serif",
                         minWidth: 36,
@@ -329,7 +329,7 @@ export default function DiceRoller() {
                       {entry.count}k{entry.die}
                     </span>
                     {entry.count > 1 && (
-                      <span style={{ fontSize: 11, color: "#4a4759" }}>
+                      <span style={{ fontSize: 16, color: "#4a4759" }}>
                         [{entry.results.join("+")}]
                       </span>
                     )}

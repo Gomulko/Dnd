@@ -33,10 +33,10 @@ export default function RasaForm() {
 
   const filtered = search.trim()
     ? RACES.filter(
-        (r) =>
-          r.name.toLowerCase().includes(search.toLowerCase()) ||
-          r.roleplayHint.toLowerCase().includes(search.toLowerCase())
-      )
+      (r) =>
+        r.name.toLowerCase().includes(search.toLowerCase()) ||
+        r.roleplayHint.toLowerCase().includes(search.toLowerCase())
+    )
     : RACES;
 
   function selectRace(race: Race) {
@@ -53,7 +53,7 @@ export default function RasaForm() {
     <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 2 z 8
         </div>
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
@@ -121,7 +121,7 @@ export default function RasaForm() {
                   <div style={{ fontFamily: FONT_UI, fontSize: 13, color: active ? LIGHT : MID }}>{race.roleplayHint}</div>
                   {race.source === "PHB" && (
                     <div style={{
-                      marginTop: 6, fontFamily: FONT_UI, fontSize: 12, color: active ? LIGHT : MID,
+                      marginTop: 6, fontFamily: FONT_UI, fontSize: 16, color: active ? LIGHT : MID,
                       border: `1px solid ${active ? LIGHT : LIGHT}`,
                       padding: "1px 5px", display: "inline-block",
                     }}>PHB</div>
@@ -162,7 +162,7 @@ export default function RasaForm() {
                     {Object.entries(selectedRace.statBonuses).map(([k, v]) => (
                       <span key={k} style={{
                         border: `1px solid ${BLACK}`,
-                        padding: "2px 8px", fontFamily: FONT_UI, fontSize: 14, color: BLACK, fontWeight: 600,
+                        padding: "2px 8px", fontFamily: FONT_UI, fontSize: 16, color: BLACK, fontWeight: 600,
                       }}>
                         +{v} {STAT_LABELS[k as StatKey]}
                       </span>
@@ -215,7 +215,7 @@ export default function RasaForm() {
                     ...(selectedSubrace?.traits ?? []),
                   ].map((trait) => (
                     <div key={trait.nameEn}>
-                      <div style={{ fontFamily: FONT_UI, fontSize: 14, fontWeight: 600, color: BLACK }}>{trait.name}</div>
+                      <div style={{ fontFamily: FONT_UI, fontSize: 16, fontWeight: 600, color: BLACK }}>{trait.name}</div>
                       <div style={{ fontFamily: FONT_UI, fontSize: 13, color: MID, marginTop: 2, lineHeight: 1.5 }}>{trait.description}</div>
                     </div>
                   ))}
@@ -225,7 +225,7 @@ export default function RasaForm() {
               {/* Języki */}
               <div>
                 <SectionTitle>Języki</SectionTitle>
-                <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID }}>{selectedRace.languages.join(", ")}</p>
+                <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{selectedRace.languages.join(", ")}</p>
               </div>
             </div>
           ) : (
@@ -251,7 +251,7 @@ export default function RasaForm() {
           style={{
             padding: "10px 28px",
             border: "1.5px solid #0a0a0a", background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -264,7 +264,7 @@ export default function RasaForm() {
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? WHITE : MID,
-            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px",
+            fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px",
             cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
@@ -278,7 +278,7 @@ export default function RasaForm() {
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
-      fontFamily: FONT_UI, fontSize: 10, color: MID,
+      fontFamily: FONT_UI, fontSize: 16, color: MID,
       textTransform: "uppercase", letterSpacing: "2px",
       borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4, marginBottom: 8,
     }}>

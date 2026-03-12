@@ -64,7 +64,7 @@ export default function Stepper({ currentStep }: Props) {
               </div>
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 16,
                   fontWeight: active ? 900 : 400,
                   fontFamily: FONT_UI,
                   color: done || active ? BLACK : MID,

@@ -39,7 +39,7 @@ export function LoginForm() {
         <p style={{
           fontFamily: "Inter, sans-serif",
           fontWeight: 600,
-          fontSize: 11,
+          fontSize: 16,
           letterSpacing: "1.32px",
           textTransform: "uppercase",
           color: "#C9A84C",
@@ -60,7 +60,7 @@ export function LoginForm() {
         </h2>
         <p style={{
           fontFamily: "Inter, sans-serif",
-          fontSize: 14,
+          fontSize: 16,
           color: "#8B8699",
           marginBottom: 12,
         }}>
@@ -82,7 +82,7 @@ export function LoginForm() {
             display: "block",
             fontFamily: "Inter, sans-serif",
             fontWeight: 600,
-            fontSize: 12,
+            fontSize: 16,
             letterSpacing: "0.72px",
             textTransform: "uppercase",
             color: "#8B8699",
@@ -115,7 +115,7 @@ export function LoginForm() {
                 borderRadius: 8,
                 padding: "13px 14px 13px 42px",
                 fontFamily: "Inter, sans-serif",
-                fontSize: 14,
+                fontSize: 16,
                 color: "#F0ECE4",
                 outline: "none",
                 boxSizing: "border-box",
@@ -138,7 +138,7 @@ export function LoginForm() {
             display: "block",
             fontFamily: "Inter, sans-serif",
             fontWeight: 600,
-            fontSize: 12,
+            fontSize: 16,
             letterSpacing: "0.72px",
             textTransform: "uppercase",
             color: "#8B8699",
@@ -172,7 +172,7 @@ export function LoginForm() {
                 borderRadius: 8,
                 padding: "13px 14px 13px 42px",
                 fontFamily: "Inter, sans-serif",
-                fontSize: 14,
+                fontSize: 16,
                 color: "#F0ECE4",
                 outline: "none",
                 boxSizing: "border-box",
@@ -249,7 +249,7 @@ export function LoginForm() {
         <span style={{
           fontFamily: "Inter, sans-serif",
           fontWeight: 500,
-          fontSize: 12,
+          fontSize: 16,
           letterSpacing: "0.96px",
           textTransform: "uppercase",
           color: "#4A4759",
@@ -263,7 +263,7 @@ export function LoginForm() {
       <p style={{
         textAlign: "center",
         fontFamily: "Inter, sans-serif",
-        fontSize: 14,
+        fontSize: 16,
         color: "#8B8699",
         marginBottom: 16,
       }}>
@@ -288,7 +288,7 @@ export function LoginForm() {
         <span style={{
           fontFamily: "Inter, sans-serif",
           fontWeight: 500,
-          fontSize: 12,
+          fontSize: 16,
           letterSpacing: "0.12px",
           color: "#4A4759",
         }}>

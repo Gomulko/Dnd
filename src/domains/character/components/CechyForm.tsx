@@ -24,12 +24,12 @@ const POINT_BUY_COSTS: Record<number, number> = {
 const POINT_BUY_BUDGET = 27;
 
 const STATS: { key: keyof Omit<WizardStep4, "method">; label: string; acc: string; short: string }[] = [
-  { key: "strength",     label: "Siła",         acc: "Siłę",      short: "SIŁ" },
-  { key: "dexterity",    label: "Zręczność",     acc: "Zręczność", short: "ZRR" },
-  { key: "constitution", label: "Kondycja",      acc: "Kondycję",  short: "KON" },
-  { key: "intelligence", label: "Intelekt",      acc: "Intelekt",  short: "INT" },
-  { key: "wisdom",       label: "Mądrość",       acc: "Mądrość",   short: "MĄD" },
-  { key: "charisma",     label: "Charyzma",      acc: "Charyzmę",  short: "CHA" },
+  { key: "strength", label: "Siła", acc: "Siłę", short: "SIŁ" },
+  { key: "dexterity", label: "Zręczność", acc: "Zręczność", short: "ZRR" },
+  { key: "constitution", label: "Kondycja", acc: "Kondycję", short: "KON" },
+  { key: "intelligence", label: "Intelekt", acc: "Intelekt", short: "INT" },
+  { key: "wisdom", label: "Mądrość", acc: "Mądrość", short: "MĄD" },
+  { key: "charisma", label: "Charyzma", acc: "Charyzmę", short: "CHA" },
 ];
 
 function mod(score: number): string {
@@ -85,7 +85,7 @@ export default function CechyForm() {
     <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 10, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 4 z 8
         </div>
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
@@ -106,8 +106,8 @@ export default function CechyForm() {
           const resetFor = m === "pointbuy"
             ? { strength: 8, dexterity: 8, constitution: 8, intelligence: 8, wisdom: 8, charisma: 8 }
             : m === "roll"
-            ? { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 }
-            : RESET_STATS;
+              ? { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 }
+              : RESET_STATS;
           return (
             <button
               key={m}
@@ -115,7 +115,7 @@ export default function CechyForm() {
               onClick={() => setStep4({ method: m, ...resetFor })}
               style={{
                 flex: 1, padding: "8px 4px",
-                fontFamily: FONT_UI, fontSize: 14,
+                fontFamily: FONT_UI, fontSize: 16,
                 border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
                 background: active ? BLACK : "transparent",
                 color: active ? WHITE : MID,
@@ -152,7 +152,7 @@ export default function CechyForm() {
         {/* Panel podsumowania */}
         <div style={{ width: 200, flexShrink: 0 }}>
           <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: 16 }}>
-            <div style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
+            <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 14, borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4 }}>
               Podsumowanie
             </div>
             <StatSummaryRow label="Max HP (poz. 1)" value={`${Math.max(1, maxHp)}`} highlight />
@@ -178,7 +178,7 @@ export default function CechyForm() {
           style={{
             padding: "10px 28px",
             border: "1.5px solid #0a0a0a", background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
@@ -191,7 +191,7 @@ export default function CechyForm() {
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,
             color: canProceed ? WHITE : MID,
-            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "2px",
+            fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px",
             cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
@@ -230,7 +230,7 @@ function StandardArray({ step2race, step4, setStep4 }: {
           const total = base + bonus;
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: `1px solid ${LIGHT}` }}>
-              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 10, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
+              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
 
               <select
                 aria-label={label}
@@ -254,7 +254,7 @@ function StandardArray({ step2race, step4, setStep4 }: {
               </select>
 
               {bonus !== 0 && (
-                <span style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, width: 44, textAlign: "center" }}>
+                <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, width: 44, textAlign: "center" }}>
                   +{bonus} rasa
                 </span>
               )}
@@ -265,14 +265,14 @@ function StandardArray({ step2race, step4, setStep4 }: {
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
               }}>
                 <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: base ? BLACK : LIGHT }}>{base ? total : "—"}</div>
-                {base > 0 && <div style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>{mod(total)}</div>}
+                {base > 0 && <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{mod(total)}</div>}
               </div>
             </div>
           );
         })}
       </div>
       {usedValues.length < 6 && (
-        <p style={{ fontFamily: FONT_UI, fontSize: 14, color: "#e05252", marginTop: 12 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: "#e05252", marginTop: 12 }}>
           Przypisz wszystkie 6 wartości, aby przejść dalej.
         </p>
       )}
@@ -324,7 +324,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
 
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: `1px solid ${LIGHT}` }}>
-              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 10, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
+              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
               <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 15, color: MID }}>{label}</div>
 
               <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}>
@@ -345,7 +345,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
 
                 <div style={{ textAlign: "center", minWidth: 24 }}>
                   <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: BLACK }}>{base}</div>
-                  <div style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>koszt {POINT_BUY_COSTS[base]}</div>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>koszt {POINT_BUY_COSTS[base]}</div>
                 </div>
 
                 <button
@@ -365,7 +365,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
               </div>
 
               {bonus !== 0 && (
-                <span style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, width: 36, textAlign: "center" }}>+{bonus}</span>
+                <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, width: 36, textAlign: "center" }}>+{bonus}</span>
               )}
 
               <div style={{
@@ -374,7 +374,7 @@ function PointBuy({ step2race, step4, setStep4, remaining }: {
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
               }}>
                 <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: BLACK }}>{total}</div>
-                <div style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>{mod(total)}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{mod(total)}</div>
               </div>
             </div>
           );
@@ -414,7 +414,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
           style={{
             padding: "8px 18px",
             border: "1.5px solid #0a0a0a", background: "transparent",
-            fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "1px",
+            fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "1px",
             color: BLACK, cursor: "pointer",
           }}
         >
@@ -430,7 +430,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
 
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: `1px solid ${LIGHT}` }}>
-              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 10, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
+              <div style={{ width: 36, fontFamily: FONT_UI, fontSize: 16, fontWeight: 700, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{short}</div>
               <div style={{ width: 60, fontFamily: FONT_UI, fontSize: 15, color: MID }}>{label}</div>
 
               <button
@@ -440,7 +440,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
                 style={{
                   padding: "4px 12px", border: "1.5px solid #0a0a0a",
                   background: "transparent", color: BLACK,
-                  fontFamily: FONT_UI, fontSize: 14, textTransform: "uppercase", letterSpacing: "1px",
+                  fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "1px",
                   cursor: "pointer",
                 }}
               >
@@ -448,7 +448,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
               </button>
 
               {bonus !== 0 && (
-                <span style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, marginLeft: "auto" }}>+{bonus} rasa</span>
+                <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, marginLeft: "auto" }}>+{bonus} rasa</span>
               )}
 
               <div style={{
@@ -457,7 +457,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
               }}>
                 <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: BLACK }}>{total}</div>
-                <div style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>{mod(total)}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{mod(total)}</div>
               </div>
             </div>
           );
@@ -472,7 +472,7 @@ function RollMethod({ step2race, step4, setStep4 }: {
 function StatSummaryRow({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1px" }}>{label}</span>
       <span style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: highlight ? BLACK : BLACK }}>{value}</span>
     </div>
   );

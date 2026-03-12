@@ -45,42 +45,42 @@ const ALIGNMENT_PL: Record<string, string> = {
 };
 
 const STAT_LABELS = [
-  { key: "strength"     as const, label: "Siła",       short: "SIŁ",  saveKey: "str" },
-  { key: "dexterity"    as const, label: "Zręczność",   short: "ZRR",  saveKey: "dex" },
-  { key: "constitution" as const, label: "Kondycja",    short: "KON",  saveKey: "con" },
-  { key: "intelligence" as const, label: "Intelekt",    short: "INT",  saveKey: "int" },
-  { key: "wisdom"       as const, label: "Mądrość",     short: "MĄD",  saveKey: "wis" },
-  { key: "charisma"     as const, label: "Charyzma",    short: "CHA",  saveKey: "cha" },
+  { key: "strength" as const, label: "Siła", short: "SIŁ", saveKey: "str" },
+  { key: "dexterity" as const, label: "Zręczność", short: "ZRR", saveKey: "dex" },
+  { key: "constitution" as const, label: "Kondycja", short: "KON", saveKey: "con" },
+  { key: "intelligence" as const, label: "Intelekt", short: "INT", saveKey: "int" },
+  { key: "wisdom" as const, label: "Mądrość", short: "MĄD", saveKey: "wis" },
+  { key: "charisma" as const, label: "Charyzma", short: "CHA", saveKey: "cha" },
 ];
 
 const SKILL_LIST: { key: string; label: string; ability: string; short: string }[] = [
-  { key: "acrobatics",     label: "Akrobatyka",       ability: "dexterity",    short: "ZRR" },
+  { key: "acrobatics", label: "Akrobatyka", ability: "dexterity", short: "ZRR" },
   { key: "animalHandling", label: "Obchodzenie się z Zw.", ability: "wisdom", short: "MĄD" },
-  { key: "arcana",         label: "Tajemna Wiedza",   ability: "intelligence", short: "INT" },
-  { key: "athletics",      label: "Atletyka",         ability: "strength",     short: "SIŁ" },
-  { key: "deception",      label: "Podstęp",          ability: "charisma",     short: "CHA" },
-  { key: "history",        label: "Historia",         ability: "intelligence", short: "INT" },
-  { key: "insight",        label: "Dociekliwość",     ability: "wisdom",       short: "MĄD" },
-  { key: "intimidation",   label: "Zastraszanie",     ability: "charisma",     short: "CHA" },
-  { key: "investigation",  label: "Śledztwo",         ability: "intelligence", short: "INT" },
-  { key: "medicine",       label: "Medycyna",         ability: "wisdom",       short: "MĄD" },
-  { key: "nature",         label: "Przyroda",         ability: "intelligence", short: "INT" },
-  { key: "perception",     label: "Percepcja",        ability: "wisdom",       short: "MĄD" },
-  { key: "performance",    label: "Sztuka",           ability: "charisma",     short: "CHA" },
-  { key: "persuasion",     label: "Przekonywanie",    ability: "charisma",     short: "CHA" },
-  { key: "religion",       label: "Religia",          ability: "intelligence", short: "INT" },
-  { key: "sleightOfHand",  label: "Zręczne Dłonie",   ability: "dexterity",    short: "ZRR" },
-  { key: "stealth",        label: "Skradanie",        ability: "dexterity",    short: "ZRR" },
-  { key: "survival",       label: "Przetrwanie",      ability: "wisdom",       short: "MĄD" },
+  { key: "arcana", label: "Tajemna Wiedza", ability: "intelligence", short: "INT" },
+  { key: "athletics", label: "Atletyka", ability: "strength", short: "SIŁ" },
+  { key: "deception", label: "Podstęp", ability: "charisma", short: "CHA" },
+  { key: "history", label: "Historia", ability: "intelligence", short: "INT" },
+  { key: "insight", label: "Dociekliwość", ability: "wisdom", short: "MĄD" },
+  { key: "intimidation", label: "Zastraszanie", ability: "charisma", short: "CHA" },
+  { key: "investigation", label: "Śledztwo", ability: "intelligence", short: "INT" },
+  { key: "medicine", label: "Medycyna", ability: "wisdom", short: "MĄD" },
+  { key: "nature", label: "Przyroda", ability: "intelligence", short: "INT" },
+  { key: "perception", label: "Percepcja", ability: "wisdom", short: "MĄD" },
+  { key: "performance", label: "Sztuka", ability: "charisma", short: "CHA" },
+  { key: "persuasion", label: "Przekonywanie", ability: "charisma", short: "CHA" },
+  { key: "religion", label: "Religia", ability: "intelligence", short: "INT" },
+  { key: "sleightOfHand", label: "Zręczne Dłonie", ability: "dexterity", short: "ZRR" },
+  { key: "stealth", label: "Skradanie", ability: "dexterity", short: "ZRR" },
+  { key: "survival", label: "Przetrwanie", ability: "wisdom", short: "MĄD" },
 ];
 
 // ── Design tokens ───────────────────────────────────────────────────────────
 
-const BLACK  = "#0a0a0a";
-const MID    = "#555555";
-const RULE   = "#999999";
-const LIGHT  = "#cccccc";
-const WHITE  = "#ffffff";
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const RULE = "#999999";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
 
 // ── Styles ─────────────────────────────────────────────────────────────────
 
@@ -91,7 +91,7 @@ const S = StyleSheet.create({
     paddingVertical: 24,
     fontFamily: "Helvetica",
     color: BLACK,
-    fontSize: 8,
+    fontSize: 16,
   },
   // ── Header ──
   headerGrid: {
@@ -197,7 +197,7 @@ const S = StyleSheet.create({
     marginBottom: 1,
   },
   abilityMod: {
-    fontSize: 10,
+    fontSize: 16,
     color: BLACK,
     fontFamily: "Helvetica-Bold",
   },
@@ -228,7 +228,7 @@ const S = StyleSheet.create({
     flexShrink: 0,
   },
   dotRowValue: {
-    fontSize: 7,
+    fontSize: 16,
     color: BLACK,
     fontFamily: "Helvetica-Bold",
     marginRight: 4,
@@ -291,7 +291,7 @@ const S = StyleSheet.create({
     lineHeight: 1,
   },
   hpMax: {
-    fontSize: 7,
+    fontSize: 16,
     color: MID,
   },
   // ── Attacks table ──
@@ -307,9 +307,9 @@ const S = StyleSheet.create({
     paddingBottom: 2,
     marginBottom: 2,
   },
-  atkName: { flex: 3, fontSize: 7, color: BLACK },
-  atkBonus: { flex: 1, fontSize: 7, color: BLACK, textAlign: "center" },
-  atkDmg: { flex: 2, fontSize: 7, color: BLACK },
+  atkName: { flex: 3, fontSize: 16, color: BLACK },
+  atkBonus: { flex: 1, fontSize: 16, color: BLACK, textAlign: "center" },
+  atkDmg: { flex: 2, fontSize: 16, color: BLACK },
   atkHeaderText: {
     fontSize: 5,
     fontFamily: "Helvetica-Bold",
@@ -333,7 +333,7 @@ const S = StyleSheet.create({
     marginBottom: 2,
   },
   personalityText: {
-    fontSize: 7,
+    fontSize: 16,
     color: BLACK,
     lineHeight: 1.4,
   },
@@ -352,7 +352,7 @@ const S = StyleSheet.create({
     padding: "6 6",
   },
   bottomText: {
-    fontSize: 7,
+    fontSize: 16,
     color: BLACK,
     lineHeight: 1.5,
   },
@@ -438,7 +438,7 @@ const S = StyleSheet.create({
     marginBottom: 2,
   },
   spellName: {
-    fontSize: 7,
+    fontSize: 16,
     color: BLACK,
   },
   spellTime: {
@@ -470,7 +470,7 @@ export function CharacterPdfDocument({ character: c }: Props) {
   const spellAbilityMod = isSpellcaster
     ? cls?.spellcastingAbility === "wis" ? wisMod
       : cls?.spellcastingAbility === "int" ? intMod
-      : chaMod
+        : chaMod
     : 0;
   const spellDC = 8 + prof + spellAbilityMod;
   const spellAttack = prof + spellAbilityMod;
@@ -522,12 +522,12 @@ export function CharacterPdfDocument({ character: c }: Props) {
 
   // SRD level-1 slots
   const SLOTS_LVL1: Record<string, number[]> = {
-    bard: [2,0,0,0,0,0,0,0,0], cleric: [2,0,0,0,0,0,0,0,0],
-    druid: [2,0,0,0,0,0,0,0,0], sorcerer: [2,0,0,0,0,0,0,0,0],
-    warlock: [1,0,0,0,0,0,0,0,0], wizard: [2,0,0,0,0,0,0,0,0],
-    paladin: [0,0,0,0,0,0,0,0,0], ranger: [0,0,0,0,0,0,0,0,0],
+    bard: [2, 0, 0, 0, 0, 0, 0, 0, 0], cleric: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+    druid: [2, 0, 0, 0, 0, 0, 0, 0, 0], sorcerer: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+    warlock: [1, 0, 0, 0, 0, 0, 0, 0, 0], wizard: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+    paladin: [0, 0, 0, 0, 0, 0, 0, 0, 0], ranger: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   };
-  const slotsForLevel = SLOTS_LVL1[c.class] ?? [0,0,0,0,0,0,0,0,0];
+  const slotsForLevel = SLOTS_LVL1[c.class] ?? [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   const passivePerception = 10 + modNum(c.wisdom) + (proficientSkills.includes("perception") ? prof : 0);
 
@@ -548,12 +548,12 @@ export function CharacterPdfDocument({ character: c }: Props) {
           </View>
           <View style={S.fieldsGrid}>
             {[
-              { label: "Imię Postaci",    value: c.name },
-              { label: "Klasa i Poziom",  value: `${clsLabel} ${c.level}` },
-              { label: "Rasa",            value: raceLabel },
-              { label: "Charakter",       value: ALIGNMENT_PL[c.alignment] ?? c.alignment },
-              { label: "Tło",             value: bg?.name ?? c.background ?? "—" },
-              { label: "PD",              value: String(experience) },
+              { label: "Imię Postaci", value: c.name },
+              { label: "Klasa i Poziom", value: `${clsLabel} ${c.level}` },
+              { label: "Rasa", value: raceLabel },
+              { label: "Charakter", value: ALIGNMENT_PL[c.alignment] ?? c.alignment },
+              { label: "Tło", value: bg?.name ?? c.background ?? "—" },
+              { label: "PD", value: String(experience) },
             ].map(({ label, value }) => (
               <View key={label} style={S.fieldCell}>
                 <Text style={S.fieldLabel}>{label}</Text>
@@ -633,7 +633,7 @@ export function CharacterPdfDocument({ character: c }: Props) {
             {/* Passive Perception */}
             <View style={{ marginTop: 4, border: `1.5 solid ${BLACK}`, padding: "3 5", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
               <Text style={{ fontSize: 5, color: MID, textTransform: "uppercase", letterSpacing: 1 }}>Bierna Percepcja</Text>
-              <Text style={{ fontSize: 14, fontFamily: "Helvetica-Bold", color: BLACK }}>{passivePerception}</Text>
+              <Text style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: BLACK }}>{passivePerception}</Text>
             </View>
           </View>
 
@@ -643,8 +643,8 @@ export function CharacterPdfDocument({ character: c }: Props) {
             <View style={S.combatRow}>
               {[
                 { label: "Klasa Pancerza", value: String(ac) },
-                { label: "Inicjatywa",     value: initiative >= 0 ? `+${initiative}` : `${initiative}` },
-                { label: "Prędkość",       value: "9 m" },
+                { label: "Inicjatywa", value: initiative >= 0 ? `+${initiative}` : `${initiative}` },
+                { label: "Prędkość", value: "9 m" },
               ].map(({ label, value }, i) => (
                 <View key={label} style={[S.combatCell, i === 2 ? { marginRight: 0 } : {}]}>
                   <Text style={S.combatValue}>{value}</Text>
@@ -658,7 +658,7 @@ export function CharacterPdfDocument({ character: c }: Props) {
               <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <View style={{ flex: 1, borderRight: `1 solid ${LIGHT}`, paddingRight: 6 }}>
                   <Text style={S.hpLabel}>Maximum HP</Text>
-                  <Text style={{ fontSize: 10, color: MID, fontFamily: "Helvetica-Bold" }}>{hpMax}</Text>
+                  <Text style={{ fontSize: 16, color: MID, fontFamily: "Helvetica-Bold" }}>{hpMax}</Text>
                 </View>
                 <View style={{ flex: 2, paddingLeft: 6 }}>
                   <Text style={S.hpLabel}>Aktualne HP</Text>
@@ -668,11 +668,11 @@ export function CharacterPdfDocument({ character: c }: Props) {
               <View style={{ flexDirection: "row", borderTop: `1 solid ${LIGHT}`, marginTop: 4, paddingTop: 4 }}>
                 <View style={{ flex: 1, borderRight: `1 solid ${LIGHT}`, paddingRight: 6 }}>
                   <Text style={S.hpLabel}>Tymczasowe HP</Text>
-                  <Text style={{ fontSize: 10, color: BLACK }}>{c.tempHp ?? 0}</Text>
+                  <Text style={{ fontSize: 16, color: BLACK }}>{c.tempHp ?? 0}</Text>
                 </View>
                 <View style={{ flex: 1, paddingLeft: 6 }}>
                   <Text style={S.hpLabel}>Kość Trafień</Text>
-                  <Text style={{ fontSize: 12, fontFamily: "Helvetica-Bold", color: BLACK }}>
+                  <Text style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: BLACK }}>
                     {c.level}× k{hitDie}
                   </Text>
                 </View>
@@ -683,13 +683,13 @@ export function CharacterPdfDocument({ character: c }: Props) {
             <View style={{ border: `1.5 solid ${BLACK}`, padding: "4 5", marginBottom: 5 }}>
               <Text style={S.sectionTitle}>Rzuty Śmierci</Text>
               {[
-                { label: "Sukcesy",  count: deathSaves.successes },
+                { label: "Sukcesy", count: deathSaves.successes },
                 { label: "Porażki", count: deathSaves.failures },
               ].map(({ label, count }) => (
                 <View key={label} style={S.deathRow}>
                   <Text style={S.deathLabel}>{label}</Text>
                   <View style={S.deathDots}>
-                    {[0,1,2].map((i) => (
+                    {[0, 1, 2].map((i) => (
                       <View key={i} style={i < count ? S.dotFilled : S.dot} />
                     ))}
                   </View>
@@ -711,7 +711,7 @@ export function CharacterPdfDocument({ character: c }: Props) {
                 <Text style={S.atkDmg}>{atk.damage}</Text>
               </View>
             )) : (
-              [0,1,2].map((i) => (
+              [0, 1, 2].map((i) => (
                 <View key={i} style={S.attacksRow}>
                   <Text style={S.atkName}> </Text>
                   <Text style={S.atkBonus}> </Text>
@@ -725,9 +725,9 @@ export function CharacterPdfDocument({ character: c }: Props) {
               <Text style={S.sectionTitle}>Osobowość</Text>
               {[
                 { label: "Cechy Osobowości", texts: personalityTraits },
-                { label: "Ideały",            texts: ideals },
-                { label: "Więzy",             texts: bonds },
-                { label: "Słabości",          texts: flaws },
+                { label: "Ideały", texts: ideals },
+                { label: "Więzy", texts: bonds },
+                { label: "Słabości", texts: flaws },
               ].map(({ label, texts }) => (
                 <View key={label} style={S.personalityBox}>
                   <Text style={S.personalityLabel}>{label}</Text>
@@ -803,12 +803,12 @@ export function CharacterPdfDocument({ character: c }: Props) {
           <Text style={S.sectionTitle}>Wygląd Fizyczny</Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {[
-              { label: "Wiek",           value: c.age ? `${c.age} lat` : "—" },
-              { label: "Wzrost",         value: c.height ? `${c.height} cm` : "—" },
-              { label: "Waga",           value: weight ?? "—" },
-              { label: "Kolor Oczu",     value: eyeColor ?? "—" },
-              { label: "Kolor Skóry",    value: skinColor ?? "—" },
-              { label: "Kolor Włosów",   value: hairColor ?? "—" },
+              { label: "Wiek", value: c.age ? `${c.age} lat` : "—" },
+              { label: "Wzrost", value: c.height ? `${c.height} cm` : "—" },
+              { label: "Waga", value: weight ?? "—" },
+              { label: "Kolor Oczu", value: eyeColor ?? "—" },
+              { label: "Kolor Skóry", value: skinColor ?? "—" },
+              { label: "Kolor Włosów", value: hairColor ?? "—" },
             ].map(({ label, value }) => (
               <View key={label} style={[S.fieldCell, { width: "33.3%" }]}>
                 <Text style={S.fieldLabel}>{label}</Text>
@@ -867,14 +867,14 @@ export function CharacterPdfDocument({ character: c }: Props) {
           {/* Spell stats */}
           <View style={{ flexDirection: "row", marginBottom: 10 }}>
             {[
-              { label: "Klasa Zaklęć",   value: clsLabel },
-              { label: "Cecha Bazowa",   value: spellAbilityLabel },
-              { label: "ST Czarów",      value: String(spellDC) },
-              { label: "Premia Ataku",   value: spellAttack >= 0 ? `+${spellAttack}` : `${spellAttack}` },
+              { label: "Klasa Zaklęć", value: clsLabel },
+              { label: "Cecha Bazowa", value: spellAbilityLabel },
+              { label: "ST Czarów", value: String(spellDC) },
+              { label: "Premia Ataku", value: spellAttack >= 0 ? `+${spellAttack}` : `${spellAttack}` },
             ].map(({ label, value }, i) => (
               <View key={label} style={[S.fieldCell, { flex: 1, borderRight: i < 3 ? `1 solid ${LIGHT}` : "none" }]}>
                 <Text style={S.fieldLabel}>{label}</Text>
-                <Text style={{ fontSize: 14, fontFamily: "Helvetica-Bold", color: BLACK }}>{value}</Text>
+                <Text style={{ fontSize: 16, fontFamily: "Helvetica-Bold", color: BLACK }}>{value}</Text>
               </View>
             ))}
           </View>
@@ -884,7 +884,7 @@ export function CharacterPdfDocument({ character: c }: Props) {
             <Text style={S.sectionTitle}>Sztuczki (Poziom 0)</Text>
             <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4 }}>
               {cantripData.length === 0
-                ? <Text style={{ fontSize: 7, color: MID }}>Brak sztuczek</Text>
+                ? <Text style={{ fontSize: 16, color: MID }}>Brak sztuczek</Text>
                 : cantripData.map((spell) => spell && (
                   <View key={spell.id} style={S.spellRow}>
                     <Text style={S.spellName}>{spell.namePl}</Text>
@@ -897,9 +897,9 @@ export function CharacterPdfDocument({ character: c }: Props) {
 
           {/* Spell levels 1-9 in 3 columns */}
           <View style={{ flexDirection: "row", gap: 12 }}>
-            {[0,1,2].map((colIdx) => (
+            {[0, 1, 2].map((colIdx) => (
               <View key={colIdx} style={{ flex: 1 }}>
-                {[1,2,3].map((offset) => {
+                {[1, 2, 3].map((offset) => {
                   const spellLevel = colIdx * 3 + offset;
                   const totalSlots = slotsForLevel[spellLevel - 1] ?? 0;
                   const usedSlots = slotsUsed[String(spellLevel)] ?? 0;

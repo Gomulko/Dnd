@@ -20,7 +20,7 @@ export default async function DashboardPage() {
           <div
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 8,
+              fontSize: 16,
               fontWeight: 300,
               letterSpacing: "4px",
               textTransform: "uppercase",
@@ -45,7 +45,7 @@ export default async function DashboardPage() {
           <p
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 11,
+              fontSize: 16,
               color: "#555555",
               marginTop: 6,
             }}
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
             border: "1.5px solid #0a0a0a",
             color: "#ffffff",
             fontFamily: "var(--font-ui), Helvetica, sans-serif",
-            fontSize: 8,
+            fontSize: 16,
             fontWeight: 700,
             letterSpacing: "2px",
             textTransform: "uppercase",
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
             <h2
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 8,
+                fontSize: 16,
                 fontWeight: 900,
                 letterSpacing: "3px",
                 textTransform: "uppercase",
@@ -119,7 +119,7 @@ export default async function DashboardPage() {
             <h2
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 8,
+                fontSize: 16,
                 fontWeight: 900,
                 letterSpacing: "3px",
                 textTransform: "uppercase",
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
           <p
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 11,
+              fontSize: 16,
               color: "#555555",
               marginBottom: 24,
             }}
@@ -188,7 +188,7 @@ export default async function DashboardPage() {
               border: "1.5px solid #0a0a0a",
               color: "#ffffff",
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 8,
+              fontSize: 16,
               fontWeight: 700,
               letterSpacing: "2px",
               textTransform: "uppercase",
@@ -206,7 +206,7 @@ export default async function DashboardPage() {
           <h2
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 8,
+              fontSize: 16,
               fontWeight: 900,
               letterSpacing: "3px",
               textTransform: "uppercase",

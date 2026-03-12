@@ -135,7 +135,7 @@ export default function CharacterCard({ character: c }: Props) {
             <div
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 8,
+                fontSize: 16,
                 fontWeight: 400,
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -153,7 +153,7 @@ export default function CharacterCard({ character: c }: Props) {
             <span
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 7,
+                fontSize: 16,
                 fontWeight: 700,
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -174,7 +174,7 @@ export default function CharacterCard({ character: c }: Props) {
             <span
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 7,
+                fontSize: 16,
                 fontWeight: 700,
                 letterSpacing: "2.5px",
                 textTransform: "uppercase",
@@ -244,7 +244,7 @@ export default function CharacterCard({ character: c }: Props) {
             <div
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 7,
+                fontSize: 16,
                 fontWeight: 700,
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -277,7 +277,7 @@ export default function CharacterCard({ character: c }: Props) {
             background: "#0a0a0a",
             color: "#ffffff",
             fontFamily: "var(--font-ui), Helvetica, sans-serif",
-            fontSize: 7,
+            fontSize: 16,
             fontWeight: 700,
             letterSpacing: "2px",
             textTransform: "uppercase",
@@ -300,7 +300,7 @@ export default function CharacterCard({ character: c }: Props) {
               border: "1.5px solid #0a0a0a",
               color: "#0a0a0a",
               cursor: "pointer",
-              fontSize: 14,
+              fontSize: 16,
               letterSpacing: "2px",
             }}
             title="Opcje"
@@ -385,7 +385,7 @@ export default function CharacterCard({ character: c }: Props) {
             <p
               style={{
                 fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                fontSize: 12,
+                fontSize: 16,
                 color: "#555555",
                 margin: "0 0 24px",
               }}
@@ -404,7 +404,7 @@ export default function CharacterCard({ character: c }: Props) {
                   border: "1.5px solid #555555",
                   color: "#555555",
                   fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                  fontSize: 8,
+                  fontSize: 16,
                   fontWeight: 700,
                   letterSpacing: "2px",
                   textTransform: "uppercase",
@@ -423,7 +423,7 @@ export default function CharacterCard({ character: c }: Props) {
                   border: "1.5px solid #0a0a0a",
                   color: "#ffffff",
                   fontFamily: "var(--font-ui), Helvetica, sans-serif",
-                  fontSize: 8,
+                  fontSize: 16,
                   fontWeight: 700,
                   letterSpacing: "2px",
                   textTransform: "uppercase",

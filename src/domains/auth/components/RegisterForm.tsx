@@ -36,7 +36,7 @@ const inputStyle = (active = false): React.CSSProperties => ({
   borderRadius: 8,
   padding: "13px 14px 13px 42px",
   fontFamily: "Inter, sans-serif",
-  fontSize: 14,
+  fontSize: 16,
   color: "#F0ECE4",
   outline: "none",
   boxSizing: "border-box" as const,
@@ -46,7 +46,7 @@ const labelStyle: React.CSSProperties = {
   display: "block",
   fontFamily: "Inter, sans-serif",
   fontWeight: 600,
-  fontSize: 12,
+  fontSize: 16,
   letterSpacing: "0.72px",
   textTransform: "uppercase",
   color: "#8B8699",
@@ -115,7 +115,7 @@ export function RegisterForm() {
         }}>
           Utwórz konto
         </h2>
-        <p style={{ fontFamily: "Inter, sans-serif", fontSize: 14, color: "#8B8699", marginBottom: 12 }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: 16, color: "#8B8699", marginBottom: 12 }}>
           Dołącz do tysięcy przygodników
         </p>
         <div style={{
@@ -187,7 +187,7 @@ export function RegisterForm() {
               <p style={{
                 fontFamily: "Inter, sans-serif",
                 fontWeight: 500,
-                fontSize: 11,
+                fontSize: 16,
                 color: strength.color,
               }}>
                 {strength.label}
@@ -226,7 +226,7 @@ export function RegisterForm() {
             borderRadius: 4,
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            {accepted && <span style={{ color: "#1A1408", fontSize: 11, fontWeight: 700 }}>✓</span>}
+            {accepted && <span style={{ color: "#1A1408", fontSize: 16, fontWeight: 700 }}>✓</span>}
           </div>
           <p style={{ fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: "20px", color: "#8B8699" }}>
             Akceptuję{" "}
@@ -270,7 +270,7 @@ export function RegisterForm() {
       <div className="flex items-center" style={{ gap: 16, marginBottom: 20 }}>
         <div style={{ flex: 1, height: 1, background: "#2E2B3D" }} />
         <span style={{
-          fontFamily: "Inter, sans-serif", fontWeight: 500, fontSize: 12,
+          fontFamily: "Inter, sans-serif", fontWeight: 500, fontSize: 16,
           letterSpacing: "0.96px", textTransform: "uppercase", color: "#4A4759",
         }}>
           lub
@@ -279,7 +279,7 @@ export function RegisterForm() {
       </div>
 
       {/* Login link */}
-      <p style={{ textAlign: "center", fontFamily: "Inter, sans-serif", fontSize: 14, color: "#8B8699" }}>
+      <p style={{ textAlign: "center", fontFamily: "Inter, sans-serif", fontSize: 16, color: "#8B8699" }}>
         Masz już konto?{" "}
         <Link href="/logowanie" style={{ color: "#C9A84C", fontWeight: 500, textDecoration: "none" }}>
           Zaloguj się

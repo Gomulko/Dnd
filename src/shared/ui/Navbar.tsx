@@ -43,7 +43,7 @@ export default async function Navbar() {
             display: "block",
             fontFamily: "var(--font-ui), Helvetica, sans-serif",
             fontWeight: 300,
-            fontSize: 8,
+            fontSize: 16,
             letterSpacing: "4px",
             textTransform: "uppercase",
             color: "#555555",
@@ -59,7 +59,7 @@ export default async function Navbar() {
           <div
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 11,
+              fontSize: 16,
               fontWeight: 600,
               color: "#0a0a0a",
               letterSpacing: "0.5px",
@@ -70,7 +70,7 @@ export default async function Navbar() {
           <div
             style={{
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 7,
+              fontSize: 16,
               fontWeight: 300,
               letterSpacing: "3px",
               textTransform: "uppercase",
@@ -91,7 +91,7 @@ export default async function Navbar() {
             alignItems: "center",
             justifyContent: "center",
             fontFamily: "var(--font-ui), Helvetica, sans-serif",
-            fontSize: 11,
+            fontSize: 16,
             fontWeight: 700,
             color: "#0a0a0a",
             background: "#ffffff",
@@ -114,7 +114,7 @@ export default async function Navbar() {
               border: "1.5px solid #0a0a0a",
               color: "#0a0a0a",
               fontFamily: "var(--font-ui), Helvetica, sans-serif",
-              fontSize: 7,
+              fontSize: 16,
               fontWeight: 700,
               letterSpacing: "2px",
               textTransform: "uppercase",
