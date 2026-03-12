@@ -9,10 +9,10 @@ test("poprawne logowanie przekierowuje na dashboard", async ({ page }) => {
 
 test("błędne hasło pokazuje komunikat błędu", async ({ page }) => {
   await page.goto("/logowanie");
-  await page.locator('input[name="email"]').fill(TEST_USER.email);
+  await page.locator('input[name="username"]').fill(TEST_USER.username);
   await page.locator('input[name="password"]').fill("ZleHaslo123!");
   await page.getByRole("button", { name: /wkrocz/i }).click();
-  await expect(page.getByText(/nieprawidłowy/i)).toBeVisible();
+  await expect(page.getByText(/nieprawidłowa/i)).toBeVisible();
 });
 
 test("pusty formularz nie pozwala na wysłanie", async ({ page }) => {

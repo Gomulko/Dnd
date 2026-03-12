@@ -17,13 +17,13 @@ export function LoginForm() {
 
     const formData = new FormData(e.currentTarget);
     const result = await signIn("credentials", {
-      email: formData.get("email"),
+      username: formData.get("username"),
       password: formData.get("password"),
       redirect: false,
     });
 
     if (result?.error) {
-      setError("Nieprawidłowy email lub hasło");
+      setError("Nieprawidłowa nazwa użytkownika lub hasło");
       setLoading(false);
       return;
     }
@@ -76,7 +76,7 @@ export function LoginForm() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        {/* Email */}
+        {/* Nazwa użytkownika */}
         <div style={{ marginBottom: 20 }}>
           <label style={{
             display: "block",
@@ -88,7 +88,7 @@ export function LoginForm() {
             color: "#8B8699",
             marginBottom: 8,
           }}>
-            Adres E-mail
+            Nazwa użytkownika
           </label>
           <div style={{ position: "relative" }}>
             <span style={{
@@ -100,13 +100,13 @@ export function LoginForm() {
               color: "#4A4759",
               pointerEvents: "none",
             }}>
-              ✉
+              ⚔
             </span>
             <input
-              name="email"
-              type="email"
+              name="username"
+              type="text"
               required
-              placeholder="kelindra@example.com"
+              placeholder="Kelindra_Moonwhisper"
               style={{
                 width: "100%",
                 height: 45,

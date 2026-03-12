@@ -17,16 +17,15 @@ async function main() {
   const passwordHash = await bcrypt.hash("Test1234!", 10);
 
   const user = await prisma.user.upsert({
-    where: { email: "test@kroniki.pl" },
+    where: { name: "tester" },
     update: {},
     create: {
-      email: "test@kroniki.pl",
-      name: "Tester",
+      name: "tester",
       password: passwordHash,
     },
   });
 
-  console.log(`✅ Użytkownik: ${user.email}`);
+  console.log(`✅ Użytkownik: ${user.name}`);
 
   // ── 2. Postać 1 — Kleryk ────────────────────────────────────────────────
   const kleryk = await prisma.character.upsert({
@@ -258,7 +257,7 @@ async function main() {
   console.log(`✅ Postać: ${czarodziej.name} (${czarodziej.class} poz.${czarodziej.level}, niedokończona)`);
 
   console.log("\n🎲 Seed zakończony!");
-  console.log("   Login:  test@kroniki.pl");
+  console.log("   Login:  tester");
   console.log("   Hasło:  Test1234!");
 }
 

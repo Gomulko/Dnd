@@ -1,17 +1,15 @@
 import { test, expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
-// Unikalny email per uruchomienie (unikamy kolizji między testami)
-const uniqueEmail = () => `test_${Date.now()}@playwright.pl`;
+// Unikalny username per uruchomienie (unikamy kolizji między testami)
+const uniqueUsername = () => `gracz_${Date.now()}`;
 
 async function fillForm(
   page: Page,
-  opts: { name?: string; email?: string; password?: string; confirm?: string }
+  opts: { username?: string; password?: string; confirm?: string }
 ) {
-  if (opts.name !== undefined)
-    await page.locator('input[name="name"]').fill(opts.name);
-  if (opts.email !== undefined)
-    await page.locator('input[name="email"]').fill(opts.email);
+  if (opts.username !== undefined)
+    await page.locator('input[name="username"]').fill(opts.username);
   if (opts.password !== undefined)
     await page.locator('input[name="password"]').fill(opts.password);
   if (opts.confirm !== undefined)
@@ -21,8 +19,7 @@ async function fillForm(
 test("poprawna rejestracja przekierowuje na logowanie", async ({ page }) => {
   await page.goto("/rejestracja");
   await fillForm(page, {
-    name: "Nowy Gracz",
-    email: uniqueEmail(),
+    username: uniqueUsername(),
     password: "Test1234!",
     confirm: "Test1234!",
   });
@@ -30,11 +27,10 @@ test("poprawna rejestracja przekierowuje na logowanie", async ({ page }) => {
   await expect(page).toHaveURL(/\/logowanie/);
 });
 
-test("zajęty email pokazuje komunikat błędu", async ({ page }) => {
+test("zajęta nazwa użytkownika pokazuje komunikat błędu", async ({ page }) => {
   await page.goto("/rejestracja");
   await fillForm(page, {
-    name: "Duplikat",
-    email: "test@kroniki.pl", // konto z seeda
+    username: "tester", // konto z seeda
     password: "Test1234!",
     confirm: "Test1234!",
   });
@@ -47,8 +43,7 @@ test("niezaakceptowany regulamin blokuje rejestrację", async ({ page }) => {
   // Odznacz regulamin (domyślnie jest zaznaczony)
   await page.getByText("Akceptuję").click();
   await fillForm(page, {
-    name: "Gracz",
-    email: uniqueEmail(),
+    username: uniqueUsername(),
     password: "Test1234!",
     confirm: "Test1234!",
   });
@@ -60,8 +55,7 @@ test("niezaakceptowany regulamin blokuje rejestrację", async ({ page }) => {
 test("niezgodne hasła pokazują błąd walidacji", async ({ page }) => {
   await page.goto("/rejestracja");
   await fillForm(page, {
-    name: "Gracz",
-    email: uniqueEmail(),
+    username: uniqueUsername(),
     password: "Test1234!",
     confirm: "InneHaslo!",
   });

@@ -85,8 +85,7 @@ export function RegisterForm() {
 
     const formData = new FormData(e.currentTarget);
     const result = await registerUser({
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
+      username: formData.get("username") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
     });
@@ -126,35 +125,18 @@ export function RegisterForm() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        {/* Pseudonim */}
+        {/* Nazwa użytkownika */}
         <div style={{ marginBottom: 20 }}>
-          <label style={labelStyle}>Pseudonim</label>
+          <label style={labelStyle}>Nazwa użytkownika</label>
           <div style={{ position: "relative" }}>
             <span style={iconStyle}>⚔</span>
             <input
-              name="name"
+              name="username"
               type="text"
               required
               placeholder="Kelindra_Moonwhisper"
-              style={inputStyle(activeField === "name")}
-              onFocus={() => setActiveField("name")}
-              onBlur={() => setActiveField(null)}
-            />
-          </div>
-        </div>
-
-        {/* Email */}
-        <div style={{ marginBottom: 20 }}>
-          <label style={labelStyle}>Adres E-mail</label>
-          <div style={{ position: "relative" }}>
-            <span style={iconStyle}>✉</span>
-            <input
-              name="email"
-              type="email"
-              required
-              placeholder="kelindra@example.com"
-              style={inputStyle(activeField === "email")}
-              onFocus={() => setActiveField("email")}
+              style={inputStyle(activeField === "username")}
+              onFocus={() => setActiveField("username")}
               onBlur={() => setActiveField(null)}
             />
           </div>

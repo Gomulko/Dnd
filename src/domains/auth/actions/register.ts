@@ -10,17 +10,17 @@ export async function registerUser(input: RegisterInput) {
     return { error: parsed.error.issues[0].message };
   }
 
-  const { name, email, password } = parsed.data;
+  const { username, password } = parsed.data;
 
-  const existing = await prisma.user.findUnique({ where: { email } });
+  const existing = await prisma.user.findUnique({ where: { name: username } });
   if (existing) {
-    return { error: "Użytkownik z tym adresem email już istnieje" };
+    return { error: "Użytkownik o tej nazwie już istnieje" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
   await prisma.user.create({
-    data: { name, email, password: hashedPassword },
+    data: { name: username, password: hashedPassword },
   });
 
   return { success: true };
