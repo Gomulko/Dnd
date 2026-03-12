@@ -10,6 +10,13 @@ import { CLASSES, SKILL_NAMES_PL } from "@/data/dnd/classes";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { getCantripsForClass, getLevel1SpellsForClass } from "@/data/dnd/spells";
 
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
 // ── Mapowania ──────────────────────────────────────────────────────────────────
 
 const ALIGNMENT_PL: Record<string, string> = {
@@ -132,51 +139,59 @@ export default function GotoweForm() {
   }
 
   return (
-    <div>
-      {/* Badge ukończenia */}
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
-        <span style={{
-          display: "inline-block", padding: "6px 20px", borderRadius: 20,
-          background: "rgba(82,201,122,0.1)", border: "1px solid #52c97a44",
-          fontSize: 11, fontWeight: 700, color: "#52c97a", letterSpacing: "0.1em", textTransform: "uppercase",
-        }}>
-          ✓ KREATOR UKOŃCZONY
-        </span>
-      </div>
+    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
+      {/* Nagłówek */}
+      <div style={{ marginBottom: 32, textAlign: "center" }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 7, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+          Krok 8 z 8
+        </div>
 
-      {/* Nagłówek hero */}
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
+        {/* Inicjały w okręgu */}
         <div style={{
-          width: 80, height: 80, borderRadius: "50%", margin: "0 auto 16px",
-          background: "linear-gradient(135deg, #c9a84c, #b8943c)",
+          width: 80, height: 80, margin: "0 auto 16px",
+          border: `1.5px solid ${BLACK}`,
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontFamily: "var(--font-cinzel), serif", fontSize: 28, fontWeight: 700, color: "#0f0e17",
+          fontFamily: FONT_DISPLAY, fontSize: 28, fontWeight: 400, color: BLACK,
+          fontStyle: "italic",
         }}>
           {initials}
         </div>
-        <h1 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 28, fontWeight: 700, color: "#c9a84c", margin: "0 0 8px" }}>
+
+        <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: "0 0 8px" }}>
           {step1.name || "Twoja Postać"}
         </h1>
-        <p style={{ color: "#8b8699", fontSize: 14, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>
           {race?.name ?? "—"}{subrace ? ` · ${subrace.name}` : ""} · {cls?.name ?? "—"}{subclass ? ` (${subclass.name})` : ""}
         </p>
 
+        {/* Badge ukończenia */}
+        <div style={{ marginTop: 16 }}>
+          <span style={{
+            fontFamily: FONT_UI,
+            display: "inline-block", padding: "4px 16px",
+            border: `1.5px solid ${BLACK}`,
+            fontSize: 9, fontWeight: 700, color: BLACK, letterSpacing: "2px", textTransform: "uppercase",
+          }}>
+            ✓ KREATOR UKOŃCZONY
+          </span>
+        </div>
+
         {/* Szybkie statsy */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 20 }}>
+        <div style={{ display: "inline-flex", justifyContent: "center", gap: 0, marginTop: 20, border: `1.5px solid ${BLACK}` }}>
           <QuickStat label="Max HP" value={`${Math.max(1, maxHp)}`} />
-          <QuickStat label="KP" value={`${ac}`} />
-          <QuickStat label="Inicjatywa" value={mod(step4.dexterity)} />
-          <QuickStat label="Prędkość" value={`${race?.speed ?? 30} stóp`} />
+          <QuickStat label="KP" value={`${ac}`} border />
+          <QuickStat label="Inicjatywa" value={mod(step4.dexterity)} border />
+          <QuickStat label="Prędkość" value={`${race?.speed ?? 30} stóp`} border />
         </div>
       </div>
 
-      <div style={{ height: 2, background: "linear-gradient(90deg, #c9a84c 0%, rgba(201,168,76,0.2) 60%, transparent 100%)", marginBottom: 32 }} />
+      <div style={{ height: 1.5, background: BLACK, marginBottom: 32 }} />
 
       {/* Grid sekcji podsumowania */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
 
         {/* Koncept */}
-        <SummarySection title="Koncept" step="/kreator/koncept" onEdit={() => router.push("/kreator/koncept")}>
+        <SummarySection title="Koncept" onEdit={() => router.push("/kreator/koncept")}>
           <SummaryRow label="Imię" value={step1.name} />
           <SummaryRow label="Płeć" value={GENDER_PL[step1.gender]} />
           {step1.age && <SummaryRow label="Wiek" value={`${step1.age} lat`} />}
@@ -185,7 +200,7 @@ export default function GotoweForm() {
         </SummarySection>
 
         {/* Rasa */}
-        <SummarySection title="Rasa" step="/kreator/rasa" onEdit={() => router.push("/kreator/rasa")}>
+        <SummarySection title="Rasa" onEdit={() => router.push("/kreator/rasa")}>
           <SummaryRow label="Rasa" value={race?.name ?? "—"} />
           {subrace && <SummaryRow label="Podrasa" value={subrace.name} />}
           <SummaryRow label="Prędkość" value={`${race?.speed ?? 30} stóp`} />
@@ -193,7 +208,7 @@ export default function GotoweForm() {
         </SummarySection>
 
         {/* Klasa */}
-        <SummarySection title="Klasa" step="/kreator/klasa" onEdit={() => router.push("/kreator/klasa")}>
+        <SummarySection title="Klasa" onEdit={() => router.push("/kreator/klasa")}>
           <SummaryRow label="Klasa" value={cls?.name ?? "—"} />
           {subclass && <SummaryRow label="Podklasa" value={subclass.name} />}
           <SummaryRow label="Kość Życia" value={`k${cls?.hitDie ?? 8}`} />
@@ -203,21 +218,21 @@ export default function GotoweForm() {
         </SummarySection>
 
         {/* Wartości Cech */}
-        <SummarySection title="Wartości Cech" step="/kreator/cechy" onEdit={() => router.push("/kreator/cechy")}>
+        <SummarySection title="Wartości Cech" onEdit={() => router.push("/kreator/cechy")}>
           <SummaryRow label="Metoda" value={METHOD_PL[step4.method]} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6, marginTop: 8 }}>
             {STATS.map(({ key, short }) => (
-              <div key={key} style={{ textAlign: "center", background: "#0f0e17", borderRadius: 6, padding: "6px 4px", border: "1px solid #2e2b3d" }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#f0ece4" }}>{step4[key]}</div>
-                <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase" }}>{short}</div>
-                <div style={{ fontSize: 10, color: "#c9a84c" }}>{mod(step4[key])}</div>
+              <div key={key} style={{ textAlign: "center", border: `1.5px solid ${BLACK}`, padding: "6px 4px" }}>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: BLACK }}>{step4[key]}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 9, color: MID, textTransform: "uppercase" }}>{short}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK, fontWeight: 700 }}>{mod(step4[key])}</div>
               </div>
             ))}
           </div>
         </SummarySection>
 
         {/* Tło */}
-        <SummarySection title="Tło" step="/kreator/tlo" onEdit={() => router.push("/kreator/tlo")}>
+        <SummarySection title="Tło" onEdit={() => router.push("/kreator/tlo")}>
           <SummaryRow label="Tło" value={bg?.name ?? "—"} />
           {step5.personalityTraits.length > 0 && (
             <SummaryRow label="Cechy char." value={`${step5.personalityTraits.length} wybrane`} />
@@ -227,8 +242,8 @@ export default function GotoweForm() {
           {step5.flaws.length > 0 && <SummaryRow label="Wada" value="1 wybrana" />}
         </SummarySection>
 
-        {/* Ekwipunek */}
-        <SummarySection title="Ekwipunek" step="/kreator/ekwipunek" onEdit={() => router.push("/kreator/ekwipunek")}>
+        {/* Ekwipunek + Magia */}
+        <SummarySection title="Ekwipunek i Magia" onEdit={() => router.push("/kreator/ekwipunek")}>
           {step6.equipment.length > 0 ? (
             <SummaryRow label="Przedmioty" value={`${step6.equipment.length} szt.`} />
           ) : (
@@ -245,25 +260,29 @@ export default function GotoweForm() {
 
       {/* Historia */}
       {step1.description && (
-        <div style={{ background: "#1a1825", border: "1px solid #2e2b3d", borderRadius: 12, padding: "20px 24px", marginBottom: 32 }}>
-          <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 12 }}>Historia Postaci</div>
-          <p style={{ fontSize: 13, color: "#8b8699", lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
+        <div style={{ border: `1px solid ${LIGHT}`, padding: "20px 24px", marginBottom: 32 }}>
+          <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>Historia Postaci</div>
+          <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
         </div>
       )}
 
       {/* Błąd zapisu */}
       {error && (
-        <div style={{ background: "rgba(224,82,82,0.1)", border: "1px solid #e0525244", borderRadius: 8, padding: "12px 16px", marginBottom: 20, color: "#e05252", fontSize: 13 }}>
+        <div style={{ border: "1.5px solid #e05252", padding: "12px 16px", marginBottom: 20, fontFamily: FONT_UI, color: "#e05252", fontSize: 12 }}>
           {error}
         </div>
       )}
 
       {/* Przyciski */}
-      <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 24, borderTop: "1px solid #2e2b3d" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
           onClick={() => router.push("/kreator/magia")}
-          style={{ padding: "12px 24px", borderRadius: 8, border: "1px solid #2e2b3d", background: "transparent", color: "#8b8699", fontSize: 14, cursor: "pointer" }}
+          style={{
+            padding: "10px 28px",
+            border: `1.5px solid ${BLACK}`, background: "transparent",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+          }}
         >
           ← Wróć
         </button>
@@ -272,13 +291,15 @@ export default function GotoweForm() {
           disabled={saving}
           onClick={handleSave}
           style={{
-            padding: "14px 40px", borderRadius: 8, border: "none",
-            background: saving ? "#232136" : "linear-gradient(135deg, #c9a84c, #b8943c)",
-            color: saving ? "#4a4759" : "#0f0e17",
-            fontSize: 15, fontWeight: 700, cursor: saving ? "not-allowed" : "pointer",
+            padding: "12px 40px", border: "none",
+            background: saving ? LIGHT : BLACK,
+            color: saving ? MID : WHITE,
+            fontFamily: FONT_UI, fontSize: 12, fontWeight: 700,
+            textTransform: "uppercase", letterSpacing: "2px",
+            cursor: saving ? "not-allowed" : "pointer",
           }}
         >
-          {saving ? "Zapisywanie..." : editingId ? "✨ Zapisz Zmiany →" : "✨ Zapisz Postać i Graj →"}
+          {saving ? "Zapisywanie..." : editingId ? "Zapisz Zmiany →" : "Zapisz Postać i Graj →"}
         </button>
       </div>
     </div>
@@ -287,11 +308,14 @@ export default function GotoweForm() {
 
 // ── Podkomponenty ──────────────────────────────────────────────────────────────
 
-function QuickStat({ label, value }: { label: string; value: string }) {
+function QuickStat({ label, value, border = false }: { label: string; value: string; border?: boolean }) {
   return (
-    <div style={{ textAlign: "center" }}>
-      <div style={{ fontSize: 20, fontWeight: 700, color: "#f0ece4" }}>{value}</div>
-      <div style={{ fontSize: 10, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.08em" }}>{label}</div>
+    <div style={{
+      textAlign: "center", padding: "12px 20px",
+      borderLeft: border ? `1.5px solid ${BLACK}` : undefined,
+    }}>
+      <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: BLACK, fontStyle: "italic" }}>{value}</div>
+      <div style={{ fontFamily: FONT_UI, fontSize: 8, color: MID, textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 2 }}>{label}</div>
     </div>
   );
 }
@@ -300,18 +324,17 @@ function SummarySection({
   title, onEdit, children,
 }: {
   title: string;
-  step: string;
   onEdit: () => void;
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ background: "#1a1825", border: "1px solid #2e2b3d", borderRadius: 10, padding: "16px 18px" }}>
+    <div style={{ border: `1.5px solid ${BLACK}`, padding: "16px 18px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-        <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em" }}>{title}</div>
+        <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{title}</div>
         <button
           type="button"
           onClick={onEdit}
-          style={{ fontSize: 11, color: "#c9a84c", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+          style={{ fontFamily: FONT_UI, fontSize: 10, color: BLACK, background: "none", border: "none", cursor: "pointer", padding: 0, textTransform: "uppercase", letterSpacing: "1px" }}
         >
           Edytuj →
         </button>
@@ -324,8 +347,8 @@ function SummarySection({
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
-      <span style={{ fontSize: 11, color: "#4a4759", flexShrink: 0 }}>{label}</span>
-      <span style={{ fontSize: 11, color: "#8b8699", textAlign: "right" }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 10, color: MID, flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK, textAlign: "right" }}>{value}</span>
     </div>
   );
 }

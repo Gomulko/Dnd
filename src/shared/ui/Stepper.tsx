@@ -11,6 +11,11 @@ const STEPS = [
   "Gotowe",
 ];
 
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+
 type Props = {
   currentStep: number; // 1-based
 };
@@ -40,43 +45,32 @@ export default function Stepper({ currentStep }: Props) {
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
               <div
                 style={{
-                  width: 32,
-                  height: 32,
+                  width: 28,
+                  height: 28,
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: done ? 14 : 13,
+                  fontSize: done ? 12 : 11,
                   fontWeight: 700,
+                  fontFamily: FONT_UI,
                   flexShrink: 0,
-                  transition: "all 0.2s",
-                  background: done
-                    ? "#52c97a"
-                    : active
-                    ? "#c9a84c"
-                    : "#232136",
-                  border: done
-                    ? "2px solid #52c97a"
-                    : active
-                    ? "2px solid #c9a84c"
-                    : "2px solid #2e2b3d",
-                  color: done
-                    ? "#0f0e17"
-                    : active
-                    ? "#0f0e17"
-                    : "#4a4759",
+                  background: done || active ? BLACK : "transparent",
+                  border: `1.5px solid ${done || active ? BLACK : LIGHT}`,
+                  color: done || active ? "#ffffff" : MID,
                 }}
               >
                 {done ? "✓" : step}
               </div>
               <span
                 style={{
-                  fontSize: 10,
-                  fontWeight: active ? 600 : 400,
-                  color: done ? "#52c97a" : active ? "#c9a84c" : "#4a4759",
+                  fontSize: 7,
+                  fontWeight: active ? 900 : 400,
+                  fontFamily: FONT_UI,
+                  color: done || active ? BLACK : MID,
                   whiteSpace: "nowrap",
                   textTransform: "uppercase",
-                  letterSpacing: "0.06em",
+                  letterSpacing: "2px",
                 }}
               >
                 {label}
@@ -88,10 +82,9 @@ export default function Stepper({ currentStep }: Props) {
               <div
                 style={{
                   flex: 1,
-                  height: 2,
+                  height: 1,
                   marginBottom: 22,
-                  background: done ? "#52c97a" : "#2e2b3d",
-                  transition: "background 0.2s",
+                  background: done ? BLACK : LIGHT,
                 }}
               />
             )}

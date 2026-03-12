@@ -16,32 +16,39 @@ const ALIGNMENTS: { code: WizardStep1["alignment"]; label: string; desc: string 
   { code: "CE", label: "Chaotyczny Zły",          desc: "Destrukcja i chaos" },
 ];
 
-const GENDERS: { value: WizardStep1["gender"]; label: string; icon: string }[] = [
-  { value: "kobieta",    label: "Kobieta",    icon: "♀" },
-  { value: "mezczyzna",  label: "Mężczyzna",  icon: "♂" },
-  { value: "inne",       label: "Inne",        icon: "◆" },
+const GENDERS: { value: WizardStep1["gender"]; label: string }[] = [
+  { value: "kobieta",   label: "Kobieta"   },
+  { value: "mezczyzna", label: "Mężczyzna" },
+  { value: "inne",      label: "Inne"      },
 ];
 
-const INPUT_STYLE: React.CSSProperties = {
-  width: "100%",
-  height: 45,
-  background: "#0f0e17",
-  border: "1px solid #2e2b3d",
-  borderRadius: 8,
-  color: "#f0ece4",
-  fontSize: 14,
-  padding: "0 14px",
-  outline: "none",
-  boxSizing: "border-box",
-};
+const BLACK  = "#0a0a0a";
+const MID    = "#555555";
+const LIGHT  = "#cccccc";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI      = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 
 const LABEL_STYLE: React.CSSProperties = {
   display: "block",
-  fontSize: 11,
-  color: "#8b8699",
+  fontFamily: FONT_UI,
+  fontSize: 7,
+  color: MID,
   textTransform: "uppercase",
-  letterSpacing: "0.08em",
-  marginBottom: 8,
+  letterSpacing: "2.5px",
+  marginBottom: 6,
+};
+
+const INPUT_STYLE: React.CSSProperties = {
+  width: "100%",
+  background: "transparent",
+  border: "none",
+  borderBottom: `1.5px solid ${BLACK}`,
+  color: BLACK,
+  fontFamily: FONT_UI,
+  fontSize: 14,
+  padding: "10px 0",
+  outline: "none",
+  boxSizing: "border-box",
 };
 
 export default function KonceptForm() {
@@ -50,47 +57,47 @@ export default function KonceptForm() {
 
   const canProceed = step1.name.trim().length >= 2;
 
-  function handleFocus(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    e.currentTarget.style.borderColor = "#c9a84c";
-    e.currentTarget.style.boxShadow = "0 0 0 3px rgba(201,168,76,0.1)";
-  }
-
-  function handleBlur(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    e.currentTarget.style.borderColor = "#2e2b3d";
-    e.currentTarget.style.boxShadow = "none";
-  }
-
   return (
-    <div>
+    <div
+      style={{
+        background: "#ffffff",
+        border: `1.5px solid ${BLACK}`,
+        padding: "40px 48px",
+      }}
+    >
       {/* Nagłówek */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ fontSize: 11, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}>
+      <div style={{ marginBottom: 36 }}>
+        <div style={{
+          fontFamily: FONT_UI,
+          fontSize: 7,
+          color: MID,
+          textTransform: "uppercase",
+          letterSpacing: "4px",
+          marginBottom: 10,
+        }}>
           Krok 1 z 8
         </div>
-        <h1
-          style={{
-            fontFamily: "var(--font-cinzel), serif",
-            fontSize: 26,
-            fontWeight: 700,
-            color: "#f0ece4",
-            margin: 0,
-          }}
-        >
+        <h1 style={{
+          fontFamily: FONT_DISPLAY,
+          fontSize: 36,
+          fontWeight: 400,
+          color: BLACK,
+          margin: 0,
+          fontStyle: "italic",
+        }}>
           Koncept Postaci
         </h1>
-        <p style={{ color: "#8b8699", fontSize: 14, marginTop: 8 }}>
+        <div style={{ height: "1.5px", background: BLACK, marginTop: 12, width: 60 }} />
+        <p style={{
+          fontFamily: FONT_UI,
+          color: MID,
+          fontSize: 12,
+          marginTop: 12,
+          letterSpacing: "0.3px",
+        }}>
           Nadaj swojej postaci imię, osobowość i poglądy na świat.
         </p>
       </div>
-
-      {/* Złota linia */}
-      <div
-        style={{
-          height: 2,
-          background: "linear-gradient(90deg, #c9a84c 0%, rgba(201,168,76,0.2) 60%, transparent 100%)",
-          marginBottom: 32,
-        }}
-      />
 
       <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
 
@@ -103,21 +110,19 @@ export default function KonceptForm() {
             style={INPUT_STYLE}
             value={step1.name}
             onChange={(e) => setStep1({ name: e.target.value })}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             placeholder="Np. Aldric Świetlisty"
             maxLength={60}
           />
           {step1.name.trim().length > 0 && step1.name.trim().length < 2 && (
-            <p style={{ fontSize: 11, color: "#e05252", marginTop: 4 }}>Minimum 2 znaki</p>
+            <p style={{ fontFamily: FONT_UI, fontSize: 10, color: "#e05252", marginTop: 4 }}>Minimum 2 znaki</p>
           )}
         </div>
 
         {/* Płeć */}
         <div>
           <label style={LABEL_STYLE}>Płeć</label>
-          <div style={{ display: "flex", gap: 10 }}>
-            {GENDERS.map(({ value, label, icon }) => {
+          <div style={{ display: "flex", gap: 8 }}>
+            {GENDERS.map(({ value, label }) => {
               const active = step1.gender === value;
               return (
                 <button
@@ -126,22 +131,18 @@ export default function KonceptForm() {
                   onClick={() => setStep1({ gender: value })}
                   style={{
                     flex: 1,
-                    height: 45,
-                    borderRadius: 8,
-                    border: active ? "1px solid #c9a84c" : "1px solid #2e2b3d",
-                    background: active ? "rgba(201,168,76,0.1)" : "#0f0e17",
-                    color: active ? "#c9a84c" : "#8b8699",
-                    fontSize: 13,
-                    fontWeight: active ? 600 : 400,
+                    height: 40,
+                    border: `1.5px solid ${BLACK}`,
+                    background: active ? BLACK : "transparent",
+                    color: active ? "#ffffff" : BLACK,
+                    fontFamily: FONT_UI,
+                    fontSize: 11,
+                    fontWeight: active ? 700 : 400,
+                    textTransform: "uppercase",
+                    letterSpacing: "1.5px",
                     cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 6,
-                    transition: "all 0.15s",
                   }}
                 >
-                  <span style={{ fontSize: 16 }}>{icon}</span>
                   {label}
                 </button>
               );
@@ -150,7 +151,7 @@ export default function KonceptForm() {
         </div>
 
         {/* Wiek + Wzrost */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
           <div>
             <label style={LABEL_STYLE}>Wiek (opcjonalnie)</label>
             <input
@@ -162,8 +163,6 @@ export default function KonceptForm() {
               onChange={(e) =>
                 setStep1({ age: e.target.value ? Number(e.target.value) : null })
               }
-              onFocus={handleFocus}
-              onBlur={handleBlur}
               placeholder="np. 25"
             />
           </div>
@@ -178,8 +177,6 @@ export default function KonceptForm() {
               onChange={(e) =>
                 setStep1({ height: e.target.value ? Number(e.target.value) : null })
               }
-              onFocus={handleFocus}
-              onBlur={handleBlur}
               placeholder="np. 175"
             />
           </div>
@@ -189,20 +186,18 @@ export default function KonceptForm() {
         <div>
           <label style={{ ...LABEL_STYLE, display: "flex", justifyContent: "space-between" }}>
             <span>Opis postaci (opcjonalnie)</span>
-            <span style={{ color: "#4a4759", fontWeight: 400 }}>{step1.description.length}/500</span>
+            <span style={{ color: LIGHT, letterSpacing: 0 }}>{step1.description.length}/500</span>
           </label>
           <textarea
             style={{
               ...INPUT_STYLE,
-              height: 110,
-              padding: "12px 14px",
+              height: 100,
+              padding: "10px 0",
               resize: "vertical",
               lineHeight: 1.6,
             }}
             value={step1.description}
             onChange={(e) => setStep1({ description: e.target.value })}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             placeholder="Opisz wygląd, osobowość lub historię postaci..."
             maxLength={500}
           />
@@ -210,12 +205,12 @@ export default function KonceptForm() {
 
         {/* Alignment */}
         <div>
-          <label style={LABEL_STYLE}>Alignment — postawa moralna</label>
+          <label style={LABEL_STYLE}>Postawa moralna</label>
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 8,
+              gap: 6,
             }}
           >
             {ALIGNMENTS.map(({ code, label, desc }) => {
@@ -226,26 +221,29 @@ export default function KonceptForm() {
                   type="button"
                   onClick={() => setStep1({ alignment: code })}
                   style={{
-                    padding: "10px 12px",
-                    borderRadius: 8,
-                    border: active ? "1px solid #c9a84c" : "1px solid #2e2b3d",
-                    background: active ? "rgba(201,168,76,0.1)" : "#0f0e17",
+                    padding: "8px 10px",
+                    border: `1.5px solid ${active ? BLACK : LIGHT}`,
+                    background: active ? BLACK : "transparent",
                     cursor: "pointer",
                     textAlign: "left",
-                    transition: "all 0.15s",
                   }}
                 >
-                  <div
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      color: active ? "#c9a84c" : "#f0ece4",
-                      marginBottom: 2,
-                    }}
-                  >
+                  <div style={{
+                    fontFamily: FONT_UI,
+                    fontSize: 9,
+                    fontWeight: 700,
+                    color: active ? "#ffffff" : BLACK,
+                    textTransform: "uppercase",
+                    letterSpacing: "1.5px",
+                    marginBottom: 2,
+                  }}>
                     {code}
                   </div>
-                  <div style={{ fontSize: 10, color: active ? "#c9a84c" : "#8b8699" }}>
+                  <div style={{
+                    fontFamily: FONT_UI,
+                    fontSize: 9,
+                    color: active ? "#cccccc" : MID,
+                  }}>
                     {desc}
                   </div>
                 </button>
@@ -253,7 +251,7 @@ export default function KonceptForm() {
             })}
           </div>
           {step1.alignment && (
-            <p style={{ fontSize: 12, color: "#8b8699", marginTop: 8 }}>
+            <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginTop: 8 }}>
               {ALIGNMENTS.find((a) => a.code === step1.alignment)?.label}
             </p>
           )}
@@ -268,7 +266,7 @@ export default function KonceptForm() {
           justifyContent: "flex-end",
           marginTop: 40,
           paddingTop: 24,
-          borderTop: "1px solid #2e2b3d",
+          borderTop: `1px solid ${LIGHT}`,
         }}
       >
         <button
@@ -276,17 +274,16 @@ export default function KonceptForm() {
           disabled={!canProceed}
           onClick={() => router.push("/kreator/rasa")}
           style={{
-            padding: "12px 32px",
-            borderRadius: 8,
+            padding: "10px 28px",
             border: "none",
-            background: canProceed
-              ? "linear-gradient(135deg, #c9a84c, #b8943c)"
-              : "#232136",
-            color: canProceed ? "#0f0e17" : "#4a4759",
-            fontSize: 14,
+            background: canProceed ? BLACK : LIGHT,
+            color: canProceed ? "#ffffff" : MID,
+            fontFamily: FONT_UI,
+            fontSize: 11,
             fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "2px",
             cursor: canProceed ? "pointer" : "not-allowed",
-            transition: "all 0.15s",
           }}
         >
           Dalej — Rasa →

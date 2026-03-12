@@ -6,6 +6,13 @@ import { CLASSES } from "@/data/dnd/classes";
 import type { ClassData, ClassRole, SkillKey } from "@/data/dnd/classes";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
 // ── Stałe ─────────────────────────────────────────────────────────────────────
 
 const ROLE_LABELS: Record<ClassRole, string> = {
@@ -72,37 +79,36 @@ export default function KlasaForm() {
   const synergyRace = step2.race;
 
   return (
-    <div>
+    <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: "40px 48px" }}>
       {/* Nagłówek */}
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ fontSize: 11, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}>
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 7, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 3 z 8
         </div>
-        <h1 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 26, fontWeight: 700, color: "#f0ece4", margin: 0 }}>
+        <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
           Wybierz Klasę
         </h1>
-        <p style={{ color: "#8b8699", fontSize: 14, marginTop: 8 }}>
+        <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
+        <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>
           Klasa definiuje umiejętności bojowe, magiczne i styl gry twojej postaci.
         </p>
       </div>
-
-      <div style={{ height: 2, background: "linear-gradient(90deg, #c9a84c 0%, rgba(201,168,76,0.2) 60%, transparent 100%)", marginBottom: 24 }} />
 
       {/* Filtry */}
       <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
         {FILTERS.map(({ label, value }) => {
           const active = filter === value;
-          const color = value === "ALL" ? "#c9a84c" : ROLE_COLORS[value as ClassRole];
           return (
             <button
               key={value}
               type="button"
               onClick={() => setFilter(value)}
               style={{
-                padding: "6px 14px", borderRadius: 6, fontSize: 12, fontWeight: active ? 700 : 400,
-                border: active ? `1px solid ${color}` : "1px solid #2e2b3d",
-                background: active ? `${color}18` : "transparent",
-                color: active ? color : "#8b8699", cursor: "pointer",
+                padding: "6px 14px", fontFamily: FONT_UI, fontSize: 11,
+                border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
+                background: active ? BLACK : "transparent",
+                color: active ? WHITE : MID, cursor: "pointer",
+                textTransform: "uppercase", letterSpacing: "1px",
               }}
             >
               {label}
@@ -111,14 +117,13 @@ export default function KlasaForm() {
         })}
       </div>
 
-      <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+      <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
 
         {/* Grid klas */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {filtered.map((cls) => {
               const active = step3.class === cls.id;
-              const roleColor = ROLE_COLORS[cls.role];
               const hasSynergy = cls.synergies.includes(synergyRace);
               return (
                 <button
@@ -126,32 +131,32 @@ export default function KlasaForm() {
                   type="button"
                   onClick={() => selectClass(cls)}
                   style={{
-                    padding: "14px 12px", borderRadius: 10, textAlign: "left", cursor: "pointer",
-                    border: active ? `2px solid #c9a84c` : "1px solid #2e2b3d",
-                    background: active ? "rgba(201,168,76,0.08)" : "#1a1825",
-                    position: "relative", transition: "all 0.15s",
+                    padding: "14px 12px", textAlign: "left", cursor: "pointer",
+                    border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
+                    background: active ? BLACK : "transparent",
+                    position: "relative",
                   }}
                 >
                   {active && (
                     <span style={{
-                      position: "absolute", top: 8, right: 8, width: 18, height: 18,
-                      borderRadius: "50%", background: "#c9a84c", color: "#0f0e17",
-                      fontSize: 10, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center",
+                      position: "absolute", top: 8, right: 8,
+                      fontFamily: FONT_UI, fontSize: 10, color: WHITE,
                     }}>✓</span>
                   )}
                   {hasSynergy && !active && (
-                    <span style={{ position: "absolute", top: 8, right: 8, fontSize: 10, color: "#52c97a" }}>★</span>
+                    <span style={{ position: "absolute", top: 8, right: 8, fontFamily: FONT_UI, fontSize: 10, color: MID }}>★</span>
                   )}
 
                   <div style={{ fontSize: 22, marginBottom: 6 }}>{cls.icon}</div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: active ? "#c9a84c" : "#f0ece4", marginBottom: 4 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 13, fontWeight: 600, color: active ? WHITE : BLACK, marginBottom: 4 }}>
                     {cls.name}
                   </div>
 
                   {/* Rola */}
                   <span style={{
-                    fontSize: 9, padding: "1px 6px", borderRadius: 3,
-                    background: `${roleColor}18`, color: roleColor, border: `1px solid ${roleColor}30`,
+                    fontFamily: FONT_UI, fontSize: 9, padding: "1px 6px",
+                    border: `1px solid ${active ? LIGHT : LIGHT}`,
+                    color: active ? LIGHT : MID,
                     display: "inline-block", marginBottom: 6,
                   }}>
                     {ROLE_LABELS[cls.role]}
@@ -162,12 +167,12 @@ export default function KlasaForm() {
                     <div style={{ display: "flex", gap: 2 }}>
                       {[1, 2, 3].map((d) => (
                         <div key={d} style={{
-                          width: 5, height: 5, borderRadius: "50%",
-                          background: d <= cls.difficulty ? "#c9a84c" : "#2e2b3d",
+                          width: 5, height: 5,
+                          background: d <= cls.difficulty ? (active ? WHITE : BLACK) : LIGHT,
                         }} />
                       ))}
                     </div>
-                    <span style={{ fontSize: 9, color: "#4a4759" }}>k{cls.hitDie}</span>
+                    <span style={{ fontFamily: FONT_UI, fontSize: 9, color: active ? LIGHT : MID }}>k{cls.hitDie}</span>
                   </div>
                 </button>
               );
@@ -175,111 +180,124 @@ export default function KlasaForm() {
           </div>
 
           {filtered.length === 0 && (
-            <div style={{ color: "#4a4759", textAlign: "center", padding: 40 }}>Brak klas dla tego filtra</div>
+            <div style={{ fontFamily: FONT_UI, color: MID, textAlign: "center", padding: 40 }}>Brak klas dla tego filtra</div>
           )}
         </div>
 
         {/* Panel szczegółów */}
         <div style={{ width: 260, flexShrink: 0 }}>
           {selectedClass ? (
-            <div style={{ background: "#1a1825", border: "1px solid #2e2b3d", borderRadius: 12, overflow: "hidden" }}>
-              <div style={{ height: 3, background: `linear-gradient(90deg, ${ROLE_COLORS[selectedClass.role]}, transparent)` }} />
-              <div style={{ padding: 20 }}>
-                <div style={{ fontSize: 26, marginBottom: 8 }}>{selectedClass.icon}</div>
-                <h3 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 15, color: "#f0ece4", margin: "0 0 4px" }}>
-                  {selectedClass.name}
-                </h3>
-                <p style={{ fontSize: 11, color: "#8b8699", marginBottom: 16 }}>{selectedClass.description}</p>
+            <div style={{ background: WHITE, border: "1.5px solid #0a0a0a", padding: 20 }}>
+              <div style={{ fontSize: 26, marginBottom: 8 }}>{selectedClass.icon}</div>
+              <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: "0 0 4px" }}>
+                {selectedClass.name}
+              </h3>
+              <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, marginBottom: 16 }}>{selectedClass.description}</p>
 
-                {/* Statsy */}
-                <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-                  <Pill label={`k${selectedClass.hitDie} HD`} />
-                  <Pill label={ROLE_LABELS[selectedClass.role]} color={ROLE_COLORS[selectedClass.role]} />
-                  {selectedClass.spellcasting && <Pill label="Magia" color="#7c5cbf" />}
-                </div>
+              {/* Statsy */}
+              <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+                <Pill label={`k${selectedClass.hitDie} HD`} />
+                <Pill label={ROLE_LABELS[selectedClass.role]} />
+                {selectedClass.spellcasting && <Pill label="Magia" />}
+              </div>
 
-                {/* Saving throws */}
-                <Section title="Rzuty Obronne">
-                  <p style={{ fontSize: 11, color: "#8b8699" }}>
-                    {selectedClass.savingThrows.map((s) => STAT_LABELS[s]).join(", ")}
-                  </p>
-                </Section>
+              {/* Saving throws */}
+              <Section title="Rzuty Obronne">
+                <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>
+                  {selectedClass.savingThrows.map((s) => STAT_LABELS[s]).join(", ")}
+                </p>
+              </Section>
 
-                {/* Zbroja */}
-                <Section title="Zbroja">
-                  <p style={{ fontSize: 11, color: "#8b8699" }}>{selectedClass.armorTraining.join(", ")}</p>
-                </Section>
+              {/* Zbroja */}
+              <Section title="Zbroja">
+                <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>{selectedClass.armorTraining.join(", ")}</p>
+              </Section>
 
-                {/* Subklasa */}
-                {selectedClass.subclasses.length > 0 && (
-                  <Section title="Subklasa">
-                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                      {selectedClass.subclasses.map((sub) => {
-                        const active = step3.subclass === sub.id;
-                        return (
-                          <button
-                            key={sub.id}
-                            type="button"
-                            onClick={() => setStep3({ subclass: sub.id })}
-                            style={{
-                              padding: "8px 10px", borderRadius: 7, textAlign: "left", cursor: "pointer",
-                              border: active ? "1px solid #c9a84c" : "1px solid #2e2b3d",
-                              background: active ? "rgba(201,168,76,0.08)" : "#0f0e17",
-                            }}
-                          >
-                            <div style={{ fontSize: 11, fontWeight: 600, color: active ? "#c9a84c" : "#f0ece4" }}>
-                              {sub.name}
-                            </div>
-                            <div style={{ fontSize: 10, color: "#4a4759", marginTop: 2 }}>{sub.description}</div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </Section>
-                )}
-
-                {/* Umiejętności */}
-                <Section title={`Umiejętności (${step3.skills.length}/${selectedClass.skillCount})`}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    {selectedClass.skillChoices.map((skill) => {
-                      const chosen = step3.skills.includes(skill);
-                      const maxed = step3.skills.length >= selectedClass.skillCount && !chosen;
+              {/* Subklasa */}
+              {selectedClass.subclasses.length > 0 && (
+                <Section title="Subklasa">
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    {selectedClass.subclasses.map((sub) => {
+                      const active = step3.subclass === sub.id;
                       return (
                         <button
-                          key={skill}
+                          key={sub.id}
                           type="button"
-                          disabled={maxed}
-                          onClick={() => toggleSkill(skill)}
+                          onClick={() => setStep3({ subclass: sub.id })}
                           style={{
-                            padding: "5px 10px", borderRadius: 5, textAlign: "left", cursor: maxed ? "not-allowed" : "pointer",
-                            border: chosen ? "1px solid #c9a84c" : "1px solid #2e2b3d",
-                            background: chosen ? "rgba(201,168,76,0.08)" : "transparent",
-                            fontSize: 11, color: chosen ? "#c9a84c" : maxed ? "#4a4759" : "#8b8699",
+                            padding: "8px 10px", textAlign: "left", cursor: "pointer",
+                            border: active ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
+                            background: active ? BLACK : "transparent",
                           }}
                         >
-                          {chosen ? "✓ " : ""}{SKILL_LABELS[skill]}
+                          <div style={{ fontFamily: FONT_UI, fontSize: 11, fontWeight: 600, color: active ? WHITE : BLACK }}>
+                            {sub.name}
+                          </div>
+                          <div style={{ fontFamily: FONT_UI, fontSize: 10, color: active ? LIGHT : MID, marginTop: 2 }}>{sub.description}</div>
                         </button>
                       );
                     })}
                   </div>
                 </Section>
-              </div>
+              )}
+
+              {/* Umiejętności */}
+              <Section title={`Umiejętności (${step3.skills.length}/${selectedClass.skillCount})`}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {selectedClass.skillChoices.map((skill) => {
+                    const chosen = step3.skills.includes(skill);
+                    const maxed = step3.skills.length >= selectedClass.skillCount && !chosen;
+                    return (
+                      <button
+                        key={skill}
+                        type="button"
+                        disabled={maxed}
+                        onClick={() => toggleSkill(skill)}
+                        style={{
+                          padding: "5px 10px", textAlign: "left", cursor: maxed ? "not-allowed" : "pointer",
+                          border: chosen ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
+                          background: chosen ? BLACK : "transparent",
+                          fontFamily: FONT_UI, fontSize: 11,
+                          color: chosen ? WHITE : maxed ? LIGHT : MID,
+                          display: "flex", alignItems: "center", gap: 6,
+                        }}
+                      >
+                        {/* Custom checkbox */}
+                        <span style={{
+                          width: 14, height: 14, flexShrink: 0, display: "inline-flex",
+                          alignItems: "center", justifyContent: "center",
+                          border: chosen ? "1.5px solid #ffffff" : `1.5px solid ${LIGHT}`,
+                          background: chosen ? WHITE : "transparent",
+                          fontSize: 9, color: BLACK,
+                        }}>
+                          {chosen ? "✓" : ""}
+                        </span>
+                        {SKILL_LABELS[skill]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Section>
             </div>
           ) : (
-            <div style={{ background: "#1a1825", border: "1px dashed #2e2b3d", borderRadius: 12, padding: 32, textAlign: "center" }}>
+            <div style={{ background: WHITE, border: `1.5px dashed ${LIGHT}`, padding: 32, textAlign: "center" }}>
               <div style={{ fontSize: 32, marginBottom: 12 }}>⚔</div>
-              <p style={{ fontSize: 12, color: "#4a4759" }}>Wybierz klasę, aby zobaczyć szczegóły</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>Wybierz klasę, aby zobaczyć szczegóły</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Nawigacja */}
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: "1px solid #2e2b3d" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
           onClick={() => router.push("/kreator/rasa")}
-          style={{ padding: "12px 24px", borderRadius: 8, border: "1px solid #2e2b3d", background: "transparent", color: "#8b8699", fontSize: 14, cursor: "pointer" }}
+          style={{
+            padding: "10px 28px",
+            border: "1.5px solid #0a0a0a", background: "transparent",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+          }}
         >
           ← Wróć
         </button>
@@ -288,10 +306,11 @@ export default function KlasaForm() {
           disabled={!canProceed}
           onClick={() => router.push("/kreator/cechy")}
           style={{
-            padding: "12px 32px", borderRadius: 8, border: "none",
-            background: canProceed ? "linear-gradient(135deg, #c9a84c, #b8943c)" : "#232136",
-            color: canProceed ? "#0f0e17" : "#4a4759",
-            fontSize: 14, fontWeight: 700, cursor: canProceed ? "pointer" : "not-allowed",
+            padding: "10px 28px", border: "none",
+            background: canProceed ? BLACK : LIGHT,
+            color: canProceed ? WHITE : MID,
+            fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px",
+            cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
           Dalej — Cechy →
@@ -304,7 +323,11 @@ export default function KlasaForm() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 16 }}>
-      <div style={{ fontSize: 9, fontWeight: 700, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>
+      <div style={{
+        fontFamily: FONT_UI, fontSize: 7, color: MID,
+        textTransform: "uppercase", letterSpacing: "2px",
+        borderBottom: `1px solid ${LIGHT}`, paddingBottom: 4, marginBottom: 8,
+      }}>
         {title}
       </div>
       {children}
@@ -312,10 +335,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Pill({ label, color = "#8b8699" }: { label: string; color?: string }) {
+function Pill({ label }: { label: string }) {
   return (
-    <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 4, background: "#232136", color, border: "1px solid #2e2b3d" }}>
+    <span style={{ fontFamily: FONT_UI, fontSize: 10, padding: "2px 8px", border: `1px solid ${LIGHT}`, color: MID }}>
       {label}
     </span>
   );
 }
+
+// Keep ROLE_COLORS in scope (used for reference but styling is now editorial)
+void ROLE_COLORS;

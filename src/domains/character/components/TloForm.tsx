@@ -6,6 +6,23 @@ import { useWizardStore } from "@/domains/character/store/wizardStore";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { SKILL_NAMES_PL } from "@/data/dnd/classes";
 
+const BLACK = "#0a0a0a";
+const MID = "#555555";
+const LIGHT = "#cccccc";
+const WHITE = "#ffffff";
+const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
+const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
+
+const LABEL_STYLE: React.CSSProperties = {
+  display: "block",
+  fontFamily: FONT_UI,
+  fontSize: 7,
+  color: MID,
+  textTransform: "uppercase",
+  letterSpacing: "2.5px",
+  marginBottom: 6,
+};
+
 // ── Główny komponent ───────────────────────────────────────────────────────────
 
 export default function TloForm() {
@@ -55,23 +72,22 @@ export default function TloForm() {
   }
 
   return (
-    <div>
+    <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ fontSize: 11, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}>
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 7, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 5 z 8
         </div>
-        <h1 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 26, fontWeight: 700, color: "#f0ece4", margin: 0 }}>
+        <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
           Tło Postaci
         </h1>
-        <p style={{ color: "#8b8699", fontSize: 14, marginTop: 8 }}>
+        <div style={{ height: 1.5, background: BLACK, width: 60, marginTop: 12, marginBottom: 10 }} />
+        <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>
           Wybierz historię swojej postaci przed przygodami.
         </p>
       </div>
 
-      <div style={{ height: 2, background: "linear-gradient(90deg, #c9a84c 0%, rgba(201,168,76,0.2) 60%, transparent 100%)", marginBottom: 24 }} />
-
-      <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+      <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
         {/* Lewa kolumna — grid teł */}
         <div style={{ flex: "0 0 320px" }}>
           {/* Wyszukiwarka */}
@@ -81,10 +97,18 @@ export default function TloForm() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
-              width: "100%", marginBottom: 16, height: 40,
-              background: "#0f0e17", border: "1px solid #2e2b3d",
-              borderRadius: 8, color: "#f0ece4", fontSize: 13,
-              padding: "0 14px", boxSizing: "border-box",
+              width: "100%",
+              height: 36,
+              background: "transparent",
+              border: "none",
+              borderBottom: `1.5px solid ${BLACK}`,
+              color: BLACK,
+              fontFamily: FONT_UI,
+              fontSize: 14,
+              padding: "10px 0",
+              outline: "none",
+              marginBottom: 20,
+              boxSizing: "border-box",
             }}
           />
 
@@ -99,23 +123,22 @@ export default function TloForm() {
                   onClick={() => selectBackground(bg.id)}
                   style={{
                     position: "relative", textAlign: "left",
-                    padding: "12px 14px", borderRadius: 10, cursor: "pointer",
-                    background: active ? "rgba(201,168,76,0.12)" : "#1a1825",
-                    border: `1px solid ${active ? "#c9a84c" : "#2e2b3d"}`,
-                    transition: "border-color 0.15s",
+                    padding: "12px 14px", cursor: "pointer",
+                    background: active ? BLACK : "transparent",
+                    border: `1.5px solid ${active ? BLACK : LIGHT}`,
                   }}
                 >
                   {active && (
-                    <div style={{
+                    <span style={{
                       position: "absolute", top: 6, right: 8,
-                      width: 16, height: 16, borderRadius: "50%",
-                      background: "#52c97a", display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 9, color: "#0f0e17", fontWeight: 700,
-                    }}>✓</div>
+                      fontFamily: FONT_UI, fontSize: 10, color: WHITE,
+                    }}>✓</span>
                   )}
                   <div style={{ fontSize: 20, marginBottom: 4 }}>{bg.icon}</div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#f0ece4", lineHeight: 1.2 }}>{bg.name}</div>
-                  <div style={{ fontSize: 10, color: "#4a4759", marginTop: 4 }}>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 12, fontWeight: 700, color: active ? WHITE : BLACK, lineHeight: 1.2 }}>
+                    {bg.name}
+                  </div>
+                  <div style={{ fontFamily: FONT_UI, fontSize: 10, color: active ? LIGHT : MID, marginTop: 4 }}>
                     {bg.skillProficiencies.slice(0, 2).map((s) => SKILL_NAMES_PL[s]).join(", ")}
                   </div>
                 </button>
@@ -124,16 +147,18 @@ export default function TloForm() {
           </div>
 
           {filtered.length === 0 && (
-            <p style={{ color: "#4a4759", fontSize: 13, marginTop: 12 }}>Brak wyników dla &ldquo;{search}&rdquo;</p>
+            <p style={{ fontFamily: FONT_UI, color: MID, fontSize: 12, marginTop: 12 }}>
+              Brak wyników dla &ldquo;{search}&rdquo;
+            </p>
           )}
         </div>
 
-        {/* Prawa kolumna — panel szczegółów + cechy charakteru */}
+        {/* Prawa kolumna — panel szczegółów */}
         <div style={{ flex: 1, minWidth: 0 }}>
           {!selectedBg ? (
-            <div style={{ textAlign: "center", padding: "60px 0", color: "#4a4759" }}>
+            <div style={{ border: `1.5px dashed ${LIGHT}`, padding: 48, textAlign: "center" }}>
               <div style={{ fontSize: 32, marginBottom: 12 }}>📜</div>
-              <p style={{ fontSize: 14 }}>Wybierz tło, aby zobaczyć szczegóły.</p>
+              <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID }}>Wybierz tło, aby zobaczyć szczegóły</p>
             </div>
           ) : (
             <div>
@@ -141,55 +166,48 @@ export default function TloForm() {
               <div style={{ marginBottom: 20 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
                   <span style={{ fontSize: 28 }}>{selectedBg.icon}</span>
-                  <h2 style={{ fontFamily: "var(--font-cinzel), serif", fontSize: 20, fontWeight: 700, color: "#f0ece4", margin: 0 }}>
+                  <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: 0 }}>
                     {selectedBg.name}
                   </h2>
                   <span style={{
-                    fontSize: 9, padding: "2px 8px", borderRadius: 10,
-                    background: selectedBg.source === "SRD" ? "rgba(82,201,122,0.1)" : "rgba(124,92,191,0.1)",
-                    border: `1px solid ${selectedBg.source === "SRD" ? "#52c97a44" : "#7c5cbf44"}`,
-                    color: selectedBg.source === "SRD" ? "#52c97a" : "#7c5cbf",
+                    fontFamily: FONT_UI, fontSize: 9, padding: "2px 8px",
+                    border: `1px solid ${BLACK}`, color: BLACK,
                     fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em",
                   }}>{selectedBg.source}</span>
                 </div>
-                <p style={{ fontSize: 13, color: "#8b8699", margin: 0 }}>{selectedBg.description}</p>
+                <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0 }}>{selectedBg.description}</p>
               </div>
 
               {/* Info — biegłości i języki */}
-              <div style={{ display: "flex", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
-                <div style={{ background: "#1a1825", border: "1px solid #2e2b3d", borderRadius: 8, padding: "10px 14px" }}>
-                  <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Biegłości</div>
+              <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+                <InfoBox label="Biegłości">
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                     {selectedBg.skillProficiencies.map((s) => (
-                      <span key={s} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 10, background: "rgba(201,168,76,0.1)", border: "1px solid #c9a84c44", color: "#c9a84c" }}>
+                      <span key={s} style={{ fontFamily: FONT_UI, fontSize: 11, padding: "2px 8px", border: `1px solid ${BLACK}`, color: BLACK }}>
                         {SKILL_NAMES_PL[s]}
                       </span>
                     ))}
                   </div>
-                </div>
+                </InfoBox>
                 {selectedBg.languages > 0 && (
-                  <div style={{ background: "#1a1825", border: "1px solid #2e2b3d", borderRadius: 8, padding: "10px 14px" }}>
-                    <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Języki</div>
-                    <span style={{ fontSize: 12, color: "#f0ece4" }}>+{selectedBg.languages} do wyboru</span>
-                  </div>
+                  <InfoBox label="Języki">
+                    <span style={{ fontFamily: FONT_UI, fontSize: 12, color: BLACK }}>+{selectedBg.languages} do wyboru</span>
+                  </InfoBox>
                 )}
-                <div style={{ background: "#1a1825", border: "1px solid #2e2b3d", borderRadius: 8, padding: "10px 14px" }}>
-                  <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Narzędzia</div>
-                  <span style={{ fontSize: 11, color: "#8b8699" }}>{selectedBg.toolProficiency}</span>
-                </div>
+                <InfoBox label="Narzędzia">
+                  <span style={{ fontFamily: FONT_UI, fontSize: 11, color: MID }}>{selectedBg.toolProficiency}</span>
+                </InfoBox>
               </div>
 
               {/* Cecha Specjalna */}
-              <div style={{ background: "#1a1825", border: "1px solid #c9a84c33", borderRadius: 10, padding: "14px 16px", marginBottom: 20 }}>
-                <div style={{ fontSize: 9, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>
-                  ✦ {selectedBg.specialFeature.name}
-                </div>
-                <p style={{ fontSize: 12, color: "#8b8699", margin: 0, lineHeight: 1.6 }}>
+              <div style={{ border: `1.5px solid ${BLACK}`, padding: "14px 16px", marginBottom: 20 }}>
+                <div style={LABEL_STYLE}>✦ {selectedBg.specialFeature.name}</div>
+                <p style={{ fontFamily: FONT_UI, fontSize: 12, color: MID, margin: 0, lineHeight: 1.6 }}>
                   {selectedBg.specialFeature.description}
                 </p>
               </div>
 
-              <div style={{ height: 1, background: "#2e2b3d", marginBottom: 20 }} />
+              <div style={{ height: 1, background: LIGHT, marginBottom: 20 }} />
 
               {/* Cechy Charakteru */}
               <PersonalitySection
@@ -232,11 +250,15 @@ export default function TloForm() {
       </div>
 
       {/* Nawigacja */}
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: "1px solid #2e2b3d" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
           onClick={() => router.push("/kreator/cechy")}
-          style={{ padding: "12px 24px", borderRadius: 8, border: "1px solid #2e2b3d", background: "transparent", color: "#8b8699", fontSize: 14, cursor: "pointer" }}
+          style={{
+            padding: "10px 28px",
+            border: `1.5px solid ${BLACK}`, background: "transparent",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+          }}
         >
           ← Wróć
         </button>
@@ -245,10 +267,11 @@ export default function TloForm() {
           disabled={!canProceed}
           onClick={() => router.push("/kreator/ekwipunek")}
           style={{
-            padding: "12px 32px", borderRadius: 8, border: "none",
-            background: canProceed ? "linear-gradient(135deg, #c9a84c, #b8943c)" : "#232136",
-            color: canProceed ? "#0f0e17" : "#4a4759",
-            fontSize: 14, fontWeight: 700, cursor: canProceed ? "pointer" : "not-allowed",
+            padding: "10px 28px", border: "none",
+            background: canProceed ? BLACK : LIGHT,
+            color: canProceed ? WHITE : MID,
+            fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "2px",
+            cursor: canProceed ? "pointer" : "not-allowed",
           }}
         >
           Dalej — Ekwipunek →
@@ -258,7 +281,16 @@ export default function TloForm() {
   );
 }
 
-// ── Sekcja cech charakteru ─────────────────────────────────────────────────────
+// ── Podkomponenty ──────────────────────────────────────────────────────────────
+
+function InfoBox({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div style={{ border: `1px solid ${LIGHT}`, padding: "10px 14px" }}>
+      <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
 
 function PersonalitySection({
   title,
@@ -275,7 +307,7 @@ function PersonalitySection({
 }) {
   return (
     <div style={{ marginBottom: 20 }}>
-      <div style={{ fontSize: 9, color: "#4a4759", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>
+      <div style={{ fontFamily: FONT_UI, fontSize: 7, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 10 }}>
         {title}
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -289,14 +321,14 @@ function PersonalitySection({
               disabled={isDisabled}
               onClick={() => onToggle(opt.id)}
               style={{
-                textAlign: "left", padding: "10px 14px", borderRadius: 8, cursor: isDisabled ? "not-allowed" : "pointer",
-                background: isSelected ? "rgba(201,168,76,0.1)" : "#1a1825",
-                border: `1px solid ${isSelected ? "#c9a84c" : "#2e2b3d"}`,
-                color: isDisabled ? "#4a4759" : isSelected ? "#f0ece4" : "#8b8699",
-                fontSize: 12, lineHeight: 1.5, transition: "border-color 0.15s",
+                textAlign: "left", padding: "10px 14px", cursor: isDisabled ? "not-allowed" : "pointer",
+                background: isSelected ? BLACK : "transparent",
+                border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
+                color: isDisabled ? LIGHT : isSelected ? WHITE : MID,
+                fontFamily: FONT_UI, fontSize: 12, lineHeight: 1.5,
               }}
             >
-              {isSelected && <span style={{ color: "#c9a84c", marginRight: 6 }}>✓</span>}
+              {isSelected && <span style={{ marginRight: 6 }}>✓</span>}
               {opt.text}
             </button>
           );

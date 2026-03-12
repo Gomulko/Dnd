@@ -12,20 +12,20 @@ export default async function KreatorLayout({ children }: Props) {
   if (!session) redirect("/logowanie");
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0f0e17" }}>
+    <div style={{ minHeight: "100vh", background: "#d8d8d8" }}>
       <Navbar />
 
       <div
         style={{
-          background: "#1a1825",
-          borderBottom: "1px solid #2e2b3d",
+          background: "#ffffff",
+          borderBottom: "1.5px solid #0a0a0a",
           padding: "20px 0 16px",
         }}
       >
         <StepperWrapper />
       </div>
 
-      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px" }}>
+      <main style={{ margin: "0 auto", padding: "40px 24px" }}>
         {children}
       </main>
     </div>
