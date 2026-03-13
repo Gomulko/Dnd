@@ -8,6 +8,14 @@ import { CLASSES } from "@/data/dnd/classes";
 import { RACES } from "@/data/dnd/races";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 
+// ── Stałe ─────────────────────────────────────────────────────────────────────
+
+const ALIGNMENT_PL: Record<string, string> = {
+  LG: "Praworządny Dobry",    NG: "Neutralny Dobry",    CG: "Chaotyczny Dobry",
+  LN: "Praworządny Neutralny", TN: "Prawdziwie Neutralny", CN: "Chaotyczny Neutralny",
+  LE: "Praworządny Zły",      NE: "Neutralny Zły",       CE: "Chaotyczny Zły",
+};
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function mod(score: number): string {
@@ -181,7 +189,7 @@ export async function GET(
   set(form,  2, `${cls?.name ?? character.class} ${character.level}`);
   set(form,  3, race?.name ?? character.race);
   set(form,  4, bg?.name ?? character.background ?? "");
-  set(form,  5, character.alignment);
+  set(form,  5, ALIGNMENT_PL[character.alignment] ?? character.alignment);
   set(form,  6, session.user.name ?? "");
   set(form,  7, String(character.experience ?? 0));
 
@@ -281,12 +289,13 @@ export async function GET(
   set(form, 74, character.skinColor  ?? "");
   set(form, 75, character.weight ? String(character.weight) : "");
   set(form, 76, character.hairColor  ?? "");
-  set(form, 77, character.allies     ?? "");
-  set(form, 81, character.description ?? "");
-  set(form, 83, character.backstory   ?? "");
-  set(form, 84, bg
+  set(form, 77, character.description ?? "");  // wygląd postaci
+  set(form, 78, character.backstory   ?? "");  // historia postaci
+  set(form, 81, character.allies     ?? "");   // organizacje i sojusznicy
+  set(form, 83, bg
     ? `${bg.specialFeature.name}: ${bg.specialFeature.description}`
-    : "");
+    : "");                                      // pozostałe korzyści
+  set(form, 84, character.treasure   ?? "");   // majątek
 
   // ── Strona 3 — Magia (jeśli klasa rzuca zaklęcia) ────────────────────────
   if (cls?.spellcasting && spellAbilityKey) {
