@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CLASSES } from "@/data/dnd/classes";
+import { CLASSES, SKILL_NAMES_PL, SKILL_DESCRIPTIONS_PL } from "@/data/dnd/classes";
 import type { ClassData, ClassRole, SkillKey } from "@/data/dnd/classes";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 import Tooltip from "@/shared/ui/Tooltip";
@@ -30,14 +30,6 @@ const STAT_LABELS: Record<string, string> = {
   str: "SIŁ", dex: "ZRR", con: "KON", int: "INT", wis: "MĄD", cha: "CHA",
 };
 
-const SKILL_LABELS: Record<SkillKey, string> = {
-  acrobatics: "Akrobatyka", arcana: "Arkana", athletics: "Atletyka",
-  deception: "Podstęp", history: "Historia", insight: "Wnikliwość",
-  intimidation: "Zastraszanie", investigation: "Poszukiwanie", medicine: "Medycyna",
-  nature: "Natura", perception: "Percepcja", performance: "Występy",
-  persuasion: "Perswazja", religion: "Religia", sleightOfHand: "Zręczność rąk",
-  stealth: "Ukrywanie", survival: "Przetrwanie", animalHandling: "Obsługa zwierząt",
-};
 
 const FILTERS: { label: string; value: ClassRole | "ALL"; tooltip?: string }[] = [
   { label: "Wszystkie", value: "ALL" },
@@ -262,32 +254,33 @@ export default function KlasaForm() {
                     const chosen = step3.skills.includes(skill);
                     const maxed = step3.skills.length >= selectedClass.skillCount && !chosen;
                     return (
-                      <button
-                        key={skill}
-                        type="button"
-                        disabled={maxed}
-                        onClick={() => toggleSkill(skill)}
-                        style={{
-                          padding: "5px 10px", textAlign: "left", cursor: maxed ? "not-allowed" : "pointer",
-                          border: chosen ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
-                          background: chosen ? BLACK : "transparent",
-                          fontFamily: FONT_UI, fontSize: 16,
-                          color: chosen ? WHITE : maxed ? LIGHT : MID,
-                          display: "flex", alignItems: "center", gap: 6,
-                        }}
-                      >
-                        {/* Custom checkbox */}
-                        <span style={{
-                          width: 14, height: 14, flexShrink: 0, display: "inline-flex",
-                          alignItems: "center", justifyContent: "center",
-                          border: chosen ? "1.5px solid #ffffff" : `1.5px solid ${LIGHT}`,
-                          background: chosen ? WHITE : "transparent",
-                          fontSize: 16, color: BLACK,
-                        }}>
-                          {chosen ? "✓" : ""}
-                        </span>
-                        {SKILL_LABELS[skill]}
-                      </button>
+                      <Tooltip key={skill} content={SKILL_DESCRIPTIONS_PL[skill]} position="right">
+                        <button
+                          type="button"
+                          disabled={maxed}
+                          onClick={() => toggleSkill(skill)}
+                          style={{
+                            width: "100%", padding: "5px 10px", textAlign: "left", cursor: maxed ? "not-allowed" : "pointer",
+                            border: chosen ? "1.5px solid #0a0a0a" : `1.5px solid ${LIGHT}`,
+                            background: chosen ? BLACK : "transparent",
+                            fontFamily: FONT_UI, fontSize: 16,
+                            color: chosen ? WHITE : maxed ? LIGHT : MID,
+                            display: "flex", alignItems: "center", gap: 6,
+                          }}
+                        >
+                          {/* Custom checkbox */}
+                          <span style={{
+                            width: 14, height: 14, flexShrink: 0, display: "inline-flex",
+                            alignItems: "center", justifyContent: "center",
+                            border: chosen ? "1.5px solid #ffffff" : `1.5px solid ${LIGHT}`,
+                            background: chosen ? WHITE : "transparent",
+                            fontSize: 16, color: BLACK,
+                          }}>
+                            {chosen ? "✓" : ""}
+                          </span>
+                          {SKILL_NAMES_PL[skill]}
+                        </button>
+                      </Tooltip>
                     );
                   })}
                 </div>

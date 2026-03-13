@@ -450,6 +450,27 @@ export const SKILL_NAMES_PL: Record<SkillKey, string> = {
   animalHandling: "Obsługa Zwierząt",
 };
 
+export const SKILL_DESCRIPTIONS_PL: Record<SkillKey, string> = {
+  acrobatics:    "ZRR — Salta, przewroty, utrzymanie równowagi na śliskiej powierzchni. Przydatne podczas akrobatycznych manewrów w walce.",
+  arcana:        "INT — Wiedza o zaklęciach, magicznych przedmiotach, planach egzystencji i istotach magicznych.",
+  athletics:     "SIŁ — Wspinaczka, skoki, pływanie i inne wysiłki fizyczne wymagające siły.",
+  deception:     "CHA — Przekonywanie innych do fałszywych informacji, kłamanie, udawanie, blefowanie.",
+  history:       "INT — Wiedza o przeszłych wydarzeniach, legendach, bitwach, starożytnych cywilizacjach.",
+  insight:       "MĄD — Wyczuwanie prawdziwych intencji rozmówcy — czy kłamie, co ukrywa, jak się naprawdę czuje.",
+  intimidation:  "CHA — Wymuszanie posłuszeństwa groźbami, agresywną postawą lub demonstracją siły.",
+  investigation: "INT — Szukanie ukrytych wskazówek, analiza śladów, wyciąganie wniosków z otoczenia.",
+  medicine:      "MĄD — Stabilizowanie umierających, diagnozowanie chorób, udzielanie pierwszej pomocy.",
+  nature:        "INT — Wiedza o terenie, roślinach, zwierzętach, pogodzie i cyklach przyrody.",
+  perception:    "MĄD — Dostrzeganie ukrytych wrogów, słyszenie kroków za drzwiami, wychwytywanie szczegółów otoczenia.",
+  performance:   "CHA — Gra na instrumencie, śpiew, taniec, aktorstwo — wzbudzanie podziwu publiczności.",
+  persuasion:    "CHA — Przekonywanie innych dobrymi argumentami, dyplomacją lub urokiem osobistym.",
+  religion:      "INT — Wiedza o bóstwach, rytuałach, modlitwach, świętych symbolach i herezjach.",
+  sleightOfHand: "ZRR — Kieszonkowe, ukrywanie przedmiotów, sztuczki karciane — wszystko, co wymaga zwinnych palców.",
+  stealth:       "ZRR — Poruszanie się po cichu, ukrywanie się w cieniu, niezauważone zbliżanie się do celu.",
+  survival:      "MĄD — Śledzenie tropów, znajdowanie pożywienia i wody, orientacja w terenie, stawianie obozowiska.",
+  animalHandling: "MĄD — Uspokajanie przestraszonych zwierząt, kontrola wierzchowców, wyczuwanie nastroju bestii.",
+};
+
 export function getClassById(id: string): ClassData | undefined {
   return CLASSES.find((c) => c.id === id);
 }

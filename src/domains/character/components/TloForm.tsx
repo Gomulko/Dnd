@@ -5,7 +5,14 @@ import { useState } from "react";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
 import Tooltip from "@/shared/ui/Tooltip";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
-import { SKILL_NAMES_PL } from "@/data/dnd/classes";
+import { SKILL_NAMES_PL, SKILL_DESCRIPTIONS_PL } from "@/data/dnd/classes";
+import { RACES } from "@/data/dnd/races";
+
+const STANDARD_LANGUAGES = [
+  "Wspólny", "Elficki", "Krasnoludzki", "Niziołkowy", "Gnomski",
+  "Orkowy", "Smokowy", "Piekielny", "Niebiański", "Otchłański",
+  "Sylwański", "Podziemny", "Mowa Głębin", "Olbrzymi", "Gobliński",
+];
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -38,8 +45,12 @@ const LABEL_STYLE: React.CSSProperties = {
 
 export default function TloForm() {
   const router = useRouter();
-  const { step5, setStep5 } = useWizardStore();
+  const { step2, step5, setStep5 } = useWizardStore();
   const [search, setSearch] = useState("");
+
+  const raceData = RACES.find((r) => r.id === step2.race);
+  const raceFixedLanguages = (raceData?.languages ?? []).filter((l) => !l.includes("wg wyboru"));
+  const raceChoiceCount = (raceData?.languages ?? []).filter((l) => l.includes("wg wyboru")).length;
 
   const selectedBg = BACKGROUNDS.find((b) => b.id === step5.background) ?? null;
 
@@ -47,12 +58,25 @@ export default function TloForm() {
     b.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const langChoiceCount = raceChoiceCount + (selectedBg?.languages ?? 0);
+  const availableLangChoices = STANDARD_LANGUAGES.filter((l) => !raceFixedLanguages.includes(l));
+
+  function toggleLanguage(lang: string) {
+    const current = step5.languages;
+    if (current.includes(lang)) {
+      setStep5({ languages: current.filter((l) => l !== lang) });
+    } else if (current.length < langChoiceCount) {
+      setStep5({ languages: [...current, lang] });
+    }
+  }
+
   const canProceed =
     !!step5.background &&
     step5.personalityTraits.length >= 2 &&
     step5.ideals.length >= 1 &&
     step5.bonds.length >= 1 &&
-    step5.flaws.length >= 1;
+    step5.flaws.length >= 1 &&
+    step5.languages.length >= langChoiceCount;
 
   function selectBackground(id: string) {
     setStep5({
@@ -194,21 +218,63 @@ export default function TloForm() {
                 <InfoBox label="Biegłości" tooltip={SKILL_PROFICIENCY_TOOLTIP}>
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                     {selectedBg.skillProficiencies.map((s) => (
-                      <span key={s} style={{ fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px", border: `1px solid ${BLACK}`, color: BLACK }}>
-                        {SKILL_NAMES_PL[s]}
-                      </span>
+                      <Tooltip key={s} content={SKILL_DESCRIPTIONS_PL[s]} position="top">
+                        <span style={{ fontFamily: FONT_UI, fontSize: 16, padding: "2px 8px", border: `1px solid ${BLACK}`, color: BLACK, cursor: "help", borderBottom: `2px dashed ${BLACK}` }}>
+                          {SKILL_NAMES_PL[s]}
+                        </span>
+                      </Tooltip>
                     ))}
                   </div>
                 </InfoBox>
-                {selectedBg.languages > 0 && (
-                  <InfoBox label="Języki">
-                    <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK }}>+{selectedBg.languages} do wyboru</span>
-                  </InfoBox>
-                )}
+                <InfoBox label="Języki">
+                  <div style={{ fontFamily: FONT_UI, fontSize: 14, color: BLACK }}>
+                    {raceFixedLanguages.length > 0 && (
+                      <div style={{ marginBottom: raceFixedLanguages.length > 0 && langChoiceCount > 0 ? 4 : 0 }}>
+                        {raceFixedLanguages.join(", ")}
+                      </div>
+                    )}
+                    {langChoiceCount > 0 && (
+                      <span style={{ color: MID }}>+{langChoiceCount} do wyboru</span>
+                    )}
+                  </div>
+                </InfoBox>
                 <InfoBox label="Narzędzia">
                   <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID }}>{selectedBg.toolProficiency}</span>
                 </InfoBox>
               </div>
+
+              {/* Picker języków (jeśli wymagany wybór) */}
+              {langChoiceCount > 0 && (
+                <div style={{ border: `1px solid ${LIGHT}`, padding: "14px 16px", marginBottom: 20 }}>
+                  <div style={{ ...LABEL_STYLE, marginBottom: 10 }}>
+                    WYBIERZ JĘZYKI ({step5.languages.length}/{langChoiceCount})
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {availableLangChoices.map((lang) => {
+                      const isSelected = step5.languages.includes(lang);
+                      const isDisabled = !isSelected && step5.languages.length >= langChoiceCount;
+                      return (
+                        <button
+                          key={lang}
+                          type="button"
+                          disabled={isDisabled}
+                          onClick={() => toggleLanguage(lang)}
+                          style={{
+                            padding: "4px 12px",
+                            border: `1.5px solid ${isSelected ? BLACK : LIGHT}`,
+                            background: isSelected ? BLACK : "transparent",
+                            color: isDisabled ? LIGHT : isSelected ? WHITE : BLACK,
+                            fontFamily: FONT_UI, fontSize: 14,
+                            cursor: isDisabled ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          {lang}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Cecha Specjalna */}
               <div style={{ border: `1.5px solid ${BLACK}`, padding: "14px 16px", marginBottom: 20 }}>

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, PDFName, PDFBool } from "pdf-lib";
 import fs from "fs";
 import path from "path";
 import { auth } from "@/shared/lib/auth";
@@ -7,6 +7,7 @@ import { getCharacter } from "@/domains/character/actions/getCharacter";
 import { CLASSES } from "@/data/dnd/classes";
 import { RACES } from "@/data/dnd/races";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
+import { allSpells } from "@/data/dnd/spells";
 
 // ── Stałe ─────────────────────────────────────────────────────────────────────
 
@@ -175,8 +176,11 @@ export async function GET(
   const spellMod          = Math.floor((spellAbilityScore - 10) / 2);
   const spellDC           = 8 + prof + spellMod;
   const spellAttack       = prof + spellMod;
-  const cantrips          = JSON.parse(character.cantrips || "[]") as string[];
-  const spells            = JSON.parse(character.spells   || "[]") as string[];
+  const cantripIds = JSON.parse(character.cantrips || "[]") as string[];
+  const spellIds   = JSON.parse(character.spells   || "[]") as string[];
+  const resolveSpellName = (id: string) => allSpells.find((s) => s.id === id)?.namePl ?? id;
+  const cantrips = cantripIds.map(resolveSpellName);
+  const spells   = spellIds.map(resolveSpellName);
 
   // ── Wczytaj szablon PDF ───────────────────────────────────────────────────
   const templatePath  = path.join(process.cwd(), "public", "character-sheet-template.pdf");
@@ -305,10 +309,13 @@ export async function GET(
     set(form, 87, String(spellDC));                                   // ST czarów
     set(form, 88, spellAttack >= 0 ? `+${spellAttack}` : String(spellAttack)); // premia ataku
     set(form, 89, cantrips.join("\n"));                               // sztuczki
-    set(form, 93, spells.join("\n"));                                 // czary poz. 1
+    set(form, 92, spells.join("\n"));                                 // czary poz. 1
   }
 
   // ── Zapisz ────────────────────────────────────────────────────────────────
+  // NeedAppearances: true — przeglądarka PDF sama wyrenderuje wygląd pól (obsługuje polskie znaki)
+  // updateFieldAppearances: false — pdf-lib nie próbuje sam generować (nie obsługuje UTF-8)
+  form.acroForm.dict.set(PDFName.of("NeedAppearances"), PDFBool.True);
   const pdfBytes = await pdfDoc.save({ updateFieldAppearances: false });
 
   const safeName = (character.name

@@ -4,6 +4,7 @@ import CharacterCard from "@/domains/character/components/CharacterCard";
 import Link from "next/link";
 import { AddCharacterTile } from "@/shared/ui/AddCharacterTile";
 import { QuickActionLink } from "@/shared/ui/QuickActionLink";
+import { KontynuujSesjeLink } from "@/shared/ui/KontynuujSesjeLink";
 
 export default async function DashboardPage() {
   const [session, characters] = await Promise.all([auth(), getCharacters()]);
@@ -221,30 +222,12 @@ export default async function DashboardPage() {
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
-          {[
-            {
-              title: "Kontynuuj Sesję",
-              desc: complete.length > 0 ? `Ostatnia: ${complete[0]?.name}` : "Brak aktywnych postaci",
-              href: complete.length > 0 ? `/karta/${complete[0]?.id}` : "/kreator",
-            },
-            {
-              title: "Nowa Postać",
-              desc: "Kreator krok po kroku",
-              href: "/kreator",
-            },
-            {
-              title: "Podręcznik Zasad",
-              desc: "SRD 5.2.1",
-              href: "/zasady",
-            },
-            {
-              title: "Rzutnik Kości",
-              desc: "k4, k6, k8, k10, k12, k20",
-              href: "/rzutnik",
-            },
-          ].map(({ title, desc, href }) => (
-            <QuickActionLink key={title} title={title} desc={desc} href={href} />
-          ))}
+          <KontynuujSesjeLink
+            fallbackId={complete[0]?.id}
+            fallbackName={complete[0]?.name}
+          />
+          <QuickActionLink title="Nowa Postać" desc="Kreator krok po kroku" href="/kreator" />
+          <QuickActionLink title="Rzutnik Kości" desc="k4, k6, k8, k10, k12, k20" href="/rzutnik" />
         </div>
       </section>
     </div>
