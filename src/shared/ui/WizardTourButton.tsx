@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { WIZARD_TOUR_STEPS } from "@/shared/lib/tour";
 
-const STORAGE_KEY = "wizardTourCompleted";
+const STORAGE_KEY_WIZARD = "wizardTourCompleted";
+const STORAGE_KEY_GUEST = "guestWizardTourCompleted";
+
+const AUTO_START_PATHS = ["/kreator/koncept", "/kreator-goscia/koncept"];
 
 export function WizardTourButton() {
   const pathname = usePathname();
@@ -13,6 +16,9 @@ export function WizardTourButton() {
 
   const steps = WIZARD_TOUR_STEPS[pathname];
   if (!steps) return null;
+
+  const isGuest = pathname.startsWith("/kreator-goscia");
+  const storageKey = isGuest ? STORAGE_KEY_GUEST : STORAGE_KEY_WIZARD;
 
   async function startTour() {
     const { driver } = await import("driver.js");
@@ -30,22 +36,21 @@ export function WizardTourButton() {
       doneBtnText: "Rozumiem!",
       steps: filteredSteps,
       onDestroyed: () => {
-        localStorage.setItem(STORAGE_KEY, "true");
+        localStorage.setItem(storageKey, "true");
       },
     });
 
     driverObj.drive();
   }
 
-  // Auto-start na pierwszej wizycie w kreatorze
+  // Auto-start na pierwszej wizycie w kreatorze (normalnym lub gościa)
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
 
-    // Tylko na pierwszym kroku kreatora
-    if (pathname !== "/kreator/koncept") return;
+    if (!AUTO_START_PATHS.includes(pathname)) return;
 
-    const completed = localStorage.getItem(STORAGE_KEY);
+    const completed = localStorage.getItem(storageKey);
     if (!completed) {
       const timer = setTimeout(() => startTour(), 600);
       return () => clearTimeout(timer);

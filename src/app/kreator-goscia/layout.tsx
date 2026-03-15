@@ -1,5 +1,6 @@
 import GuestNavbar from "@/shared/ui/GuestNavbar";
 import GuestStepperWrapper from "@/shared/ui/GuestStepperWrapper";
+import { WizardTourButton } from "@/shared/ui/WizardTourButton";
 
 type Props = {
   children: React.ReactNode;
@@ -39,6 +40,8 @@ export default function KreatorGosciaLayout({ children }: Props) {
       <main className="kreator-main" style={{ margin: "0 auto", padding: "40px 24px" }}>
         {children}
       </main>
+
+      <WizardTourButton />
     </div>
   );
 }
