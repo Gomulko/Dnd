@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/shared/ui/Navbar";
 import StepperWrapper from "@/shared/ui/StepperWrapper";
+import { WizardTourButton } from "@/shared/ui/WizardTourButton";
 
 const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 
@@ -19,6 +20,7 @@ export default async function KreatorLayout({ children }: Props) {
       <Navbar />
 
       <div
+        id="wizard-stepper"
         style={{
           background: "#ffffff",
           borderBottom: "1.5px solid #0a0a0a",
@@ -48,6 +50,7 @@ export default async function KreatorLayout({ children }: Props) {
       <main className="kreator-main" style={{ margin: "0 auto", padding: "40px 24px" }}>
         {children}
       </main>
+      <WizardTourButton />
     </div>
   );
 }

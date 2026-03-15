@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "driver.js/dist/driver.css";
 
 /* ── Krok 1.2 — Nowa paleta kolorów (editorial black/white) ─────────────── */
 /* Źródło: karta-postaci.html design system                                   */
@@ -642,4 +643,86 @@
       #bbb 22px
     ) !important;
   }
+}
+
+/* ── Driver.js — nadpisanie stylów pod design system B&W ─────────────────── */
+.driver-popover {
+  background: #0a0a0a !important;
+  color: #ffffff !important;
+  border: 1.5px solid #ffffff !important;
+  border-radius: 0 !important;
+  font-family: var(--font-ui), Helvetica, sans-serif !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  max-width: 320px !important;
+}
+
+.driver-popover-title {
+  font-family: var(--font-display), Georgia, serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  margin-bottom: 8px !important;
+}
+
+.driver-popover-description {
+  font-size: 14px !important;
+  color: #cccccc !important;
+  line-height: 1.6 !important;
+}
+
+.driver-popover-progress-text {
+  color: #999999 !important;
+  font-size: 12px !important;
+  letter-spacing: 1px !important;
+}
+
+.driver-popover-next-btn {
+  background: #ffffff !important;
+  color: #0a0a0a !important;
+  border: none !important;
+  border-radius: 0 !important;
+  font-family: var(--font-ui), Helvetica, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+}
+
+.driver-popover-prev-btn {
+  background: transparent !important;
+  color: #cccccc !important;
+  border: 1px solid #555555 !important;
+  border-radius: 0 !important;
+  font-family: var(--font-ui), Helvetica, sans-serif !important;
+  font-size: 12px !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+}
+
+.driver-popover-prev-btn:hover {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.driver-popover-close-btn {
+  color: #555555 !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: #ffffff !important;
+}
+
+.driver-popover-arrow-side-left.driver-popover-arrow {
+  border-left-color: #0a0a0a !important;
+}
+.driver-popover-arrow-side-right.driver-popover-arrow {
+  border-right-color: #0a0a0a !important;
+}
+.driver-popover-arrow-side-top.driver-popover-arrow {
+  border-top-color: #0a0a0a !important;
+}
+.driver-popover-arrow-side-bottom.driver-popover-arrow {
+  border-bottom-color: #0a0a0a !important;
 }

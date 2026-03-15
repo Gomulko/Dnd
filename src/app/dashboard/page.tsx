@@ -16,7 +16,7 @@ export default async function DashboardPage() {
     <div className="dashboard-page" style={{ padding: "36px 40px" }}>
 
       {/* ── Nagłówek ──────────────────────────────────────────────────── */}
-      <div className="dashboard-header" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 20 }}>
+      <div id="tour-header" className="dashboard-header" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36, borderBottom: "1.5px solid #0a0a0a", paddingBottom: 20 }}>
         <div>
           <div
             style={{
@@ -99,6 +99,7 @@ export default async function DashboardPage() {
           </div>
 
           <div
+            id="tour-characters"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
@@ -108,7 +109,7 @@ export default async function DashboardPage() {
             {complete.map((c) => (
               <CharacterCard key={c.id} character={c} />
             ))}
-            <AddCharacterTile />
+            <AddCharacterTile id="tour-add" />
           </div>
         </section>
       )}
@@ -181,6 +182,7 @@ export default async function DashboardPage() {
             Stwórz swoją pierwszą postać i wyrusz na przygodę.
           </p>
           <Link
+            id="tour-add"
             href="/kreator"
             style={{
               display: "inline-block",
@@ -221,7 +223,7 @@ export default async function DashboardPage() {
           </h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+        <div id="tour-quick-actions" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
           <KontynuujSesjeLink
             fallbackId={complete[0]?.id}
             fallbackName={complete[0]?.name}

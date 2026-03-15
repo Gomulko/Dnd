@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", label: "Moje Postacie" },
-  { href: "/kreator", label: "Stwórz Postać" },
-  { href: "/rzutnik", label: "Rzutnik Kości" },
+  { href: "/dashboard", label: "Moje Postacie", tourId: "tour-sidebar-characters" },
+  { href: "/kreator",   label: "Stwórz Postać",  tourId: undefined },
+  { href: "/rzutnik",   label: "Rzutnik Kości",  tourId: "tour-sidebar-dice" },
 ];
 
 export default function Sidebar() {
@@ -49,13 +49,14 @@ export default function Sidebar() {
         }}
       >
         <nav style={{ display: "flex", flexDirection: "column", gap: 0, flex: 1 }}>
-          {NAV_ITEMS.map(({ href, label }) => {
+          {NAV_ITEMS.map(({ href, label, tourId }) => {
             const active =
               pathname === href ||
               (href !== "/dashboard" && pathname.startsWith(href));
             return (
               <Link
                 key={href}
+                id={tourId}
                 href={href}
                 style={{
                   display: "block",

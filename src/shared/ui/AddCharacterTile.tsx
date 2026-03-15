@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 
-export function AddCharacterTile() {
+export function AddCharacterTile({ id }: { id?: string }) {
   return (
     <Link
+      id={id}
       href="/kreator"
       style={{
         display: "flex",

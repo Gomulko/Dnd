@@ -2,6 +2,7 @@ import { auth } from "@/shared/lib/auth";
 import { redirect } from "next/navigation";
 import Navbar from "@/shared/ui/Navbar";
 import Sidebar from "@/shared/ui/Sidebar";
+import { TourButton } from "@/shared/ui/TourButton";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -14,6 +15,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <Sidebar />
         <main style={{ flex: 1, minWidth: 0 }}>{children}</main>
       </div>
+      <TourButton />
     </div>
   );
 }
