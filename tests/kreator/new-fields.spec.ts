@@ -216,11 +216,11 @@ test.describe("Integracja — kreator z nowymi polami → PDF", () => {
     await page.waitForURL("**/dashboard", { timeout: 30000 });
 
     // Postać widoczna na dashboardzie
-    const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" });
+    const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" }).first();
     await expect(card).toBeVisible();
 
     // Przejdź na kartę postaci
-    await card.getByRole("link", { name: /Graj/i }).click();
+    await card.getByRole("link", { name: /Otwórz kartę/i }).click();
     await page.waitForURL(/\/karta\//, { timeout: 15000 });
 
     const characterId = page.url().split("/karta/")[1];
@@ -245,9 +245,9 @@ test.describe("Integracja — kreator z nowymi polami → PDF", () => {
 
     // Cleanup — usuń postać
     await page.goto("/dashboard");
-    const freshCard = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" });
+    const freshCard = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" }).first();
     if (await freshCard.isVisible()) {
-      await freshCard.locator('[data-testid="character-menu-btn"]').click();
+      await freshCard.locator('[data-testid="menu-btn"]').click();
       const deleteBtn = page.getByRole("button", { name: /usuń/i }).first();
       if (await deleteBtn.isVisible({ timeout: 3000 })) {
         await deleteBtn.click();
@@ -269,17 +269,17 @@ test.describe("Integracja — kreator z nowymi polami → PDF", () => {
     await saveBtn.click();
     await page.waitForURL("**/dashboard", { timeout: 30000 });
 
-    const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" });
-    await card.getByRole("link", { name: /Graj/i }).click();
+    const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" }).first();
+    await card.getByRole("link", { name: /Otwórz kartę/i }).click();
     await page.waitForURL(/\/karta\//, { timeout: 15000 });
 
     await expect(page.getByTestId("export-pdf-btn")).toBeVisible();
 
     // Cleanup
     await page.goto("/dashboard");
-    const freshCard = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" });
+    const freshCard = page.locator('[data-testid="character-card"]').filter({ hasText: "Ragnvald" }).first();
     if (await freshCard.isVisible()) {
-      await freshCard.locator('[data-testid="character-menu-btn"]').click();
+      await freshCard.locator('[data-testid="menu-btn"]').click();
       const deleteBtn = page.getByRole("button", { name: /usuń/i }).first();
       if (await deleteBtn.isVisible({ timeout: 3000 })) {
         await deleteBtn.click();

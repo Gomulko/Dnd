@@ -7,7 +7,10 @@ export const TEST_USER = {
 };
 
 export async function loginAs(page: Page, username = TEST_USER.username, password = TEST_USER.password) {
+  // Ukryj baner cookies żeby nie blokował kliknięć w testach
   await page.goto("/logowanie");
+  await page.evaluate(() => localStorage.setItem("cookiesAccepted", "true"));
+
   await page.locator('input[name="username"]').fill(username);
   await page.locator('input[name="password"]').fill(password);
   await page.getByRole("button", { name: /wkrocz/i }).click();

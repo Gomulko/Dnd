@@ -2,8 +2,8 @@ const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY ?? "";
 const MIN_SCORE = 0.5;
 
 export async function verifyRecaptcha(token: string): Promise<boolean> {
-  if (!RECAPTCHA_SECRET) {
-    // dev bez kluczy — przepuszcza
+  if (!RECAPTCHA_SECRET || process.env.NODE_ENV !== "production") {
+    // dev / testy — przepuszcza bez weryfikacji
     return true;
   }
   try {

@@ -6,7 +6,7 @@ async function goToAldricSheet(page: Page) {
   await loginAs(page);
   await page.goto("/dashboard");
   const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Aldric Swietlisty" });
-  await card.getByRole("link", { name: /Graj/ }).click();
+  await card.getByRole("link", { name: /Otwórz kartę/ }).click();
   await page.waitForURL(/\/karta\//);
 }
 
@@ -66,7 +66,7 @@ test("przywrócenie oryginalnego imienia postaci", async ({ page }) => {
   await loginAs(page);
   await page.goto("/dashboard");
   const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Aldric Edytowany" });
-  await card.getByRole("link", { name: /Graj/ }).click();
+  await card.getByRole("link", { name: /Otwórz kartę/ }).click();
   await page.waitForURL(/\/karta\//);
   const kartaUrl = page.url();
 

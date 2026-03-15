@@ -35,7 +35,7 @@ test("przycisk Dalej zablokowany gdy brak wybranej rasy", async ({ page }) => {
 test("kliknięcie rasy zaznacza ją i pokazuje panel szczegółów", async ({ page }) => {
   await raceBtn(page, "Elf").click();
   await expect(page.getByText("Gracka i wiekuista rasa lasów i magii")).toBeVisible();
-  await expect(page.locator("span").filter({ hasText: "+2 ZRR" })).toBeVisible();
+  await expect(page.locator("span").filter({ hasText: "+2 ZRR" }).first()).toBeVisible();
 });
 
 test("wybór Elfa pokazuje podrasy", async ({ page }) => {
@@ -48,10 +48,10 @@ test("wybór Elfa pokazuje podrasy", async ({ page }) => {
 test("wybór podrasy aktualizuje panel cech", async ({ page }) => {
   await raceBtn(page, "Elf").click();
   await page.getByRole("button", { name: "Wysoki Elf" }).click();
-  await expect(page.getByText(/Linia Elfów — Wysoki/)).toBeVisible();
+  await expect(page.getByText(/Linia Elfów — Wysoki/).first()).toBeVisible();
 
   await page.getByRole("button", { name: "Drow" }).click();
-  await expect(page.getByText(/Linia Elfów — Drow/)).toBeVisible();
+  await expect(page.getByText(/Linia Elfów — Drow/).first()).toBeVisible();
 });
 
 test("rasy bez podras nie pokazują sekcji Podrasa", async ({ page }) => {

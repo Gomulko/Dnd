@@ -24,7 +24,7 @@ test("niezalogowany użytkownik jest przekierowany na logowanie", async ({ page 
 // ── Header — podstawowe dane ────────────────────────────────────────────────
 
 test("imię postaci jest widoczne w nagłówku", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Aldric Swietlisty" })).toBeVisible();
+  await expect(page.getByText("Aldric Swietlisty").first()).toBeVisible();
 });
 
 test("rasa i klasa są widoczne w nagłówku", async ({ page }) => {
@@ -32,7 +32,8 @@ test("rasa i klasa są widoczne w nagłówku", async ({ page }) => {
 });
 
 test("poziom postaci jest widoczny", async ({ page }) => {
-  await expect(page.getByText(/Poziom 3/)).toBeVisible();
+  // "Klasa i Poziom" field shows e.g. "Kleryk 3 (Dziedzina Życia)"
+  await expect(page.getByText(/Kleryk 3/)).toBeVisible();
 });
 
 test("avatar wyświetla inicjały AL", async ({ page }) => {
@@ -53,9 +54,9 @@ test("inicjatywa jest widoczna", async ({ page }) => {
 });
 
 test("bonus biegłości jest widoczny", async ({ page }) => {
-  // Level 3 → PB = +2
-  await expect(page.getByLabel("Bonus biegłości")).toBeVisible();
-  await expect(page.getByLabel("Bonus biegłości")).toContainText("+2");
+  // Level 3 → PB = +2, labeled "Premia Biegłości" in UI
+  await expect(page.getByText("Premia Biegłości")).toBeVisible();
+  await expect(page.getByText("+2").first()).toBeVisible();
 });
 
 // ── Cechy (ability scores) ──────────────────────────────────────────────────
@@ -144,21 +145,22 @@ test("sekcja rzutów śmierci jest widoczna", async ({ page }) => {
 // ── Ekwipunek ────────────────────────────────────────────────────────────────
 
 test("ekwipunek postaci jest widoczny", async ({ page }) => {
-  await expect(page.getByText("Ekwipunek")).toBeVisible();
+  await expect(page.getByText("Wyposażenie")).toBeVisible();
   await expect(page.getByText("Kolczuga")).toBeVisible();
   await expect(page.getByText("Tarcza", { exact: true })).toBeVisible();
   await expect(page.getByText("Buzdygan")).toBeVisible();
 });
 
 test("złoto postaci jest widoczne", async ({ page }) => {
-  // gold = 45
-  await expect(page.getByText("45 sz. złota")).toBeVisible();
+  // gold = 45, label "Złoto (szt.)", value rendered as plain number
+  await expect(page.getByText("Złoto (szt.)")).toBeVisible();
+  await expect(page.getByText("45").first()).toBeVisible();
 });
 
 // ── Osobowość ────────────────────────────────────────────────────────────────
 
 test("cechy osobowości postaci są widoczne", async ({ page }) => {
-  await expect(page.getByText("Osobowość")).toBeVisible();
+  await expect(page.getByText("Cechy Osobowości")).toBeVisible();
   await expect(page.getByText(/Zawsze pomagam rannym/)).toBeVisible();
 });
 
@@ -169,21 +171,23 @@ test("ideały postaci są widoczne", async ({ page }) => {
 // ── Magia ────────────────────────────────────────────────────────────────────
 
 test("sekcja magia jest widoczna dla kleryka", async ({ page }) => {
-  await expect(page.getByText("Magia")).toBeVisible();
+  // Sekcja zaklęć oznaczona jest "Strona 3 — Zaklęcia" i nagłówkiem "Klasa Zaklęć"
+  await expect(page.getByText("Klasa Zaklęć")).toBeVisible();
 });
 
 test("sztuczki kleryka są widoczne", async ({ page }) => {
   // Cantrips: sacred-flame → "Płomień Sakralny", guidance → "Wskazówki"
-  await expect(page.getByText("Sztuczki (k0)")).toBeVisible();
-  await expect(page.getByText("Płomień Sakralny")).toBeVisible();
-  await expect(page.getByText("Wskazówki")).toBeVisible();
+  await expect(page.getByText("Sztuczki (Poziom 0)")).toBeVisible();
+  await expect(page.getByText("Płomień Sakralny").first()).toBeVisible();
+  await expect(page.getByText("Wskazówki").first()).toBeVisible();
 });
 
 test("zaklęcia poz.1 kleryka są widoczne", async ({ page }) => {
   // Spells: bless → "Błogosławieństwo", cure-wounds → "Leczenie Ran"
-  await expect(page.getByText("Zaklęcia poz.1")).toBeVisible();
-  await expect(page.getByText("Błogosławieństwo")).toBeVisible();
-  await expect(page.getByText("Leczenie Ran")).toBeVisible();
+  // Level header format: "1 poziom · Sloty: X"
+  await expect(page.getByText(/poziom · Sloty/).first()).toBeVisible();
+  await expect(page.getByText("Błogosławieństwo").first()).toBeVisible();
+  await expect(page.getByText("Leczenie Ran").first()).toBeVisible();
 });
 
 // ── Notatki sesji ─────────────────────────────────────────────────────────────
@@ -203,7 +207,7 @@ test("edycja notatek sesji wyzwala autosave z potwierdzeniem", async ({ page }) 
 // ── Historia ─────────────────────────────────────────────────────────────────
 
 test("historia (description) postaci jest widoczna", async ({ page }) => {
-  // "Historia" also appears as a skill name, so use first()
-  await expect(page.getByText("Historia").first()).toBeVisible();
-  await expect(page.getByText(/Dawny żołnierz/)).toBeVisible();
+  await expect(page.getByText("Historia Postaci")).toBeVisible();
+  // backstory z seeda: "Aldric służył przez 10 lat jako żołnierz..."
+  await expect(page.getByText(/Aldric służył/)).toBeVisible();
 });

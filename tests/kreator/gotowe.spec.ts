@@ -93,12 +93,12 @@ test("sekcja Klasa pokazuje wybraną klasę i podklasę", async ({ page }) => {
 });
 
 test("sekcja Wartości Cech pokazuje 6 statystyk", async ({ page }) => {
-  await expect(page.getByText("SIŁ")).toBeVisible();
-  await expect(page.getByText("ZRR")).toBeVisible();
-  await expect(page.getByText("KON", { exact: true })).toBeVisible();
-  await expect(page.getByText("INT", { exact: true })).toBeVisible();
-  await expect(page.getByText("MĄD")).toBeVisible();
-  await expect(page.getByText("CHA", { exact: true })).toBeVisible();
+  await expect(page.getByText("SIŁ").first()).toBeVisible();
+  await expect(page.getByText("ZRR").first()).toBeVisible();
+  await expect(page.getByText("KON", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("INT", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("MĄD").first()).toBeVisible();
+  await expect(page.getByText("CHA", { exact: true }).first()).toBeVisible();
 });
 
 test("sekcja Tło pokazuje wybrane tło", async ({ page }) => {
@@ -110,9 +110,9 @@ test("historia postaci jest widoczna", async ({ page }) => {
 });
 
 test("QuickStats: Max HP, KP, Inicjatywa, Prędkość są widoczne", async ({ page }) => {
-  await expect(page.getByText("Max HP")).toBeVisible();
+  await expect(page.getByText("Max HP").first()).toBeVisible();
   await expect(page.getByText("KP", { exact: true }).first()).toBeVisible();
-  await expect(page.getByText("Inicjatywa")).toBeVisible();
+  await expect(page.getByText("Inicjatywa").first()).toBeVisible();
   await expect(page.getByText("Prędkość").first()).toBeVisible();
 });
 

@@ -31,7 +31,7 @@ test("przycisk Dalej zablokowany gdy brak wybranego tła", async ({ page }) => {
 test("kliknięcie tła pokazuje panel szczegółów", async ({ page }) => {
   await bgBtn(page, "Akolita").click();
   await expect(page.getByText("Schronienie Wiernych")).toBeVisible();
-  await expect(page.locator("span").filter({ hasText: /^Wnikliwość$/ })).toBeVisible();
+  await expect(page.locator("span").filter({ hasText: /^Wnikliwość$/ }).first()).toBeVisible();
 });
 
 test("panel pokazuje źródło SRD dla Akolity", async ({ page }) => {
@@ -109,6 +109,9 @@ test("Dalej aktywny po wyborze tła + 2 cech + ideału + więzi + wady", async (
   await page.getByText("Wiara. Ufam").click();
   await page.getByText("Poświęcę wszystko").click();
   await page.getByText("Jestem nieprzejednany").click();
+  // Akolita wymaga 2 języków do wyboru
+  await page.getByRole("button", { name: "Elficki" }).click();
+  await page.getByRole("button", { name: "Krasnoludzki" }).click();
   await expect(page.getByRole("button", { name: /dalej/i })).toBeEnabled();
 });
 
@@ -119,6 +122,9 @@ test("Dalej nawiguje do Ekwipunku po kompletnym wyborze", async ({ page }) => {
   await page.getByText("Wiara. Ufam").click();
   await page.getByText("Poświęcę wszystko").click();
   await page.getByText("Jestem nieprzejednany").click();
+  // Akolita wymaga 2 języków do wyboru
+  await page.getByRole("button", { name: "Elficki" }).click();
+  await page.getByRole("button", { name: "Krasnoludzki" }).click();
   await page.getByRole("button", { name: /dalej/i }).click();
   await expect(page).toHaveURL(/\/kreator\/ekwipunek/);
 });

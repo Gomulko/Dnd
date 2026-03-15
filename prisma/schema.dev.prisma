@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String      @id @default(cuid())
+  name          String      @unique
+  email         String?     @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  accounts      Account[]
+  characters    Character[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Character {
+  id                String   @id @default(cuid())
+  userId            String
+  name              String
+  gender            String   @default("inne")
+  age               Int?
+  height            Int?
+  description       String?
+  alignment         String   @default("TN")
+  race              String
+  subrace           String?
+  class             String
+  subclass          String?
+  level             Int      @default(1)
+  skills            String   @default("[]")
+  strength          Int      @default(10)
+  dexterity         Int      @default(10)
+  constitution      Int      @default(10)
+  intelligence      Int      @default(10)
+  wisdom            Int      @default(10)
+  charisma          Int      @default(10)
+  background        String?
+  personalityTraits String   @default("[]")
+  ideals            String   @default("[]")
+  bonds             String   @default("[]")
+  flaws             String   @default("[]")
+  languages         String   @default("[]")
+  backstory         String?
+  equipment         String   @default("[]")
+  gold              Int      @default(0)
+  cantrips          String   @default("[]")
+  spells            String   @default("[]")
+  currentHp         Int?
+  tempHp            Int      @default(0)
+  deathSaves        String   @default("{\"successes\":0,\"failures\":0}")
+  sessionNotes      String?
+  inspiration       Boolean  @default(false)
+  experience        Int      @default(0)
+  weight            Int?
+  eyeColor          String?
+  skinColor         String?
+  hairColor         String?
+  allies            String?
+  treasure          String?
+  hitDiceUsed       Int      @default(0)
+  attacks           String   @default("[]")
+  spellSlotsUsed    String   @default("{}")
+  isComplete        Boolean  @default(false)
+  imageUrl          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

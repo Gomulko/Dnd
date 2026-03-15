@@ -6,7 +6,7 @@ async function goToAldricSheet(page: Page) {
   await loginAs(page);
   await page.goto("/dashboard");
   const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Aldric Swietlisty" });
-  await card.getByRole("link", { name: /Graj/ }).click();
+  await card.getByRole("link", { name: /Otwórz kartę/ }).click();
   await page.waitForURL(/\/karta\//);
 }
 
@@ -37,7 +37,7 @@ test("API /export-pdf/[id] zwraca PDF dla istniejącej postaci", async ({ page, 
   // Pobierz ID postaci z URL karty
   await page.goto("/dashboard");
   const card = page.locator('[data-testid="character-card"]').filter({ hasText: "Aldric Swietlisty" });
-  await card.getByRole("link", { name: /Graj/ }).click();
+  await card.getByRole("link", { name: /Otwórz kartę/ }).click();
   await page.waitForURL(/\/karta\//);
   const characterId = page.url().split("/karta/")[1];
 

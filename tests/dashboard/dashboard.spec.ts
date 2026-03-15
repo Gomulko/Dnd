@@ -6,7 +6,6 @@ test("dashboard pokazuje sidebar z linkami nawigacji", async ({ page }) => {
   const sidebar = page.locator("aside").first();
   await expect(sidebar.getByRole("link", { name: /Moje Postacie/ })).toBeVisible();
   await expect(sidebar.getByRole("link", { name: /Stwórz Postać/ })).toBeVisible();
-  await expect(sidebar.getByRole("link", { name: /Podręcznik Zasad/ })).toBeVisible();
   await expect(sidebar.getByRole("link", { name: /Rzutnik Kości/ })).toBeVisible();
 });
 

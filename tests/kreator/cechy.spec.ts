@@ -48,7 +48,7 @@ test("[standard] ta sama wartość jest zablokowana w innych selectach", async (
 
 test("[pointbuy] przełączenie na zakładkę Point Buy", async ({ page }) => {
   await page.getByRole("button", { name: /Zakup Punktów/ }).click();
-  await expect(page.getByText("27 punktów")).toBeVisible();
+  await expect(page.getByText("27 punktów").first()).toBeVisible();
 });
 
 test("[pointbuy] startowy budżet wynosi 27", async ({ page }) => {
@@ -109,9 +109,9 @@ test("[roll] pojedynczy rzut dla konkretnej cechy", async ({ page }) => {
 // ── Panel podsumowania ────────────────────────────────────────────────────────
 
 test("panel podsumowania pokazuje Max HP i Klasę Pancerza", async ({ page }) => {
-  await expect(page.getByText("Max HP (poz. 1)")).toBeVisible();
-  await expect(page.getByText("Klasa Pancerza")).toBeVisible();
-  await expect(page.getByText("Inicjatywa")).toBeVisible();
+  await expect(page.getByText("Max HP (poz. 1)").first()).toBeVisible();
+  await expect(page.getByText("Klasa Pancerza").first()).toBeVisible();
+  await expect(page.getByText("Inicjatywa").first()).toBeVisible();
 });
 
 // ── Nawigacja ─────────────────────────────────────────────────────────────────

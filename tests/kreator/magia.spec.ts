@@ -61,23 +61,20 @@ test("[kleryk] Dalej zablokowany bez wybranych zaklęć", async ({ page }) => {
 
 test("[kleryk] można wybrać cantrip", async ({ page }) => {
   await setupStep7(page, "cleric");
-  // Kleryk ma m.in. "Promienna Tarcza" (Sacred Flame) lub "Slowo Boga" lub inne
-  // Klikamy pierwszy dostępny cantrip
-  const firstCantrip = page.locator("button[aria-label]").first();
-  await firstCantrip.click();
+  // Klikamy konkretny cantrip kleryk
+  await page.getByRole("button", { name: "Wskazówki" }).click();
   await expect(page.getByText(/CANTRIPY \(1\/3\)/)).toBeVisible();
 });
 
 test("[kleryk] czwarty cantrip jest zablokowany (limit 3)", async ({ page }) => {
   await setupStep7(page, "cleric");
-  // Wybierz 3 cantripy
-  const cantripButtons = page.locator("button[aria-label]");
-  await cantripButtons.nth(0).click();
-  await cantripButtons.nth(1).click();
-  await cantripButtons.nth(2).click();
+  // Wybierz 3 cantripy po nazwie
+  await page.getByRole("button", { name: "Wskazówki" }).click();
+  await page.getByRole("button", { name: "Światło" }).click();
+  await page.getByRole("button", { name: "Odporność" }).click();
   await expect(page.getByText(/CANTRIPY \(3\/3\)/)).toBeVisible();
-  // Czwarty powinien być zablokowany
-  await expect(cantripButtons.nth(3)).toBeDisabled();
+  // Kolejny cantrip powinien być zablokowany
+  await expect(page.getByRole("button", { name: "Płomień Sakralny" })).toBeDisabled();
 });
 
 test("[kleryk] Dalej aktywny po wyborze 3 cantrips i 2 zaklęć", async ({ page }) => {

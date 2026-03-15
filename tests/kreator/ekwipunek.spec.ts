@@ -77,13 +77,13 @@ test("ekwipunek tła (Akolita) jest widoczny", async ({ page }) => {
 });
 
 test("panel bojowy pokazuje Klasę Pancerza i Prędkość", async ({ page }) => {
-  await expect(page.getByText("Klasa Pancerza")).toBeVisible();
-  await expect(page.getByText("Prędkość")).toBeVisible();
+  await expect(page.getByText("Klasa Pancerza").first()).toBeVisible();
+  await expect(page.getByText("Prędkość").first()).toBeVisible();
 });
 
 test("panel bojowy pokazuje Bonus Biegłości +2", async ({ page }) => {
-  await expect(page.getByText("Bonus Biegłości")).toBeVisible();
-  await expect(page.getByText("+2")).toBeVisible();
+  await expect(page.getByText("Bonus Biegłości").first()).toBeVisible();
+  await expect(page.getByText("+2").first()).toBeVisible();
 });
 
 test("licznik ekwipunku w panelu aktualizuje się", async ({ page }) => {
