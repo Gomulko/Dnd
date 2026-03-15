@@ -52,7 +52,9 @@ const INPUT_STYLE: React.CSSProperties = {
   boxSizing: "border-box",
 };
 
-export default function KonceptForm() {
+type Props = { basePath?: string };
+
+export default function KonceptForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step1, setStep1 } = useWizardStore();
 
@@ -328,7 +330,7 @@ export default function KonceptForm() {
         <button
           type="button"
           disabled={!canProceed}
-          onClick={() => router.push("/kreator/rasa")}
+          onClick={() => router.push(`${basePath}/rasa`)}
           style={{
             padding: "10px 28px",
             border: "none",

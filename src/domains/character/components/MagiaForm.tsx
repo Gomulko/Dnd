@@ -55,7 +55,9 @@ const SPELL_SECTION_TOOLTIP   = "Zaklęcia 1. poziomu są potężniejsze, ale wy
 
 // ── Główny komponent ───────────────────────────────────────────────────────────
 
-export default function MagiaForm() {
+type Props = { basePath?: string };
+
+export default function MagiaForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step3, step4, step7, setStep7 } = useWizardStore();
 
@@ -247,7 +249,7 @@ export default function MagiaForm() {
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
-          onClick={() => router.push("/kreator/ekwipunek")}
+          onClick={() => router.push(`${basePath}/ekwipunek`)}
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
@@ -259,7 +261,7 @@ export default function MagiaForm() {
         <button
           type="button"
           disabled={!canProceed}
-          onClick={() => router.push("/kreator/gotowe")}
+          onClick={() => router.push(`${basePath}/gotowe`)}
           style={{
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,

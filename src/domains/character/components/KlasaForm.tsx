@@ -48,7 +48,9 @@ const ARMOR_TOOLTIP = "Typy pancerza, które możesz nosić. Ciężki pancerz da
 
 // ── Komponent ─────────────────────────────────────────────────────────────────
 
-export default function KlasaForm() {
+type Props = { basePath?: string };
+
+export default function KlasaForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step2, step3, setStep3 } = useWizardStore();
   const [filter, setFilter] = useState<ClassRole | "ALL">("ALL");
@@ -299,7 +301,7 @@ export default function KlasaForm() {
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
-          onClick={() => router.push("/kreator/rasa")}
+          onClick={() => router.push(`${basePath}/rasa`)}
           style={{
             padding: "10px 28px",
             border: "1.5px solid #0a0a0a", background: "transparent",
@@ -311,7 +313,7 @@ export default function KlasaForm() {
         <button
           type="button"
           disabled={!canProceed}
-          onClick={() => router.push("/kreator/cechy")}
+          onClick={() => router.push(`${basePath}/cechy`)}
           style={{
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,

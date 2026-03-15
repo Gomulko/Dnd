@@ -31,7 +31,9 @@ function statBonusesText(bonuses: Partial<Record<StatKey, number>>): string {
     .join(", ");
 }
 
-export default function RasaForm() {
+type Props = { basePath?: string };
+
+export default function RasaForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step2, setStep2 } = useWizardStore();
   const [search, setSearch] = useState("");
@@ -285,7 +287,7 @@ export default function RasaForm() {
       }}>
         <button
           type="button"
-          onClick={() => router.push("/kreator/koncept")}
+          onClick={() => router.push(`${basePath}/koncept`)}
           style={{
             padding: "10px 28px",
             border: "1.5px solid #0a0a0a", background: "transparent",
@@ -297,7 +299,7 @@ export default function RasaForm() {
         <button
           type="button"
           disabled={!canProceed}
-          onClick={() => router.push("/kreator/klasa")}
+          onClick={() => router.push(`${basePath}/klasa`)}
           style={{
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,

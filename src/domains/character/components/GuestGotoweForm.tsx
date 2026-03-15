@@ -3,13 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useWizardStore } from "@/domains/character/store/wizardStore";
-import { createCharacter } from "@/domains/character/actions/createCharacter";
-import { updateCharacter } from "@/domains/character/actions/updateCharacter";
+import { buildCharacterPayload } from "@/domains/character/store/buildCharacterPayload";
 import { RACES } from "@/data/dnd/races";
 import { CLASSES, SKILL_NAMES_PL } from "@/data/dnd/classes";
 import { BACKGROUNDS } from "@/data/dnd/backgrounds";
 import { getCantripsForClass, getLevel1SpellsForClass } from "@/data/dnd/spells";
-import { buildCharacterPayload } from "@/domains/character/store/buildCharacterPayload";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -17,8 +15,6 @@ const LIGHT = "#cccccc";
 const WHITE = "#ffffff";
 const FONT_DISPLAY = "var(--font-display), 'DM Serif Display', Georgia, serif";
 const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
-
-// ── Mapowania ──────────────────────────────────────────────────────────────────
 
 const ALIGNMENT_PL: Record<string, string> = {
   LG: "Praworządny Dobry", NG: "Neutralny Dobry", CG: "Chaotyczny Dobry",
@@ -39,17 +35,13 @@ function mod(score: number): string {
   return m >= 0 ? `+${m}` : `${m}`;
 }
 
-// ── Główny komponent ───────────────────────────────────────────────────────────
-
-type Props = { basePath?: string };
-
-export default function GotoweForm({ basePath = "/kreator" }: Props) {
+export default function GuestGotoweForm() {
   const router = useRouter();
   const store = useWizardStore();
-  const { step1, step2, step3, step4, step5, step6, step7, editingId, reset } = store;
+  const { step1, step2, step3, step4, step5, step6, step7 } = store;
 
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [exportingPdf, setExportingPdf] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
 
   const race = RACES.find((r) => r.id === step2.race);
   const cls = CLASSES.find((c) => c.id === step3.class);
@@ -80,47 +72,49 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
 
   const initials = step1.name.trim().slice(0, 2).toUpperCase() || "??";
 
-  const characterPayload = buildCharacterPayload({ step1, step2, step3, step4, step5, step6, step7 });
-
-  async function handleSave() {
-    setSaving(true);
-    setError(null);
+  async function handleExportPdf() {
+    setExportingPdf(true);
+    setPdfError(null);
     try {
-      let result: { error?: string; characterId?: string };
-
-      if (editingId) {
-        result = await updateCharacter({ id: editingId, ...characterPayload });
+      const payload = buildCharacterPayload({ step1, step2, step3, step4, step5, step6, step7 });
+      const charName = payload.name || "postac";
+      const res = await fetch("/api/export-pdf/guest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ step1, step2, step3, step4, step5, step6, step7 }),
+      });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${charName.replace(/\s+/g, "_")}_karta.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
       } else {
-        result = await createCharacter(characterPayload);
-      }
-
-      if (result.error) {
-        setError(result.error);
-        setSaving(false);
-        return;
-      }
-
-      reset();
-      if (editingId) {
-        router.push(`/karta/${editingId}`);
-      } else {
-        router.push("/dashboard");
+        setPdfError("Nie udało się wygenerować PDF. Sprawdź, czy wszystkie kroki są wypełnione.");
       }
     } catch {
-      setError("Wystąpił błąd podczas zapisu. Spróbuj ponownie.");
-      setSaving(false);
+      setPdfError("Błąd połączenia. Spróbuj ponownie.");
+    } finally {
+      setExportingPdf(false);
     }
+  }
+
+  function handleRegister() {
+    const storeState = { step1, step2, step3, step4, step5, step6, step7 };
+    localStorage.setItem("guest-wizard-character", JSON.stringify(storeState));
+    router.push("/rejestracja");
   }
 
   return (
     <div className="wizard-card" style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 48px" }}>
       {/* Nagłówek */}
       <div style={{ marginBottom: 32, textAlign: "center" }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
+        <div style={{ fontFamily: FONT_UI, fontSize: 11, textTransform: "uppercase", letterSpacing: "4px", color: MID, marginBottom: 10 }}>
           Krok 8 z 8
         </div>
 
-        {/* Inicjały w okręgu */}
         <div style={{
           width: 80, height: 80, margin: "0 auto 16px",
           border: `1.5px solid ${BLACK}`,
@@ -134,23 +128,21 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
         <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 36, fontWeight: 400, fontStyle: "italic", color: BLACK, margin: "0 0 8px" }}>
           {step1.name || "Twoja Postać"}
         </h1>
-        <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, margin: 0 }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, margin: 0 }}>
           {race?.name ?? "—"}{subrace ? ` · ${subrace.name}` : ""} · {cls?.name ?? "—"}{subclass ? ` (${subclass.name})` : ""}
         </p>
 
-        {/* Badge ukończenia */}
         <div style={{ marginTop: 16 }}>
           <span style={{
             fontFamily: FONT_UI,
             display: "inline-block", padding: "4px 16px",
             border: `1.5px solid ${BLACK}`,
-            fontSize: 16, fontWeight: 700, color: BLACK, letterSpacing: "2px", textTransform: "uppercase",
+            fontSize: 11, fontWeight: 700, color: BLACK, letterSpacing: "2px", textTransform: "uppercase",
           }}>
             ✓ KREATOR UKOŃCZONY
           </span>
         </div>
 
-        {/* Szybkie statsy */}
         <div className="gotowe-quickstats" style={{ display: "inline-flex", justifyContent: "center", gap: 0, marginTop: 20, border: `1.5px solid ${BLACK}` }}>
           <QuickStat label="Max HP" value={`${Math.max(1, maxHp)}`} />
           <QuickStat label="KP" value={`${ac}`} border />
@@ -164,8 +156,7 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
       {/* Grid sekcji podsumowania */}
       <div className="gotowe-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
 
-        {/* Koncept */}
-        <SummarySection title="Koncept" onEdit={() => router.push(`${basePath}/koncept`)}>
+        <SummarySection title="Koncept" onEdit={() => router.push("/kreator-goscia/koncept")}>
           <SummaryRow label="Imię" value={step1.name} />
           <SummaryRow label="Płeć" value={GENDER_PL[step1.gender]} />
           {step1.age && <SummaryRow label="Wiek" value={`${step1.age} lat`} />}
@@ -173,16 +164,14 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
           <SummaryRow label="Alignment" value={ALIGNMENT_PL[step1.alignment]} />
         </SummarySection>
 
-        {/* Rasa */}
-        <SummarySection title="Rasa" onEdit={() => router.push(`${basePath}/rasa`)}>
+        <SummarySection title="Rasa" onEdit={() => router.push("/kreator-goscia/rasa")}>
           <SummaryRow label="Rasa" value={race?.name ?? "—"} />
           {subrace && <SummaryRow label="Podrasa" value={subrace.name} />}
           <SummaryRow label="Prędkość" value={`${race?.speed ?? 30} stóp`} />
           <SummaryRow label="Rozmiar" value={race?.size ?? "Średni"} />
         </SummarySection>
 
-        {/* Klasa */}
-        <SummarySection title="Klasa" onEdit={() => router.push(`${basePath}/klasa`)}>
+        <SummarySection title="Klasa" onEdit={() => router.push("/kreator-goscia/klasa")}>
           <SummaryRow label="Klasa" value={cls?.name ?? "—"} />
           {subclass && <SummaryRow label="Podklasa" value={subclass.name} />}
           <SummaryRow label="Kość Życia" value={`k${cls?.hitDie ?? 8}`} />
@@ -191,22 +180,20 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
           )}
         </SummarySection>
 
-        {/* Wartości Cech */}
-        <SummarySection title="Wartości Cech" onEdit={() => router.push(`${basePath}/cechy`)}>
+        <SummarySection title="Wartości Cech" onEdit={() => router.push("/kreator-goscia/cechy")}>
           <SummaryRow label="Metoda" value={METHOD_PL[step4.method]} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6, marginTop: 8 }}>
             {STATS.map(({ key, short }) => (
               <div key={key} style={{ textAlign: "center", border: `1.5px solid ${BLACK}`, padding: "6px 4px" }}>
                 <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, color: BLACK }}>{step4[key]}</div>
-                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase" }}>{short}</div>
-                <div style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, fontWeight: 700 }}>{mod(step4[key])}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase" }}>{short}</div>
+                <div style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, fontWeight: 700 }}>{mod(step4[key])}</div>
               </div>
             ))}
           </div>
         </SummarySection>
 
-        {/* Tło */}
-        <SummarySection title="Tło" onEdit={() => router.push(`${basePath}/tlo`)}>
+        <SummarySection title="Tło" onEdit={() => router.push("/kreator-goscia/tlo")}>
           <SummaryRow label="Tło" value={bg?.name ?? "—"} />
           {step5.personalityTraits.length > 0 && (
             <SummaryRow label="Cechy char." value={`${step5.personalityTraits.length} wybrane`} />
@@ -216,8 +203,7 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
           {step5.flaws.length > 0 && <SummaryRow label="Wada" value="1 wybrana" />}
         </SummarySection>
 
-        {/* Ekwipunek + Magia */}
-        <SummarySection title="Ekwipunek i Magia" onEdit={() => router.push(`${basePath}/ekwipunek`)}>
+        <SummarySection title="Ekwipunek i Magia" onEdit={() => router.push("/kreator-goscia/ekwipunek")}>
           {step6.equipment.length > 0 ? (
             <SummaryRow label="Przedmioty" value={`${step6.equipment.length} szt.`} />
           ) : (
@@ -232,55 +218,77 @@ export default function GotoweForm({ basePath = "/kreator" }: Props) {
         </SummarySection>
       </div>
 
-      {/* Historia */}
       {step1.description && (
         <div style={{ border: `1px solid ${LIGHT}`, padding: "20px 24px", marginBottom: 32 }}>
-          <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>Historia Postaci</div>
-          <p style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
+          <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "2px", marginBottom: 12 }}>Historia Postaci</div>
+          <p style={{ fontFamily: FONT_UI, fontSize: 14, color: MID, lineHeight: 1.7, margin: 0 }}>{step1.description}</p>
         </div>
       )}
 
-      {/* Błąd zapisu */}
-      {error && (
-        <div style={{ border: "1.5px solid #e05252", padding: "12px 16px", marginBottom: 20, fontFamily: FONT_UI, color: "#e05252", fontSize: 16 }}>
-          {error}
+      {/* Baner informacyjny */}
+      <div style={{ border: `1.5px solid ${BLACK}`, padding: "12px 16px", marginBottom: 24, background: "#f8f8f8" }}>
+        <p style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, margin: 0, lineHeight: 1.6 }}>
+          <strong>Tryb gościa</strong> — ta postać nie zostanie zapisana. Pobierz kartę PDF lub zarejestruj się, aby zachować postać na stałe.
+        </p>
+      </div>
+
+      {pdfError && (
+        <div style={{ border: "1.5px solid #e05252", padding: "12px 16px", marginBottom: 20, fontFamily: FONT_UI, color: "#e05252", fontSize: 13 }}>
+          {pdfError}
         </div>
       )}
 
       {/* Przyciski */}
-      <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
-          onClick={() => router.push(`${basePath}/magia`)}
+          onClick={() => router.push("/kreator-goscia/magia")}
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
-            color: BLACK, fontFamily: FONT_UI, fontSize: 16, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
+            color: BLACK, fontFamily: FONT_UI, fontSize: 13, textTransform: "uppercase", letterSpacing: "2px", cursor: "pointer",
           }}
         >
           ← Wróć
         </button>
-        <button
-          type="button"
-          disabled={saving}
-          onClick={handleSave}
-          style={{
-            padding: "12px 40px", border: "none",
-            background: saving ? LIGHT : BLACK,
-            color: saving ? MID : WHITE,
-            fontFamily: FONT_UI, fontSize: 16, fontWeight: 700,
-            textTransform: "uppercase", letterSpacing: "2px",
-            cursor: saving ? "not-allowed" : "pointer",
-          }}
-        >
-          {saving ? "Zapisywanie..." : editingId ? "Zapisz Zmiany →" : "Zapisz Postać i Graj →"}
-        </button>
+
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <button
+            type="button"
+            disabled={exportingPdf}
+            onClick={handleExportPdf}
+            style={{
+              padding: "10px 24px",
+              border: `1.5px solid ${BLACK}`, background: "transparent",
+              color: BLACK, fontFamily: FONT_UI, fontSize: 13, fontWeight: 700,
+              textTransform: "uppercase", letterSpacing: "2px",
+              cursor: exportingPdf ? "not-allowed" : "pointer",
+              opacity: exportingPdf ? 0.6 : 1,
+            }}
+          >
+            {exportingPdf ? "Generowanie..." : "Eksportuj PDF"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleRegister}
+            style={{
+              padding: "12px 28px",
+              border: "none",
+              background: BLACK,
+              color: WHITE,
+              fontFamily: FONT_UI, fontSize: 13, fontWeight: 700,
+              textTransform: "uppercase", letterSpacing: "2px",
+              cursor: "pointer",
+            }}
+          >
+            Zarejestruj się i zapisz postać →
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
-// ── Podkomponenty ──────────────────────────────────────────────────────────────
 
 function QuickStat({ label, value, border = false }: { label: string; value: string; border?: boolean }) {
   return (
@@ -289,7 +297,7 @@ function QuickStat({ label, value, border = false }: { label: string; value: str
       borderLeft: border ? `1.5px solid ${BLACK}` : undefined,
     }}>
       <div style={{ fontFamily: FONT_DISPLAY, fontSize: 24, color: BLACK, fontStyle: "italic" }}>{value}</div>
-      <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 2 }}>{label}</div>
+      <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 2 }}>{label}</div>
     </div>
   );
 }
@@ -304,11 +312,11 @@ function SummarySection({
   return (
     <div style={{ border: `1.5px solid ${BLACK}`, padding: "16px 18px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-        <div style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{title}</div>
+        <div style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>{title}</div>
         <button
           type="button"
           onClick={onEdit}
-          style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, background: "none", border: "none", cursor: "pointer", padding: 0, textTransform: "uppercase", letterSpacing: "1px" }}
+          style={{ fontFamily: FONT_UI, fontSize: 11, color: BLACK, background: "none", border: "none", cursor: "pointer", padding: 0, textTransform: "uppercase", letterSpacing: "1px" }}
         >
           Edytuj →
         </button>
@@ -321,8 +329,8 @@ function SummarySection({
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
-      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: MID, flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</span>
-      <span style={{ fontFamily: FONT_UI, fontSize: 16, color: BLACK, textAlign: "right" }}>{value}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</span>
+      <span style={{ fontFamily: FONT_UI, fontSize: 13, color: BLACK, textAlign: "right" }}>{value}</span>
     </div>
   );
 }

@@ -43,7 +43,9 @@ const LABEL_STYLE: React.CSSProperties = {
 
 // ── Główny komponent ───────────────────────────────────────────────────────────
 
-export default function TloForm() {
+type Props = { basePath?: string };
+
+export default function TloForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step2, step5, setStep5 } = useWizardStore();
   const [search, setSearch] = useState("");
@@ -363,7 +365,7 @@ export default function TloForm() {
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
-          onClick={() => router.push("/kreator/cechy")}
+          onClick={() => router.push(`${basePath}/cechy`)}
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
@@ -375,7 +377,7 @@ export default function TloForm() {
         <button
           type="button"
           disabled={!canProceed}
-          onClick={() => router.push("/kreator/ekwipunek")}
+          onClick={() => router.push(`${basePath}/ekwipunek`)}
           style={{
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,

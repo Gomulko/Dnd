@@ -29,7 +29,9 @@ function parseItems(raw: string): string[] {
 
 // ── Główny komponent ───────────────────────────────────────────────────────────
 
-export default function EkwipunekForm() {
+type Props = { basePath?: string };
+
+export default function EkwipunekForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step2, step3, step4, step5, step6, setStep5, setStep6 } = useWizardStore();
 
@@ -223,7 +225,7 @@ export default function EkwipunekForm() {
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
-          onClick={() => router.push("/kreator/tlo")}
+          onClick={() => router.push(`${basePath}/tlo`)}
           style={{
             padding: "10px 28px",
             border: `1.5px solid ${BLACK}`, background: "transparent",
@@ -234,7 +236,7 @@ export default function EkwipunekForm() {
         </button>
         <button
           type="button"
-          onClick={() => router.push("/kreator/magia")}
+          onClick={() => router.push(`${basePath}/magia`)}
           style={{
             padding: "10px 28px", border: "none",
             background: BLACK, color: WHITE,

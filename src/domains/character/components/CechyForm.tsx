@@ -74,7 +74,9 @@ function rollStat(): number {
 
 // ── Główny komponent ───────────────────────────────────────────────────────────
 
-export default function CechyForm() {
+type Props = { basePath?: string };
+
+export default function CechyForm({ basePath = "/kreator" }: Props) {
   const router = useRouter();
   const { step2, step3, step4, setStep4 } = useWizardStore();
 
@@ -193,7 +195,7 @@ export default function CechyForm() {
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${LIGHT}` }}>
         <button
           type="button"
-          onClick={() => router.push("/kreator/klasa")}
+          onClick={() => router.push(`${basePath}/klasa`)}
           style={{
             padding: "10px 28px",
             border: "1.5px solid #0a0a0a", background: "transparent",
@@ -205,7 +207,7 @@ export default function CechyForm() {
         <button
           type="button"
           disabled={!canProceed}
-          onClick={() => router.push("/kreator/tlo")}
+          onClick={() => router.push(`${basePath}/tlo`)}
           style={{
             padding: "10px 28px", border: "none",
             background: canProceed ? BLACK : LIGHT,

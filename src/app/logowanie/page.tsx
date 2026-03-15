@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { LoginForm } from "@/domains/auth/components";
 import { RecaptchaProvider } from "@/shared/ui/RecaptchaProvider";
 
@@ -92,7 +93,9 @@ export default function LogowaniePage() {
 
         <div className="auth-form-wrap">
           <RecaptchaProvider>
-            <LoginForm />
+            <Suspense>
+              <LoginForm />
+            </Suspense>
           </RecaptchaProvider>
         </div>
       </div>

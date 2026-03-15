@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
@@ -15,9 +15,15 @@ const FONT_UI = "var(--font-ui), 'Barlow', system-ui, sans-serif";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [pendingCharacter, setPendingCharacter] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
+
+  useEffect(() => {
+    setPendingCharacter(searchParams.get("pendingCharacter") === "1");
+  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,12 +50,26 @@ export function LoginForm() {
       return;
     }
 
+    // guest-wizard-character w localStorage zostanie obsłużony przez
+    // GuestCharacterSaver na stronie dashboard
     router.push("/dashboard");
     router.refresh();
   }
 
   return (
     <div style={{ background: WHITE, border: `1.5px solid ${BLACK}`, padding: "40px 40px" }}>
+
+      {/* Baner oczekującej postaci */}
+      {pendingCharacter && (
+        <div style={{
+          background: "#f0f0f0", border: `1.5px solid ${BLACK}`,
+          padding: "12px 16px", marginBottom: 20,
+          fontFamily: FONT_UI, fontSize: 13,
+          color: BLACK,
+        }}>
+          Zaloguj się, aby zapisać swoją postać z trybu gościa.
+        </div>
+      )}
 
       {/* Nagłówek */}
       <div style={{ marginBottom: 32 }}>
@@ -169,7 +189,7 @@ export function LoginForm() {
       </form>
 
       {/* Separator */}
-      <div style={{ borderTop: `1px solid ${LIGHT}`, paddingTop: 20 }}>
+      <div style={{ borderTop: `1px solid ${LIGHT}`, paddingTop: 20, marginBottom: 20 }}>
         <p style={{ fontFamily: FONT_UI, fontSize: 13, color: MID, margin: 0 }}>
           Nie masz konta?{" "}
           <Link href="/rejestracja" style={{ color: BLACK, fontWeight: 700, textDecoration: "underline" }}>
@@ -177,6 +197,32 @@ export function LoginForm() {
           </Link>
         </p>
       </div>
+
+      {/* Separator "lub" */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+        <div style={{ flex: 1, height: 1, background: LIGHT }} />
+        <span style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textTransform: "uppercase", letterSpacing: "2px" }}>
+          lub
+        </span>
+        <div style={{ flex: 1, height: 1, background: LIGHT }} />
+      </div>
+
+      <Link
+        href="/kreator-goscia/koncept"
+        style={{
+          display: "block", textAlign: "center",
+          padding: "12px 24px",
+          border: `1.5px solid ${BLACK}`, background: "transparent",
+          color: BLACK,
+          fontFamily: FONT_UI, fontSize: 12, textTransform: "uppercase", letterSpacing: "2px",
+          textDecoration: "none",
+        }}
+      >
+        Stwórz postać bez konta
+      </Link>
+      <p style={{ fontFamily: FONT_UI, fontSize: 11, color: MID, textAlign: "center", marginTop: 8, marginBottom: 0 }}>
+        Dane nie zostaną zapisane na stałe
+      </p>
     </div>
   );
 }

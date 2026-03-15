@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Navbar from "@/shared/ui/Navbar";
 import Sidebar from "@/shared/ui/Sidebar";
 import { TourButton } from "@/shared/ui/TourButton";
+import { GuestCharacterSaver } from "@/domains/character/components/GuestCharacterSaver";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -16,6 +17,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <main style={{ flex: 1, minWidth: 0 }}>{children}</main>
       </div>
       <TourButton />
+      <GuestCharacterSaver />
     </div>
   );
 }

@@ -77,7 +77,15 @@ export function RegisterForm() {
       return;
     }
 
-    router.push("/logowanie?registered=true");
+    const hasPendingCharacter =
+      typeof localStorage !== "undefined" &&
+      !!localStorage.getItem("guest-wizard-character");
+
+    if (hasPendingCharacter) {
+      router.push("/logowanie?registered=true&pendingCharacter=1");
+    } else {
+      router.push("/logowanie?registered=true");
+    }
   }
 
   const inputStyle: React.CSSProperties = {
