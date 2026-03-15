@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const BLACK = "#0a0a0a";
 const MID = "#555555";
@@ -16,6 +17,7 @@ export function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,9 +25,15 @@ export function LoginForm() {
     setError(null);
 
     const formData = new FormData(e.currentTarget);
+
+    const recaptchaToken = executeRecaptcha
+      ? await executeRecaptcha("login")
+      : "";
+
     const result = await signIn("credentials", {
       username: formData.get("username"),
       password: formData.get("password"),
+      recaptchaToken,
       redirect: false,
     });
 

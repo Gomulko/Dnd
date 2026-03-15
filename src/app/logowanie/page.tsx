@@ -1,4 +1,5 @@
 import { LoginForm } from "@/domains/auth/components";
+import { RecaptchaProvider } from "@/shared/ui/RecaptchaProvider";
 
 const BLACK = "#0a0a0a";
 const WHITE = "#ffffff";
@@ -90,7 +91,9 @@ export default function LogowaniePage() {
         </div>
 
         <div className="auth-form-wrap">
-          <LoginForm />
+          <RecaptchaProvider>
+            <LoginForm />
+          </RecaptchaProvider>
         </div>
       </div>
     </div>

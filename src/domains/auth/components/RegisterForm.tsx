@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { registerUser } from "../actions";
 
 const BLACK = "#0a0a0a";
@@ -40,6 +41,7 @@ export function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [accepted, setAccepted] = useState(true);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const strength = getPasswordStrength(password);
   const bars = BAR_COLORS[strength.level];
@@ -54,11 +56,19 @@ export function RegisterForm() {
     setError(null);
 
     const formData = new FormData(e.currentTarget);
-    const result = await registerUser({
-      username: formData.get("username") as string,
-      password: formData.get("password") as string,
-      confirmPassword: formData.get("confirmPassword") as string,
-    });
+
+    const recaptchaToken = executeRecaptcha
+      ? await executeRecaptcha("register")
+      : "";
+
+    const result = await registerUser(
+      {
+        username: formData.get("username") as string,
+        password: formData.get("password") as string,
+        confirmPassword: formData.get("confirmPassword") as string,
+      },
+      recaptchaToken
+    );
 
     if (result.error) {
       setError(result.error);

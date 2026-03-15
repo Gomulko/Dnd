@@ -1,4 +1,5 @@
 import { RegisterForm } from "@/domains/auth/components";
+import { RecaptchaProvider } from "@/shared/ui/RecaptchaProvider";
 
 const BLACK = "#0a0a0a";
 const WHITE = "#ffffff";
@@ -91,7 +92,9 @@ export default function RejestracjaPage() {
         </div>
 
         <div className="auth-form-wrap">
-          <RegisterForm />
+          <RecaptchaProvider>
+            <RegisterForm />
+          </RecaptchaProvider>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
+import { verifyRecaptcha } from "./recaptcha";
 import { loginSchema } from "@/domains/auth/schemas";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -14,6 +15,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
+        const recaptchaToken = (credentials?.recaptchaToken as string) ?? "";
+        const valid = await verifyRecaptcha(recaptchaToken);
+        if (!valid) return null;
+
         const parsed = loginSchema.safeParse(credentials);
         if (!parsed.success) return null;
 
