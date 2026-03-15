@@ -4,7 +4,7 @@ const LIGHT = "#cccccc";
 const FONT_DISPLAY = "var(--font-display), Georgia, serif";
 const FONT_UI = "var(--font-ui), Helvetica, sans-serif";
 
-const LAST_UPDATED = "2026-03-12";
+const LAST_UPDATED = "2026-03-15";
 
 export const metadata = {
   title: "Polityka Prywatności — Kroniki Przygód",
@@ -110,6 +110,18 @@ export default function PolitykaPrywatnosci() {
                 <a href="https://neon.tech/privacy" target="_blank" rel="noopener noreferrer"
                   style={{ color: MID, marginLeft: 6 }}>Polityka prywatności Neon →</a>
               </li>
+              <li style={{ marginTop: 8 }}>
+                <strong style={{ color: BLACK }}>Google LLC</strong> (USA) — usługa Google reCAPTCHA v3,
+                stosowana w celu ochrony formularzy logowania i rejestracji przed botami i spamem.
+                W trakcie weryfikacji Google może zbierać informacje o urządzeniu i zachowaniu
+                użytkownika w celu oceny ryzyka (score). Podstawą przekazania danych jest
+                nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO) — bezpieczeństwo Serwisu.
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"
+                  style={{ color: MID, marginLeft: 6 }}>Polityka prywatności Google →</a>
+                {" "}&amp;{" "}
+                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer"
+                  style={{ color: MID }}>Warunki usługi Google →</a>
+              </li>
             </ul>
             <P>
               Dane <strong>nie są</strong> przekazywane innym podmiotom, nie są sprzedawane
@@ -135,14 +147,25 @@ export default function PolitykaPrywatnosci() {
 
           <Section title="7. Pliki cookie i sesje">
             <P>
-              Serwis używa wyłącznie <strong>ciasteczka sesyjnego</strong> (session cookie)
-              niezbędnego do utrzymania zalogowania użytkownika. Jest to ciasteczko techniczne
-              — bez niego Serwis nie może działać.
+              Serwis używa następujących plików cookie:
             </P>
+            <ul style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, lineHeight: 1.8, paddingLeft: 20, margin: "12px 0" }}>
+              <li>
+                <strong style={{ color: BLACK }}>Ciasteczko sesyjne (authjs.session-token)</strong> —
+                niezbędne do utrzymania zalogowania. Jest to ciasteczko techniczne, bez którego
+                Serwis nie może działać. Wygasa po wylogowaniu lub zamknięciu sesji.
+              </li>
+              <li style={{ marginTop: 8 }}>
+                <strong style={{ color: BLACK }}>Ciasteczka Google reCAPTCHA</strong> —
+                ustawiane przez usługę Google reCAPTCHA v3, ładowaną na stronach logowania
+                i rejestracji w celu ochrony przed botami. Google może ustawiać pliki cookie
+                (m.in. <em>_GRECAPTCHA</em>) w celu oceny bezpieczeństwa. Działanie reCAPTCHA
+                opiera się na naszym prawnie uzasadnionym interesie (bezpieczeństwo Serwisu).
+              </li>
+            </ul>
             <P>
-              Serwis <strong>nie używa</strong> ciasteczek analitycznych, reklamowych ani
-              śledzących. Nie korzystamy z Google Analytics ani żadnych narzędzi
-              śledzenia aktywności.
+              Serwis <strong>nie używa</strong> ciasteczek analitycznych ani reklamowych.
+              Nie korzystamy z Google Analytics ani żadnych narzędzi śledzenia aktywności użytkowników.
             </P>
           </Section>
 

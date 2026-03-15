@@ -4,7 +4,7 @@ const LIGHT = "#cccccc";
 const FONT_DISPLAY = "var(--font-display), Georgia, serif";
 const FONT_UI = "var(--font-ui), Helvetica, sans-serif";
 
-const LAST_UPDATED = "2026-03-12";
+const LAST_UPDATED = "2026-03-15";
 
 export const metadata = {
   title: "Regulamin — Kroniki Przygód",
@@ -63,7 +63,8 @@ export default function RegulamiPage() {
             <ul style={{ fontFamily: FONT_UI, fontSize: 15, color: MID, lineHeight: 1.8, paddingLeft: 20, margin: "12px 0" }}>
               <li>urządzenie z dostępem do sieci Internet,</li>
               <li>aktualna przeglądarka internetowa (Chrome, Firefox, Safari, Edge),</li>
-              <li>włączona obsługa JavaScript i plików cookie sesyjnych.</li>
+              <li>włączona obsługa JavaScript i plików cookie sesyjnych,</li>
+              <li>dostęp do usług Google (formularze logowania i rejestracji chronione są przez Google reCAPTCHA v3).</li>
             </ul>
           </Section>
 

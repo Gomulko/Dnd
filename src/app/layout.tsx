@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, DM_Serif_Text, Barlow } from "next/font/google";
 import "./globals.css";
+import { CookieBanner } from "@/shared/ui/CookieBanner";
 
 // Krok 1.1 — Nowe czcionki zgodne z karta-postaci.html
 const dmSerifDisplay = DM_Serif_Display({
@@ -35,7 +36,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl" className={`${dmSerifDisplay.variable} ${dmSerifText.variable} ${barlow.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <CookieBanner />
+      </body>
     </html>
   );
 }
