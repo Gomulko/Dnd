@@ -57,9 +57,10 @@ export function RegisterForm() {
 
     const formData = new FormData(e.currentTarget);
 
-    const recaptchaToken = executeRecaptcha
-      ? await executeRecaptcha("register")
-      : "";
+    const recaptchaToken =
+      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && executeRecaptcha
+        ? await executeRecaptcha("register")
+        : "";
 
     const result = await registerUser(
       {

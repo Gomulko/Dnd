@@ -26,9 +26,10 @@ export function LoginForm() {
 
     const formData = new FormData(e.currentTarget);
 
-    const recaptchaToken = executeRecaptcha
-      ? await executeRecaptcha("login")
-      : "";
+    const recaptchaToken =
+      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && executeRecaptcha
+        ? await executeRecaptcha("login")
+        : "";
 
     const result = await signIn("credentials", {
       username: formData.get("username"),
